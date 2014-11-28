@@ -1,0 +1,7 @@
+Update composer.json to include wanted packages. Search for packages here http://composer.local/
+
+Enter here from shell and run
+
+> php scripts/composer.phar install
+
+Follow the steps and good luck!

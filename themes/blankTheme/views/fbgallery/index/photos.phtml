@@ -1,0 +1,51 @@
+<?php
+    $this->headScript()->appendFile('/plugins/fancybox/jquery.fancybox-1.3.4.pack.js');
+    $this->headLink()->appendStylesheet( '/plugins/fancybox/jquery.fancybox-1.3.4.css');
+    $this->headLink()->appendStylesheet( '/modules/fbgallery/css/style.css');
+?>
+<script type="text/javascript">
+$(document).ready(function() {
+    $("a[rel=example_group]").fancybox({
+				'transitionIn'		: 'none',
+				'transitionOut'		: 'none',
+				'titlePosition' 	: 'over'
+			});
+
+});
+</script>
+<div class="pageContentHolder  eleven columns">
+    <h1>Facebook Gallery</h1>
+    <div class="clearfix  fbgallery">
+        <h3><?php  echo $this->translate("Album"). ": " . $this->albumName . " - " .  $this->translate("photos") ; ?></h3>
+        <?php if (count($this->paginator) > 0){
+        foreach($this->paginator as $photo){ ?>
+            <div class="photo_holder">
+                <a rel="example_group" href="<?php echo $photo['source']; ?>" title="">
+                <i style="background-image: url(<?php echo $photo['images'][5]['source']; ?>); background-position: center;"></i></a><br />
+            </div>
+        <?php } ?>
+    </div>
+    <a href="<?php echo $this->url(array('module'=>'fbgallery', 'controller' => 'index', 'action' => 'albums'), $this->route, true); ?>"><?php echo $this->translate("Back")?></a>
+    <div class="clearfix">&nbsp</div>
+    <?php
+        $this->addScriptPath(APPLICATION_PATH . '/modules/cms/views/scripts/');
+        echo $this->paginationControl($this->paginator,'Sliding','paginator.phtml',array('route'=>$this->route,'listingParams'=>$this->listingParams));
+        }
+        else{
+            echo "<div class='pictures_content'><p style='text-align:center;'>" . $this->translate('No pictures found') . "</p></div>";
+        }
+    ?>
+</div>
+<div class="rightSideContent six columns ">
+    <div class="socialSideContainer">
+        <nav class="socialSide">
+            <a href="#" class="facebook"></a>
+            <a href="#" class="twitter"></a>
+            <a href="#" class="google"></a>
+            <a href="#" class="soc1"></a>
+            <a href="#" class="linkedIn"></a>
+            <a href="#" class="soc2"></a>
+            <a href="#" class="soc3"></a>
+        </nav> 
+    </div>
+</div>

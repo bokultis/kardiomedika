@@ -1,0 +1,45 @@
+<a class="download_logout" href="<?php echo $this->url(array('controller' => 'page', 'action' => 'logout', 'module' => 'download')); ?>" > <?php echo $this->translate('Logout');?></a>
+<?php
+    //Zend_Debug::dump($this->paging);
+    //Zend_Debug::dump($this->pages);
+    $this->headLink()->appendStylesheet( '/modules/download/css/style.css');
+    $countPages = count($this->pages);
+    if($countPages > 0){
+?>
+<h3>
+    <?php echo $this->translate('Private Files') . ":";?>
+</h3>
+
+<?php
+foreach ($this->pages as $page) {
+?>
+    <section class="row">
+    <div class="col-lg-12">
+        <h3><?php echo $this->escape($page->get_title());?></h3>
+    </div>
+    <?php
+    $img = $page->get_data('img');
+    if(isset($img) && !empty($img)){?>
+    <div class="col-lg-2">
+        <img src="../1/<?php echo $img;?>" />
+    </div>
+    <?php } ?>
+    <div class="col-lg-1 col-lg-offset-5">
+        <img src="/modules/download/images/file-extension-<?php echo  $page->get_data("filetype");?>-icon.png" /><br />
+        <span><?php echo $this->escape($page->get_data("filename"));?>&nbsp;</span>
+        <span><?php if (round($page->get_data("filesize") / 1024, 2)< 1024) {echo (round($page->get_data("filesize") / 1024, 2))."KB";} else {echo (round($page->get_data("filesize") / 1048576, 2))."MB";} ?>&nbsp;</span>
+        <a href="<?php echo $this->escape($page->get_data("file"));?>" target="_blank"><?php echo $this->translate("Download");?></a>
+    </div>
+</section>
+<?php
+}
+?>
+<?php
+    if ($countPages < $this->paging['records']) {
+        $this->addScriptPath(APPLICATION_PATH . '/modules/cms/views/scripts/');
+        echo $this->paginationControl($this->paginator,'Sliding','paginator.phtml',array('route'=>$this->route,'listingParams'=>$this->listingParams));
+    }
+}
+else{
+    echo $this->translate('No files found');
+}

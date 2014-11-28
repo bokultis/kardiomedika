@@ -1,0 +1,3474 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MySQL Workbench HTML Exporter</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style type="text/css">
+    /* -- Reset HTML tags -- */
+    body,
+    h1, h2, h3, h4, h5,
+    p, a, ul, ol, li, form, input, button,
+    table, tr, td,div, span,
+    img {margin:0; padding:0; border:0; outline:none; background:transparent; }
+
+    body,
+    form, input {color:#000; font-family:Arial, Helvetica, sans-serif; font-size:11px; }
+
+    h1 {font-size:24px; font-weight:bold; text-align:center;}
+    h2 {font-size:16px; font-weight:bold; margin:10px 0 10px 0;}
+    h3 {font-size:12px; font-weight:bold;}
+
+    .table {margin:10px; padding:10px; background-color:#E4EFFF;}
+    .table p {margin-bottom:10px;}
+
+    .table .columns {background-color:#D0DFFF; margin-bottom:20px; border-spacing:0;}
+    .table .columns td {padding:3px 7px 3px 7px;}
+    .table .columns thead td {font-weight:bold; border-bottom:1px solid black; border-top:1px solid black;}
+    .table .columns tbody td {border-bottom:1px solid gray;}
+
+    .table .indexes {background-color:#DBE8FF; border-spacing:0;}
+    .table .indexes td {padding:3px 15px 3px 15px;}
+    .table .indexes thead td {font-weight:bold; border-bottom:1px solid black; border-top:1px solid black;}
+    .table .indexes tbody td {border-bottom:1px solid gray;}
+
+    @media print {
+        .table {margin:10px; padding:10px;}
+        .table .columns {margin-bottom:20px; border-spacing:0;}
+        .table .indexes {border-spacing:0;}
+    }
+    </style>
+</head>
+<body>
+	<h1>wa_cms</h1>
+	<div class="table">
+		<h2>application</h2>
+		<p>Open different facebook sms applications.</p>
+		<table class="columns">
+		<thead>
+			<tr>
+				<td>Column</td>
+				<td>Type</td>
+				<td>Flags</td>
+				<td>Mandatory</td>
+				<td>AutoInc</td>
+				<td>Default</td>
+				<td>Primary</td>
+				<td>Description</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>id</td>
+				<td>INT(11)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td>YES</td>
+				<td></td>
+				<td>YES</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>name</td>
+				<td>VARCHAR(128)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>status</td>
+				<td>ENUM('A','D')</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>status_dt</td>
+				<td>DATETIME</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>style_json</td>
+				<td>TEXT</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>fb_settings</td>
+				<td>TEXT</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>json fb settings</td>
+			</tr>
+			<tr>
+				<td>email_settings</td>
+				<td>TEXT</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>json email settings</td>
+			</tr>
+			<tr>
+				<td>settings</td>
+				<td>TEXT</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>global application settings</td>
+			</tr>
+		</tbody>
+		</table>
+		<h3>Table Indexes</h3>
+		<table class="indexes">
+		<thead>
+			<tr>
+				<td>Index</td>
+				<td>Type</td>
+				<td>Columns</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>PRIMARY</td>
+				<td>PRIMARY</td>
+				<td>id</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	<div class="table">
+		<h2>auth_acl</h2>
+		<p>role can or cannot do privilege on resource</p>
+		<table class="columns">
+		<thead>
+			<tr>
+				<td>Column</td>
+				<td>Type</td>
+				<td>Flags</td>
+				<td>Mandatory</td>
+				<td>AutoInc</td>
+				<td>Default</td>
+				<td>Primary</td>
+				<td>Description</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td>YES</td>
+				<td></td>
+				<td>YES</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>role_id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>privilege_id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>allowed</td>
+				<td>ENUM('yes','no')</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
+		</table>
+		<h3>Table Indexes</h3>
+		<table class="indexes">
+		<thead>
+			<tr>
+				<td>Index</td>
+				<td>Type</td>
+				<td>Columns</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>PRIMARY</td>
+				<td>PRIMARY</td>
+				<td>id</td>
+			</tr>
+			<tr>
+				<td>role_id</td>
+				<td>UNIQUE</td>
+				<td>role_id, privilege_id</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	<div class="table">
+		<h2>auth_privilege</h2>
+		<table class="columns">
+		<thead>
+			<tr>
+				<td>Column</td>
+				<td>Type</td>
+				<td>Flags</td>
+				<td>Mandatory</td>
+				<td>AutoInc</td>
+				<td>Default</td>
+				<td>Primary</td>
+				<td>Description</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td>YES</td>
+				<td></td>
+				<td>YES</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>code</td>
+				<td>VARCHAR(20)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>name</td>
+				<td>VARCHAR(100)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>resource_id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
+		</table>
+		<h3>Table Indexes</h3>
+		<table class="indexes">
+		<thead>
+			<tr>
+				<td>Index</td>
+				<td>Type</td>
+				<td>Columns</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>PRIMARY</td>
+				<td>PRIMARY</td>
+				<td>id</td>
+			</tr>
+			<tr>
+				<td>resource_id</td>
+				<td>INDEX</td>
+				<td>resource_id</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	<div class="table">
+		<h2>auth_resource</h2>
+		<p>resources</p>
+		<table class="columns">
+		<thead>
+			<tr>
+				<td>Column</td>
+				<td>Type</td>
+				<td>Flags</td>
+				<td>Mandatory</td>
+				<td>AutoInc</td>
+				<td>Default</td>
+				<td>Primary</td>
+				<td>Description</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td>YES</td>
+				<td></td>
+				<td>YES</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>code</td>
+				<td>VARCHAR(20)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>name</td>
+				<td>VARCHAR(100)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>parent_id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>module</td>
+				<td>VARCHAR(20)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
+		</table>
+		<h3>Table Indexes</h3>
+		<table class="indexes">
+		<thead>
+			<tr>
+				<td>Index</td>
+				<td>Type</td>
+				<td>Columns</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>PRIMARY</td>
+				<td>PRIMARY</td>
+				<td>id</td>
+			</tr>
+			<tr>
+				<td>parent_id</td>
+				<td>INDEX</td>
+				<td>parent_id</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	<div class="table">
+		<h2>auth_role</h2>
+		<table class="columns">
+		<thead>
+			<tr>
+				<td>Column</td>
+				<td>Type</td>
+				<td>Flags</td>
+				<td>Mandatory</td>
+				<td>AutoInc</td>
+				<td>Default</td>
+				<td>Primary</td>
+				<td>Description</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td>YES</td>
+				<td></td>
+				<td>YES</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>name</td>
+				<td>VARCHAR(50)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>parent_id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>parent role</td>
+			</tr>
+		</tbody>
+		</table>
+		<h3>Table Indexes</h3>
+		<table class="indexes">
+		<thead>
+			<tr>
+				<td>Index</td>
+				<td>Type</td>
+				<td>Columns</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>PRIMARY</td>
+				<td>PRIMARY</td>
+				<td>id</td>
+			</tr>
+			<tr>
+				<td>parent_id</td>
+				<td>INDEX</td>
+				<td>parent_id</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	<div class="table">
+		<h2>auth_user</h2>
+		<p>users and admins</p>
+		<table class="columns">
+		<thead>
+			<tr>
+				<td>Column</td>
+				<td>Type</td>
+				<td>Flags</td>
+				<td>Mandatory</td>
+				<td>AutoInc</td>
+				<td>Default</td>
+				<td>Primary</td>
+				<td>Description</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td>YES</td>
+				<td></td>
+				<td>YES</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>role_id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>role</td>
+			</tr>
+			<tr>
+				<td>username</td>
+				<td>VARCHAR(20)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>password</td>
+				<td>VARCHAR(32)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>md5</td>
+			</tr>
+			<tr>
+				<td>first_name</td>
+				<td>VARCHAR(50)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>last_name</td>
+				<td>VARCHAR(50)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>email</td>
+				<td>VARCHAR(255)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>status</td>
+				<td>ENUM('active','blocked','pending')</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td>'pending'</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>lang</td>
+				<td>CHAR(5)</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>image_path</td>
+				<td>VARCHAR(255)</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>data</td>
+				<td>TEXT</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td>custom json data</td>
+			</tr>
+			<tr>
+				<td>created</td>
+				<td>DATETIME</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>logged</td>
+				<td>DATETIME</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
+		</table>
+		<h3>Table Indexes</h3>
+		<table class="indexes">
+		<thead>
+			<tr>
+				<td>Index</td>
+				<td>Type</td>
+				<td>Columns</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>PRIMARY</td>
+				<td>PRIMARY</td>
+				<td>id</td>
+			</tr>
+			<tr>
+				<td>username</td>
+				<td>UNIQUE</td>
+				<td>username</td>
+			</tr>
+			<tr>
+				<td>email</td>
+				<td>UNIQUE</td>
+				<td>email</td>
+			</tr>
+			<tr>
+				<td>role_id</td>
+				<td>INDEX</td>
+				<td>role_id</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	<div class="table">
+		<h2>cms_category</h2>
+		<p>pages categories</p>
+		<table class="columns">
+		<thead>
+			<tr>
+				<td>Column</td>
+				<td>Type</td>
+				<td>Flags</td>
+				<td>Mandatory</td>
+				<td>AutoInc</td>
+				<td>Default</td>
+				<td>Primary</td>
+				<td>Description</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td>YES</td>
+				<td></td>
+				<td>YES</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>set_id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>set id</td>
+			</tr>
+			<tr>
+				<td>name</td>
+				<td>VARCHAR(100)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>description</td>
+				<td>TEXT</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>parent_id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>level</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>data</td>
+				<td>TEXT</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td>custom json data</td>
+			</tr>
+		</tbody>
+		</table>
+		<h3>Table Indexes</h3>
+		<table class="indexes">
+		<thead>
+			<tr>
+				<td>Index</td>
+				<td>Type</td>
+				<td>Columns</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>PRIMARY</td>
+				<td>PRIMARY</td>
+				<td>id</td>
+			</tr>
+			<tr>
+				<td>set_id</td>
+				<td>INDEX</td>
+				<td>set_id</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	<div class="table">
+		<h2>cms_category_set</h2>
+		<p>set of categories</p>
+		<table class="columns">
+		<thead>
+			<tr>
+				<td>Column</td>
+				<td>Type</td>
+				<td>Flags</td>
+				<td>Mandatory</td>
+				<td>AutoInc</td>
+				<td>Default</td>
+				<td>Primary</td>
+				<td>Description</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td>YES</td>
+				<td></td>
+				<td>YES</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>name</td>
+				<td>VARCHAR(100)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>description</td>
+				<td>TEXT</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>module</td>
+				<td>VARCHAR(20)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>page_type_id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>page type id</td>
+			</tr>
+		</tbody>
+		</table>
+		<h3>Table Indexes</h3>
+		<table class="indexes">
+		<thead>
+			<tr>
+				<td>Index</td>
+				<td>Type</td>
+				<td>Columns</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>PRIMARY</td>
+				<td>PRIMARY</td>
+				<td>id</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	<div class="table">
+		<h2>cms_menu_item</h2>
+		<table class="columns">
+		<thead>
+			<tr>
+				<td>Column</td>
+				<td>Type</td>
+				<td>Flags</td>
+				<td>Mandatory</td>
+				<td>AutoInc</td>
+				<td>Default</td>
+				<td>Primary</td>
+				<td>Description</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td>YES</td>
+				<td></td>
+				<td>YES</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>application_id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>menu</td>
+				<td>CHAR(10)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td>'main'</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>level</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td>'0'</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>parent_id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td>'0'</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>page_id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td>optional cms page id - menu routes to</td>
+			</tr>
+			<tr>
+				<td>name</td>
+				<td>VARCHAR(30)</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>route</td>
+				<td>VARCHAR(20)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td>'default'</td>
+				<td></td>
+				<td>route name</td>
+			</tr>
+			<tr>
+				<td>path</td>
+				<td>VARCHAR(255)</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td>module/controller/action</td>
+			</tr>
+			<tr>
+				<td>params</td>
+				<td>VARCHAR(255)</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td>param_name/param_value ...</td>
+			</tr>
+			<tr>
+				<td>uri</td>
+				<td>VARCHAR(255)</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td>if no route specify uri</td>
+			</tr>
+			<tr>
+				<td>ord_num</td>
+				<td>SMALLINT(5)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td>'1'</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>hidden</td>
+				<td>ENUM('yes','no')</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td>'no'</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>meta</td>
+				<td>TEXT</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td>meta json data</td>
+			</tr>
+			<tr>
+				<td>target</td>
+				<td>VARCHAR(10)</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td>link target</td>
+			</tr>
+		</tbody>
+		</table>
+		<h3>Table Indexes</h3>
+		<table class="indexes">
+		<thead>
+			<tr>
+				<td>Index</td>
+				<td>Type</td>
+				<td>Columns</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>PRIMARY</td>
+				<td>PRIMARY</td>
+				<td>id</td>
+			</tr>
+			<tr>
+				<td>menu</td>
+				<td>INDEX</td>
+				<td>application_id, menu, level, parent_id, ord_num</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	<div class="table">
+		<h2>cms_menu_item_tr</h2>
+		<p>menu translations</p>
+		<table class="columns">
+		<thead>
+			<tr>
+				<td>Column</td>
+				<td>Type</td>
+				<td>Flags</td>
+				<td>Mandatory</td>
+				<td>AutoInc</td>
+				<td>Default</td>
+				<td>Primary</td>
+				<td>Description</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td>YES</td>
+				<td></td>
+				<td>YES</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>language</td>
+				<td>CHAR(5)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>translation_id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>name</td>
+				<td>VARCHAR(50)</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>meta</td>
+				<td>TEXT</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td>meta json data</td>
+			</tr>
+		</tbody>
+		</table>
+		<h3>Table Indexes</h3>
+		<table class="indexes">
+		<thead>
+			<tr>
+				<td>Index</td>
+				<td>Type</td>
+				<td>Columns</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>PRIMARY</td>
+				<td>PRIMARY</td>
+				<td>id</td>
+			</tr>
+			<tr>
+				<td>language</td>
+				<td>UNIQUE</td>
+				<td>language, translation_id</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	<div class="table">
+		<h2>cms_page</h2>
+		<p>CMS Pages</p>
+		<table class="columns">
+		<thead>
+			<tr>
+				<td>Column</td>
+				<td>Type</td>
+				<td>Flags</td>
+				<td>Mandatory</td>
+				<td>AutoInc</td>
+				<td>Default</td>
+				<td>Primary</td>
+				<td>Description</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td>YES</td>
+				<td></td>
+				<td>YES</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>code</td>
+				<td>VARCHAR(20)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>url segment</td>
+			</tr>
+			<tr>
+				<td>url_id</td>
+				<td>VARCHAR(30)</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td>parmalink id part</td>
+			</tr>
+			<tr>
+				<td>application_id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>type_id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td>page type</td>
+			</tr>
+			<tr>
+				<td>user_id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>owner id</td>
+			</tr>
+			<tr>
+				<td>posted</td>
+				<td>DATETIME</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>format</td>
+				<td>ENUM('html','php','path')</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td>'html'</td>
+				<td></td>
+				<td>format of the content</td>
+			</tr>
+			<tr>
+				<td>title</td>
+				<td>VARCHAR(50)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>content</td>
+				<td>TEXT</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>status</td>
+				<td>ENUM('draft','published')</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td>'draft'</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>teaser</td>
+				<td>TINYTEXT</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>data</td>
+				<td>TEXT</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td>custom json data</td>
+			</tr>
+			<tr>
+				<td>meta</td>
+				<td>TEXT</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td>meta json data</td>
+			</tr>
+			<tr>
+				<td>content_type</td>
+				<td>ENUM('PUBLIC', 'PRIVATE')</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td>'PUBLIC'</td>
+				<td></td>
+				<td>Type of the content: PUBLIC - all could see it; PRIVATE - only allowed user could see it.</td>
+			</tr>
+		</tbody>
+		</table>
+		<h3>Table Indexes</h3>
+		<table class="indexes">
+		<thead>
+			<tr>
+				<td>Index</td>
+				<td>Type</td>
+				<td>Columns</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>PRIMARY</td>
+				<td>PRIMARY</td>
+				<td>id</td>
+			</tr>
+			<tr>
+				<td>type_id</td>
+				<td>INDEX</td>
+				<td>type_id</td>
+			</tr>
+			<tr>
+				<td>status</td>
+				<td>INDEX</td>
+				<td>status</td>
+			</tr>
+			<tr>
+				<td>user_id</td>
+				<td>INDEX</td>
+				<td>user_id</td>
+			</tr>
+			<tr>
+				<td>url_id</td>
+				<td>INDEX</td>
+				<td>url_id</td>
+			</tr>
+			<tr>
+				<td>application_id</td>
+				<td>INDEX</td>
+				<td>application_id, code</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	<div class="table">
+		<h2>cms_page_tr</h2>
+		<p>pages translations</p>
+		<table class="columns">
+		<thead>
+			<tr>
+				<td>Column</td>
+				<td>Type</td>
+				<td>Flags</td>
+				<td>Mandatory</td>
+				<td>AutoInc</td>
+				<td>Default</td>
+				<td>Primary</td>
+				<td>Description</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td>YES</td>
+				<td></td>
+				<td>YES</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>language</td>
+				<td>CHAR(5)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>translation_id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>url_id</td>
+				<td>VARCHAR(30)</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td>parmalink id part</td>
+			</tr>
+			<tr>
+				<td>title</td>
+				<td>VARCHAR(50)</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>content</td>
+				<td>TEXT</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>teaser</td>
+				<td>TINYTEXT</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>data</td>
+				<td>TEXT</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td>custom json data</td>
+			</tr>
+			<tr>
+				<td>meta</td>
+				<td>TEXT</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td>meta json data</td>
+			</tr>
+		</tbody>
+		</table>
+		<h3>Table Indexes</h3>
+		<table class="indexes">
+		<thead>
+			<tr>
+				<td>Index</td>
+				<td>Type</td>
+				<td>Columns</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>PRIMARY</td>
+				<td>PRIMARY</td>
+				<td>id</td>
+			</tr>
+			<tr>
+				<td>language</td>
+				<td>UNIQUE</td>
+				<td>language, translation_id</td>
+			</tr>
+			<tr>
+				<td>url_id</td>
+				<td>INDEX</td>
+				<td>url_id</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	<div class="table">
+		<h2>cms_page_type</h2>
+		<p>page types</p>
+		<table class="columns">
+		<thead>
+			<tr>
+				<td>Column</td>
+				<td>Type</td>
+				<td>Flags</td>
+				<td>Mandatory</td>
+				<td>AutoInc</td>
+				<td>Default</td>
+				<td>Primary</td>
+				<td>Description</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td>YES</td>
+				<td></td>
+				<td>YES</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>name</td>
+				<td>VARCHAR(100)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>description</td>
+				<td>TEXT</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>module</td>
+				<td>VARCHAR(20)</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>data</td>
+				<td>TEXT</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td>json custom data</td>
+			</tr>
+		</tbody>
+		</table>
+		<h3>Table Indexes</h3>
+		<table class="indexes">
+		<thead>
+			<tr>
+				<td>Index</td>
+				<td>Type</td>
+				<td>Columns</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>PRIMARY</td>
+				<td>PRIMARY</td>
+				<td>id</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	<div class="table">
+		<h2>cms_route</h2>
+		<table class="columns">
+		<thead>
+			<tr>
+				<td>Column</td>
+				<td>Type</td>
+				<td>Flags</td>
+				<td>Mandatory</td>
+				<td>AutoInc</td>
+				<td>Default</td>
+				<td>Primary</td>
+				<td>Description</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td>YES</td>
+				<td></td>
+				<td>YES</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>application_id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>page_id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td>optional cms page id - record routes to</td>
+			</tr>
+			<tr>
+				<td>uri</td>
+				<td>VARCHAR(255)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>uri to match</td>
+			</tr>
+			<tr>
+				<td>name</td>
+				<td>VARCHAR(50)</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>path</td>
+				<td>VARCHAR(255)</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td>module/controller/action</td>
+			</tr>
+			<tr>
+				<td>params</td>
+				<td>VARCHAR(255)</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td>param_name/param_value ...</td>
+			</tr>
+			<tr>
+				<td>lang</td>
+				<td>CHAR(5)</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
+		</table>
+		<h3>Table Indexes</h3>
+		<table class="indexes">
+		<thead>
+			<tr>
+				<td>Index</td>
+				<td>Type</td>
+				<td>Columns</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>PRIMARY</td>
+				<td>PRIMARY</td>
+				<td>id</td>
+			</tr>
+			<tr>
+				<td>menu</td>
+				<td>INDEX</td>
+				<td>application_id</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	<div class="table">
+		<h2>contact</h2>
+		<p>contact form submissions</p>
+		<table class="columns">
+		<thead>
+			<tr>
+				<td>Column</td>
+				<td>Type</td>
+				<td>Flags</td>
+				<td>Mandatory</td>
+				<td>AutoInc</td>
+				<td>Default</td>
+				<td>Primary</td>
+				<td>Description</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td>YES</td>
+				<td></td>
+				<td>YES</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>application_id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>posted</td>
+				<td>DATETIME</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>contact_type</td>
+				<td>VARCHAR(20)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>first_name</td>
+				<td>VARCHAR(60)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>last_name</td>
+				<td>VARCHAR(60)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>email</td>
+				<td>VARCHAR(255)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>phone</td>
+				<td>VARCHAR(60)</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>company</td>
+				<td>VARCHAR(60)</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>subject</td>
+				<td>VARCHAR(60)</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>description</td>
+				<td>TEXT</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>language</td>
+				<td>CHAR(5)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
+		</table>
+		<h3>Table Indexes</h3>
+		<table class="indexes">
+		<thead>
+			<tr>
+				<td>Index</td>
+				<td>Type</td>
+				<td>Columns</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>PRIMARY</td>
+				<td>PRIMARY</td>
+				<td>id</td>
+			</tr>
+			<tr>
+				<td>posted</td>
+				<td>INDEX</td>
+				<td>posted</td>
+			</tr>
+			<tr>
+				<td>contact_type</td>
+				<td>INDEX</td>
+				<td>contact_type</td>
+			</tr>
+			<tr>
+				<td>application_id</td>
+				<td>INDEX</td>
+				<td>application_id</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	<div class="table">
+		<h2>country</h2>
+		<table class="columns">
+		<thead>
+			<tr>
+				<td>Column</td>
+				<td>Type</td>
+				<td>Flags</td>
+				<td>Mandatory</td>
+				<td>AutoInc</td>
+				<td>Default</td>
+				<td>Primary</td>
+				<td>Description</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>id</td>
+				<td>SMALLINT(5)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td>'0'</td>
+				<td>YES</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>name</td>
+				<td>VARCHAR(50)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td>''</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>name_de</td>
+				<td>VARCHAR(50)</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>code2</td>
+				<td>CHAR(2)</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>code3</td>
+				<td>CHAR(3)</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>domain</td>
+				<td>VARCHAR(5)</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>dial_code</td>
+				<td>VARCHAR(15)</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>currency</td>
+				<td>SMALLINT(5)</td>
+				<td>UNSIGNED</td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>mcc</td>
+				<td>VARCHAR(4)</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>def_lang</td>
+				<td>CHAR(2)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td>'EN'</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>continent</td>
+				<td>CHAR(2)</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
+		</table>
+		<h3>Table Indexes</h3>
+		<table class="indexes">
+		<thead>
+			<tr>
+				<td>Index</td>
+				<td>Type</td>
+				<td>Columns</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>PRIMARY</td>
+				<td>PRIMARY</td>
+				<td>id</td>
+			</tr>
+			<tr>
+				<td>idx_country1</td>
+				<td>INDEX</td>
+				<td>code2</td>
+			</tr>
+			<tr>
+				<td>idx_country2</td>
+				<td>INDEX</td>
+				<td>code3</td>
+			</tr>
+			<tr>
+				<td>continent</td>
+				<td>INDEX</td>
+				<td>continent</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	<div class="table">
+		<h2>country_geoip</h2>
+		<p>country geo ip ranges</p>
+		<table class="columns">
+		<thead>
+			<tr>
+				<td>Column</td>
+				<td>Type</td>
+				<td>Flags</td>
+				<td>Mandatory</td>
+				<td>AutoInc</td>
+				<td>Default</td>
+				<td>Primary</td>
+				<td>Description</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>min_ip</td>
+				<td>CHAR(15)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>max_ip</td>
+				<td>CHAR(15)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>min_long</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>max_long</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>country_code2</td>
+				<td>CHAR(2)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>country_name</td>
+				<td>VARCHAR(20)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
+		</table>
+		<h3>Table Indexes</h3>
+		<table class="indexes">
+		<thead>
+			<tr>
+				<td>Index</td>
+				<td>Type</td>
+				<td>Columns</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>range</td>
+				<td>INDEX</td>
+				<td>min_long, max_long</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	<div class="table">
+		<h2>country_translate</h2>
+		<p>country translations</p>
+		<table class="columns">
+		<thead>
+			<tr>
+				<td>Column</td>
+				<td>Type</td>
+				<td>Flags</td>
+				<td>Mandatory</td>
+				<td>AutoInc</td>
+				<td>Default</td>
+				<td>Primary</td>
+				<td>Description</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td>YES</td>
+				<td></td>
+				<td>YES</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>code2</td>
+				<td>CHAR(2)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>language</td>
+				<td>VARCHAR(5)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>value</td>
+				<td>VARCHAR(255)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
+		</table>
+		<h3>Table Indexes</h3>
+		<table class="indexes">
+		<thead>
+			<tr>
+				<td>Index</td>
+				<td>Type</td>
+				<td>Columns</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>PRIMARY</td>
+				<td>PRIMARY</td>
+				<td>id</td>
+			</tr>
+			<tr>
+				<td>code2</td>
+				<td>UNIQUE</td>
+				<td>code2, language</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	<div class="table">
+		<h2>translate</h2>
+		<table class="columns">
+		<thead>
+			<tr>
+				<td>Column</td>
+				<td>Type</td>
+				<td>Flags</td>
+				<td>Mandatory</td>
+				<td>AutoInc</td>
+				<td>Default</td>
+				<td>Primary</td>
+				<td>Description</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td>YES</td>
+				<td></td>
+				<td>YES</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>language_id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>section</td>
+				<td>VARCHAR(20)</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>key</td>
+				<td>TEXT</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>value</td>
+				<td>TEXT</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
+		</table>
+		<h3>Table Indexes</h3>
+		<table class="indexes">
+		<thead>
+			<tr>
+				<td>Index</td>
+				<td>Type</td>
+				<td>Columns</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>PRIMARY</td>
+				<td>PRIMARY</td>
+				<td>id</td>
+			</tr>
+			<tr>
+				<td>unique_trans</td>
+				<td>UNIQUE</td>
+				<td>language_id, section, key</td>
+			</tr>
+			<tr>
+				<td>language_id</td>
+				<td>INDEX</td>
+				<td>language_id, section</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	<div class="table">
+		<h2>translate_key</h2>
+		<p>translation keys categorisation</p>
+		<table class="columns">
+		<thead>
+			<tr>
+				<td>Column</td>
+				<td>Type</td>
+				<td>Flags</td>
+				<td>Mandatory</td>
+				<td>AutoInc</td>
+				<td>Default</td>
+				<td>Primary</td>
+				<td>Description</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>id</td>
+				<td>INT(11)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td>YES</td>
+				<td></td>
+				<td>YES</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>key</td>
+				<td>TEXT</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>menu_id</td>
+				<td>INT(11)</td>
+				<td>UNSIGNED</td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>type_id</td>
+				<td>INT(11)</td>
+				<td>UNSIGNED</td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
+		</table>
+		<h3>Table Indexes</h3>
+		<table class="indexes">
+		<thead>
+			<tr>
+				<td>Index</td>
+				<td>Type</td>
+				<td>Columns</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>PRIMARY</td>
+				<td>PRIMARY</td>
+				<td>id</td>
+			</tr>
+			<tr>
+				<td>key_idx</td>
+				<td>UNIQUE</td>
+				<td>key</td>
+			</tr>
+			<tr>
+				<td>menu_id</td>
+				<td>INDEX</td>
+				<td>menu_id, type_id</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	<div class="table">
+		<h2>translate_language</h2>
+		<table class="columns">
+		<thead>
+			<tr>
+				<td>Column</td>
+				<td>Type</td>
+				<td>Flags</td>
+				<td>Mandatory</td>
+				<td>AutoInc</td>
+				<td>Default</td>
+				<td>Primary</td>
+				<td>Description</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td>YES</td>
+				<td></td>
+				<td>YES</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>code</td>
+				<td>VARCHAR(5)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>name</td>
+				<td>VARCHAR(20)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
+		</table>
+		<h3>Table Indexes</h3>
+		<table class="indexes">
+		<thead>
+			<tr>
+				<td>Index</td>
+				<td>Type</td>
+				<td>Columns</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>PRIMARY</td>
+				<td>PRIMARY</td>
+				<td>id</td>
+			</tr>
+			<tr>
+				<td>code</td>
+				<td>UNIQUE</td>
+				<td>code</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	<div class="table">
+		<h2>translate_menu</h2>
+		<p>defines key cource pages</p>
+		<table class="columns">
+		<thead>
+			<tr>
+				<td>Column</td>
+				<td>Type</td>
+				<td>Flags</td>
+				<td>Mandatory</td>
+				<td>AutoInc</td>
+				<td>Default</td>
+				<td>Primary</td>
+				<td>Description</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>id</td>
+				<td>INT(11)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td>YES</td>
+				<td></td>
+				<td>YES</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>name</td>
+				<td>VARCHAR(20)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
+		</table>
+		<h3>Table Indexes</h3>
+		<table class="indexes">
+		<thead>
+			<tr>
+				<td>Index</td>
+				<td>Type</td>
+				<td>Columns</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>PRIMARY</td>
+				<td>PRIMARY</td>
+				<td>id</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	<div class="table">
+		<h2>translate_type</h2>
+		<p>defines key types</p>
+		<table class="columns">
+		<thead>
+			<tr>
+				<td>Column</td>
+				<td>Type</td>
+				<td>Flags</td>
+				<td>Mandatory</td>
+				<td>AutoInc</td>
+				<td>Default</td>
+				<td>Primary</td>
+				<td>Description</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>id</td>
+				<td>INT(11)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td>YES</td>
+				<td></td>
+				<td>YES</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>name</td>
+				<td>VARCHAR(20)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
+		</table>
+		<h3>Table Indexes</h3>
+		<table class="indexes">
+		<thead>
+			<tr>
+				<td>Index</td>
+				<td>Type</td>
+				<td>Columns</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>PRIMARY</td>
+				<td>PRIMARY</td>
+				<td>id</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	<div class="table">
+		<h2>upgrade_db_log</h2>
+		<p>Log table. All scripts should be logged here.</p>
+		<table class="columns">
+		<thead>
+			<tr>
+				<td>Column</td>
+				<td>Type</td>
+				<td>Flags</td>
+				<td>Mandatory</td>
+				<td>AutoInc</td>
+				<td>Default</td>
+				<td>Primary</td>
+				<td>Description</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>id</td>
+				<td>INT(11)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td>YES</td>
+				<td></td>
+				<td>YES</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>file</td>
+				<td>VARCHAR(255)</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>branch</td>
+				<td>VARCHAR(10)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td>'trunk'</td>
+				<td></td>
+				<td>trunk or branch name</td>
+			</tr>
+			<tr>
+				<td>username</td>
+				<td>VARCHAR(100)</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>revision</td>
+				<td>INT(11)</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>repos_dt</td>
+				<td>VARCHAR(100)</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>insert_dt</td>
+				<td>DATETIME</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
+		</table>
+		<h3>Table Indexes</h3>
+		<table class="indexes">
+		<thead>
+			<tr>
+				<td>Index</td>
+				<td>Type</td>
+				<td>Columns</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>PRIMARY</td>
+				<td>PRIMARY</td>
+				<td>id</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	<div class="table">
+		<h2>cms_category_page</h2>
+		<p>page belongs to categories</p>
+		<table class="columns">
+		<thead>
+			<tr>
+				<td>Column</td>
+				<td>Type</td>
+				<td>Flags</td>
+				<td>Mandatory</td>
+				<td>AutoInc</td>
+				<td>Default</td>
+				<td>Primary</td>
+				<td>Description</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td>YES</td>
+				<td></td>
+				<td>YES</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>category_id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>page_id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
+		</table>
+		<h3>Table Indexes</h3>
+		<table class="indexes">
+		<thead>
+			<tr>
+				<td>Index</td>
+				<td>Type</td>
+				<td>Columns</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>PRIMARY</td>
+				<td>PRIMARY</td>
+				<td>id</td>
+			</tr>
+			<tr>
+				<td>category_id</td>
+				<td>UNIQUE</td>
+				<td>category_id, page_id</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	<div class="table">
+		<h2>module</h2>
+		<p>cms modules</p>
+		<table class="columns">
+		<thead>
+			<tr>
+				<td>Column</td>
+				<td>Type</td>
+				<td>Flags</td>
+				<td>Mandatory</td>
+				<td>AutoInc</td>
+				<td>Default</td>
+				<td>Primary</td>
+				<td>Description</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td>YES</td>
+				<td></td>
+				<td>YES</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>application_id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>code</td>
+				<td>VARCHAR(20)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>module directory</td>
+			</tr>
+			<tr>
+				<td>name</td>
+				<td>VARCHAR(50)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>description</td>
+				<td>VARCHAR(255)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>settings</td>
+				<td>TEXT</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>json encoded settings</td>
+			</tr>
+			<tr>
+				<td>data</td>
+				<td>TEXT</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td>json data</td>
+			</tr>
+		</tbody>
+		</table>
+		<h3>Table Indexes</h3>
+		<table class="indexes">
+		<thead>
+			<tr>
+				<td>Index</td>
+				<td>Type</td>
+				<td>Columns</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>PRIMARY</td>
+				<td>PRIMARY</td>
+				<td>id</td>
+			</tr>
+			<tr>
+				<td>application_id</td>
+				<td>INDEX</td>
+				<td>application_id</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	<div class="table">
+		<h2>cms_menu</h2>
+		<p>cms menu</p>
+		<table class="columns">
+		<thead>
+			<tr>
+				<td>Column</td>
+				<td>Type</td>
+				<td>Flags</td>
+				<td>Mandatory</td>
+				<td>AutoInc</td>
+				<td>Default</td>
+				<td>Primary</td>
+				<td>Description</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td>YES</td>
+				<td></td>
+				<td>YES</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>code</td>
+				<td>VARCHAR(30)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>menu code</td>
+			</tr>
+			<tr>
+				<td>name</td>
+				<td>VARCHAR(30)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>description name</td>
+			</tr>
+		</tbody>
+		</table>
+		<h3>Table Indexes</h3>
+		<table class="indexes">
+		<thead>
+			<tr>
+				<td>Index</td>
+				<td>Type</td>
+				<td>Columns</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>PRIMARY</td>
+				<td>PRIMARY</td>
+				<td>id</td>
+			</tr>
+			<tr>
+				<td>code</td>
+				<td>UNIQUE</td>
+				<td>code, name</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	<div class="table">
+		<h2>cms_category_tr</h2>
+		<p>category translations</p>
+		<table class="columns">
+		<thead>
+			<tr>
+				<td>Column</td>
+				<td>Type</td>
+				<td>Flags</td>
+				<td>Mandatory</td>
+				<td>AutoInc</td>
+				<td>Default</td>
+				<td>Primary</td>
+				<td>Description</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td>YES</td>
+				<td></td>
+				<td>YES</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>language</td>
+				<td>CHAR(5)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>translation_id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>name</td>
+				<td>VARCHAR(100)</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>description</td>
+				<td>TEXT</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
+		</table>
+		<h3>Table Indexes</h3>
+		<table class="indexes">
+		<thead>
+			<tr>
+				<td>Index</td>
+				<td>Type</td>
+				<td>Columns</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>PRIMARY</td>
+				<td>PRIMARY</td>
+				<td>id</td>
+			</tr>
+			<tr>
+				<td>language</td>
+				<td>UNIQUE</td>
+				<td>language, translation_id</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	<div class="table">
+		<h2>cms_category_page_type</h2>
+		<p>not in use now - page types have categories</p>
+		<table class="columns">
+		<thead>
+			<tr>
+				<td>Column</td>
+				<td>Type</td>
+				<td>Flags</td>
+				<td>Mandatory</td>
+				<td>AutoInc</td>
+				<td>Default</td>
+				<td>Primary</td>
+				<td>Description</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>id</td>
+				<td>INT(10)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td>YES</td>
+				<td></td>
+				<td>YES</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>set_id</td>
+				<td>INT(10)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>category set id</td>
+			</tr>
+			<tr>
+				<td>type_id</td>
+				<td>INT(10)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>page type id</td>
+			</tr>
+		</tbody>
+		</table>
+		<h3>Table Indexes</h3>
+		<table class="indexes">
+		<thead>
+			<tr>
+				<td>Index</td>
+				<td>Type</td>
+				<td>Columns</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>PRIMARY</td>
+				<td>PRIMARY</td>
+				<td>id</td>
+			</tr>
+			<tr>
+				<td>set_category_type</td>
+				<td>UNIQUE</td>
+				<td>set_id, type_id</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	<div class="table">
+		<h2>teaser_item</h2>
+		<p>scheduled boxes items</p>
+		<table class="columns">
+		<thead>
+			<tr>
+				<td>Column</td>
+				<td>Type</td>
+				<td>Flags</td>
+				<td>Mandatory</td>
+				<td>AutoInc</td>
+				<td>Default</td>
+				<td>Primary</td>
+				<td>Description</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td>YES</td>
+				<td></td>
+				<td>YES</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>box_id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>fallback</td>
+				<td>ENUM('yes','no')</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td>'no'</td>
+				<td></td>
+				<td>if should show up if no other defined</td>
+			</tr>
+			<tr>
+				<td>start_dt</td>
+				<td>DATETIME</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>end_dt</td>
+				<td>DATETIME</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>title</td>
+				<td>VARCHAR(100)</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>content_type</td>
+				<td>VARCHAR(20)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>class to render content</td>
+			</tr>
+			<tr>
+				<td>content</td>
+				<td>TEXT</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>NULL</td>
+				<td></td>
+				<td>json content</td>
+			</tr>
+		</tbody>
+		</table>
+		<h3>Table Indexes</h3>
+		<table class="indexes">
+		<thead>
+			<tr>
+				<td>Index</td>
+				<td>Type</td>
+				<td>Columns</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>PRIMARY</td>
+				<td>PRIMARY</td>
+				<td>id</td>
+			</tr>
+			<tr>
+				<td>box_id</td>
+				<td>INDEX</td>
+				<td>box_id, fallback, start_dt, end_dt</td>
+			</tr>
+			<tr>
+				<td>fk_teaser_item_teaser_box1</td>
+				<td>INDEX</td>
+				<td>box_id</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	<div class="table">
+		<h2>teaser_box</h2>
+		<p>defined boxes - regions</p>
+		<table class="columns">
+		<thead>
+			<tr>
+				<td>Column</td>
+				<td>Type</td>
+				<td>Flags</td>
+				<td>Mandatory</td>
+				<td>AutoInc</td>
+				<td>Default</td>
+				<td>Primary</td>
+				<td>Description</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td>YES</td>
+				<td></td>
+				<td>YES</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>code</td>
+				<td>VARCHAR(20)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>unique name</td>
+			</tr>
+			<tr>
+				<td>name</td>
+				<td>VARCHAR(100)</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>width</td>
+				<td>INT(4)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>height</td>
+				<td>INT(4)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
+		</table>
+		<h3>Table Indexes</h3>
+		<table class="indexes">
+		<thead>
+			<tr>
+				<td>Index</td>
+				<td>Type</td>
+				<td>Columns</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>PRIMARY</td>
+				<td>PRIMARY</td>
+				<td>id</td>
+			</tr>
+			<tr>
+				<td>code</td>
+				<td>UNIQUE</td>
+				<td>code</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	<div class="table">
+		<h2>auth_user_copy1</h2>
+		<p>users and admins</p>
+		<table class="columns">
+		<thead>
+			<tr>
+				<td>Column</td>
+				<td>Type</td>
+				<td>Flags</td>
+				<td>Mandatory</td>
+				<td>AutoInc</td>
+				<td>Default</td>
+				<td>Primary</td>
+				<td>Description</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td>YES</td>
+				<td></td>
+				<td>YES</td>
+				<td></td>
+			</tr>
+		</tbody>
+		</table>
+		<h3>Table Indexes</h3>
+		<table class="indexes">
+		<thead>
+			<tr>
+				<td>Index</td>
+				<td>Type</td>
+				<td>Columns</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>PRIMARY</td>
+				<td>PRIMARY</td>
+				<td>id</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	<div class="table">
+		<h2>cms_content_user</h2>
+		<table class="columns">
+		<thead>
+			<tr>
+				<td>Column</td>
+				<td>Type</td>
+				<td>Flags</td>
+				<td>Mandatory</td>
+				<td>AutoInc</td>
+				<td>Default</td>
+				<td>Primary</td>
+				<td>Description</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>id</td>
+				<td>INT</td>
+				<td></td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td>YES</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>page_id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>Content allowed to certain user.</td>
+			</tr>
+			<tr>
+				<td>user_id</td>
+				<td>INT(10)</td>
+				<td>UNSIGNED</td>
+				<td>NOT NULL</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td>A user who is allowed to see certain content.</td>
+			</tr>
+		</tbody>
+		</table>
+		<h3>Table Indexes</h3>
+		<table class="indexes">
+		<thead>
+			<tr>
+				<td>Index</td>
+				<td>Type</td>
+				<td>Columns</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>PRIMARY</td>
+				<td>PRIMARY</td>
+				<td>id</td>
+			</tr>
+			<tr>
+				<td>fk_cms_content_user_cms_page1</td>
+				<td>INDEX</td>
+				<td>page_id</td>
+			</tr>
+			<tr>
+				<td>fk_cms_content_user_auth_user_copy11</td>
+				<td>INDEX</td>
+				<td>user_id</td>
+			</tr>
+			<tr>
+				<td>cms_content_user_idx1</td>
+				<td>INDEX</td>
+				<td>page_id, user_id</td>
+			</tr>
+			<tr>
+				<td>cms_content_user_idx2</td>
+				<td>INDEX</td>
+				<td>user_id, page_id</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+
+
+
+
+
+</body>
+</html>
+
+

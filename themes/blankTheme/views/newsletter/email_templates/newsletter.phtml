@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Newsletter</title>
+<style type="text/css">
+body, table, td{
+    font-family: Arial;
+}
+</style>
+</head>
+<body>
+<h3><?php echo $this->escape($this->application->get_name()); ?> - <?php echo $this->translate('Newsletter Anmeldung');?> ***<?php echo $this->type_newsletter;?>****</h3>
+<table>
+<tr><td colspan="2"></td></tr>
+
+<?php if($this->type_newsletter == 'subscribe'){?>
+<tr>
+    <td style="font-size: 13px; font-weight: bold;">
+        <?php echo $this->translate('Gender');?>
+    </td>
+    
+    <td  style="font-size: 13px; font-weight: normal;">
+        <?php echo $this->translate($this->gender); ?>
+    </td>
+</tr>
+<?php }?>
+<tr>
+    <td style="font-size: 13px; font-weight: bold;">
+        <?php echo $this->translate('First Name');?>
+    </td>
+    <td  style="font-size: 13px; font-weight: normal;">
+        <?php echo $this->escape($this->first_name); ?>
+    </td>
+</tr>
+<tr>
+    <td style="font-size: 13px; font-weight: bold;">
+        <?php echo $this->translate('Last Name');?>
+    </td>
+    <td  style="font-size: 13px; font-weight: normal;">
+        <?php echo $this->escape($this->last_name); ?>
+    </td>
+</tr>
+<tr>
+    <td style="font-size: 13px; font-weight: bold;">
+        <?php echo $this->translate('Address');?>
+    </td>
+    <td  style="font-size: 13px; font-weight: normal;">
+        <?php echo $this->escape($this->address); ?>
+    </td>
+</tr>
+<tr>
+    <td style="font-size: 13px; font-weight: bold;">
+        <?php echo $this->translate('ZIP');?>
+    </td>
+    <td  style="font-size: 13px; font-weight: normal;">
+        <?php echo $this->escape($this->zip); ?>
+    </td>
+</tr>
+<tr>
+    <td style="font-size: 13px; font-weight: bold;">
+        <?php echo $this->translate('City');?>
+    </td>
+    <td  style="font-size: 13px; font-weight: normal;">
+        <?php echo $this->escape($this->city); ?>
+    </td>
+</tr>
+<tr>
+    <td style="font-size: 13px; font-weight: bold;">
+        <?php echo $this->translate('Country');?>
+    </td>
+    <td  style="font-size: 13px; font-weight: normal;">
+        <?php echo $this->escape($this->country); ?>
+    </td>
+</tr>
+<tr>
+    <td style="font-size: 13px; font-weight: bold;">
+        <?php echo $this->translate('Phone');?>
+    </td>
+    <td  style="font-size: 13px; font-weight: normal;">
+        <?php echo $this->escape($this->telephone); ?>
+    </td>
+</tr>
+<tr>
+    <td style="font-size: 13px; font-weight: bold;">
+        <?php echo $this->translate('Email');?>
+    </td>
+    <td  style="font-size: 13px; font-weight: normal;">
+        <?php echo $this->escape($this->email); ?>
+    </td>
+</tr>
+
+<tr><td colspan="2"></td></tr>
+</table>
+<p style="font-size: 11px;">©<?php echo date("Y"); ?> HORISEN AG | Hauptstrasse 65 | 9400 Rorschach | <a href="http://www.horisen.com" target="_blank">www.horisen.com</a></p>
+</body>
+</html>

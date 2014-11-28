@@ -1,0 +1,15 @@
+.svn
+/docs
+/library/Zend
+/library/PHPExcel
+/tests
+/tmp/*
+/logs/*
+/cache/*
+/application/configs/*
+/public/content/*
+/public/captcha/*
+/public/tmp/*
+/public/*.htaccess
+/public/plugins/tinymce
+

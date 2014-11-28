@@ -1,0 +1,137 @@
+<?php
+$this->doctype('HTML5');
+echo $this->doctype(); ?>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="<?php echo $this->currLang; ?>">
+<head>
+    <base href="<?php echo $this->serverUrl() . $this->fileWebRoot; ?>" />
+    <meta charset="utf-8" />
+    <?php
+        $favicon =  '/images/favicon.ico';
+        $this   ->headLink(array('rel' => 'icon', 'href' => $favicon, 'type' => 'image/x-icon'),'PREPEND')
+                ->headLink(array('rel' => 'shortcut icon', 'href' => $favicon, 'type' => 'image/x-icon'),'PREPEND'); //fb ico
+        //fb sharer
+        echo $this->headMeta();
+        echo $this->headTitle();
+        $this->headLink()->prependStylesheet($this->themePath('/css/style.css'));
+        $this->headLink()->prependStylesheet($this->themePath('/css/bootstrap.form.css'));
+        $this->headLink()->prependStylesheet($this->themePath('/css/bootstrap.grid.css'));
+        $this->headLink()->prependStylesheet('/plugins/bxSlider/bx_styles/jquery.bxslider.css');
+        $this->headLink()->prependStylesheet('/plugins/fancybox/jquery.fancybox.css');
+        echo $this->headLink();
+        
+        $this->headScript()->prependFile('/plugins/fancybox/jquery.mousewheel-3.0.6.pack.js');
+        $this->headScript()->prependFile('/plugins/fancybox/jquery.fancybox.pack.js');
+        $this->headScript()->prependFile('/plugins/bxSlider/jquery.bxSlider.min.js');
+        $this->headScript()->prependFile($this->themePath('/js/commonJs.js'));
+        $this->headScript()->prependFile('/js/php.js');
+        //$this->headScript()->prependFile('/js/init.js');
+        $this->headScript()->prependFile('/js/json2.js');
+        $this->headScript()->prependFile($this->themePath('/js/head.js'));
+        $this->headScript()->prependFile($this->themePath('/js/respond.js'));
+        $this->headScript()->prependFile('/js/jquery-1.7.1.min.js');
+        echo $this->headScript();
+        echo $this->headStyle();
+    ?>    
+    
+<!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+<?php
+    //GA
+    if(isset ($this->application)){
+        $gaSettings = $this->application->get_settings('ga');
+        //check ga settings
+        if(isset ($gaSettings) && isset ($gaSettings['tracking_id'])){
+?>
+<script type="text/javascript">
+//GA
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', '<?php echo $this->escape($gaSettings['tracking_id']);?>']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+<?php
+        }
+    }
+?>
+<script type="text/javascript">
+	$(document).ready(function(){
+	  $('.bxslider').bxSlider({
+		  auto: true,
+		  pause: 5000
+		});
+	});
+</script>
+
+<?php
+
+   if(isset ($this->page) && null != $this->page->get_code() && '' != $this->page->get_code()){
+       $bodyClass = ' class="' . $this->page->get_code() . '"';
+   }
+   else{
+       $bodyClass = '';
+   }
+?>
+</head>
+<body <?php echo $bodyClass;?>>
+     <div class="stickyFooterTop">
+            <header>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <a href="<?php echo $this->url(array('module'=> 'default'),'default',true);?>" class="headerLogo"><img src="<?php echo $this->themePath('/images/headerLogo.png'); ?>" /></a>
+                        </div>
+                        <section class="col-lg-5  col-lg-offset-4">
+                            <ul class="langBar">
+                                <?php
+                                if(isset ($this->availableLang) && is_array($this->availableLang) && count($this->availableLang)){foreach ($this->availableLang as $code => $value) {
+                                    if(isset ($value['front_enabled']) && $value['front_enabled']){
+                                        $langClass = $this->currLang == $code?"$code active":"$code";
+   
+                                        echo "<li><a href=\"" . $this->switchLang($code) . "\" class=\"$langClass\">" . $this->translate($value['name']) . "</a></li>";
+                                    }
+                                }}?>
+                            </ul>
+                        </section>
+                    </div>
+                    <div class="row">
+                        <a class="to_nav">Menu</a>
+                        <nav id="to_nav" class="col-lg-10 col-lg-offset-1 close">
+                            <?php echo $this->navigation()->menu()->setUseTranslator(false)->renderMenu($this->menuItems['main'],array('ulClass' => 'mainMenu inLine', 'indent' => 20, 'maxDepth' => 1)); ?>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+        <main>
+            <?php 
+                $given_code = '';
+                if(isset ($this->page) && null != $this->page->get_code() && '' != $this->page->get_code()){
+                    $given_code = $this->page->get_code();
+                }
+                echo $this->slider($given_code); 
+             ?>
+            <div class="container">
+                <?php echo $this->layout()->content; ?>
+            </div>
+        </main>
+    </div>
+    <footer>
+        <div class="container">
+            <nav class="row">
+                <div class="col-lg-5"> 
+                    <?php echo $this->navigation()->menu()->setUseTranslator(false)->renderMenu($this->menuItems['footer'],array('ulClass' => 'footerMenu', 'indent' => 20, 'maxDepth' => 1)); ?>
+                </div>
+            </nav> 
+            <div class="row">
+                <span class="col-lg-5">&copy; <?php echo date("Y"); ?> HORISEN. All rights reserved</span>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,291 @@
+
+body {
+    font-weight: normal;
+    font-size: 12px;
+    font-family: Arial, Verdana, Tahoma;
+    margin: 0;
+    padding: 0;
+    color: #959595;
+    background: #fff;
+}
+a {
+    color: #a0b5d1;
+    text-decoration: none;
+}
+a:hover {
+    color: #a0b5d1;
+    text-decoration: underline;
+}
+p {margin: 0 0 10px 0;}
+img {border: none;}
+ul {margin:0 0 0 20px; padding:0;}
+li {margin:0; padding:0;}
+
+@font-face {
+    font-family: 'MyriadProSBdSCn';
+    src: url('../fonts/myriadpro-semiboldsemicn.eot');
+    src: url('../fonts/myriadpro-semiboldsemicn.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/myriadpro-semiboldsemicn.woff') format('woff'),
+        url('../fonts/myriadpro-semiboldsemicn.ttf') format('truetype'),
+        url('../fonts/myriadpro-semiboldsemicn.svg#MyriadProSBdSCn') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'MyriadProCondensed';
+    src: url('../fonts/myriadpro-cond.eot');
+    src: url('../fonts/myriadpro-cond.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/myriadpro-cond.woff') format('woff'),
+        url('../fonts/myriadpro-cond.ttf') format('truetype'),
+        url('../fonts/myriadpro-cond.svg#MyriadProCondensed') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+h1 {
+    font-family: 'MyriadProSBdSCn';
+    color: #999;
+    margin: 0 0 20px 0;
+    padding: 0;
+    font-size: 32px;
+}
+
+h2 {
+    font-family: 'MyriadProSBdSCn';
+    color: #5b7ea4;
+    background-color: #dbe4f0;
+    margin: 0;
+    padding: 7px 0 0 0;
+    height: 25px;
+    font-size: 16px;
+    position: relative;
+}
+h3 {
+    font-family: 'MyriadProSBdSCn';
+    color: #5b7ea4;
+    margin: 0 0 10px 0;
+    padding: 0px;
+    height: 25px;
+    font-size: 18px;
+    position: relative;
+}
+
+
+
+/* CLEAR FIX*/
+.clearfix:after {content: ".";
+                 display: block;
+                 height: 0;
+                 clear: both;
+                 visibility: hidden;}
+.clearfix {display: inline-block;}
+/* Hides from IE-mac \*/
+* html .clearfix { height: 1%;}
+.clearfix {display: block;}
+/* End hide from IE-mac */
+
+.right {float:right;}
+.left {float:left;}
+
+
+.wrapper {
+	margin: 0 auto;
+	padding: 0;
+	width: 960px;
+}
+.wrap {
+	margin: 0 auto;
+	padding: 0;
+	width: 960px;
+}
+#logo {
+	width: 190px;
+    height: 100px;
+    background: url("../images/logo.png") no-repeat top;
+    margin: 0px;
+	display: block;
+	float: left;
+	text-indent: -999px;
+}
+.content {
+	margin: 0 auto;
+	padding: 0;
+	min-height: 300px;
+}
+.breadcrumb {
+	margin: 20px auto;
+	padding: 5px 10px;
+	background: #efefef;
+}
+footer {
+	margin: 20px 0;
+	padding: 10px 0;
+	border-top: 1px solid #d0d0d0;
+}
+
+
+/* Lang */
+.langswitch{
+font-size: 11px;
+width: 100%;
+background-color: #878787;
+margin-bottom: 20px;
+}
+
+.langswitch ul{
+padding: 6px 6px 12px 0; /*6px should equal top padding of "ul li a" below, 7px should equal bottom padding + bottom border of "ul li a" below*/
+margin: 0;
+text-align: right; //set value to "left", "center", or "right"*/
+
+}
+
+.langswitch ul li{
+display: inline;
+position: relative;
+list-style: none;
+font-weight: normal;
+}
+
+.langswitch ul li a{
+color: #fff;
+padding: 3px 3px;
+margin: 0 0 0px 10px; 
+text-decoration: none;
+border-bottom: 2px solid #bebebe;
+}
+
+.langswitch ul li a:hover, .langswitch ul li a.active{
+color: #bebebe;
+}
+
+
+/* Menu */
+ul.mainMenu {
+padding: 0 0 0 0; /*6px should equal top padding of "ul li a" below, 7px should equal bottom padding + bottom border of "ul li a" below*/
+margin: 0;
+text-align: right; //set value to "left", "center", or "right"*/
+}
+
+ul.mainMenu li{
+display: inline;
+position: relative;
+list-style: none;
+font-weight: bold;
+font-size: 13px;
+}
+
+ul.mainMenu li a{
+color: #696969;
+padding: 6px 3px 4px 3px;
+margin: 0 0 0px 15px; 
+text-decoration: none;
+}
+
+ul.mainMenu li a:hover, ul.mainMenu li a.active,ul.mainMenu li.active > a {
+color: #a0b5d1;
+}
+ul.mainMenu li.active ul{
+display: block;
+} 
+
+ul.mainMenu li:hover ul{
+display: block;
+} 
+
+ul.mainMenu ul{
+padding: 9px 0 0 0;
+margin: 0;
+position: absolute;
+top: 10px;
+left: 0px;
+width: 200px;
+display: none;
+text-align: left;
+}
+
+ul.mainMenu ul li{
+display: inline;
+font-weight: normal;
+}
+
+ul.mainMenu ul li a{
+color: #696969;
+padding: 6px 3px 4px 3px; /*top padding is 6px, bottom padding is 4px*/
+margin: 0 0 0px 15px;
+text-decoration: none;
+display: inline;
+border: none;
+}
+
+ul.mainMenu ul li a:hover, ul.mainMenu  li a.active{
+color: #a0b5d1;
+}
+
+
+/* Footer Menu */
+ul.footerMenu {
+padding: 0; /*6px should equal top padding of "ul li a" below, 7px should equal bottom padding + bottom border of "ul li a" below*/
+margin: 0;
+text-align: left; //set value to "left", "center", or "right"*/
+}
+
+ul.footerMenu li{
+display: inline;
+position: relative;
+list-style: none;
+font-weight: bold;
+font-size: 13px;
+}
+
+ul.footerMenu li a{
+color: #696969;
+padding: 6px 3px 4px 3px;
+margin: 0 20px 0px 0px; 
+text-decoration: none;
+}
+
+ul.footerMenu li a:hover, ul.footerMenu li a.active{
+color: #a0b5d1;
+}
+
+ul.footerMenu ul{
+padding: 9px 0 0 0;
+margin: 0 0 20px 0;
+position: absolute;
+top: 10px;
+left: 0px;
+text-align: left;
+}
+
+ul.footerMenu ul li{
+display: inline;
+font-weight: normal;
+}
+
+ul.footerMenu ul li a{
+color: #696969;
+padding: 3px 3px 3px 3px; /*top padding is 6px, bottom padding is 4px*/
+margin: 0 15px 0px 0;
+text-decoration: none;
+display: block;
+border: none;
+}
+
+ul.footerMenu ul li a:hover, ul.footerMenu  li a.active{
+color: #a0b5d1;
+}
+
+/* Contact Form */
+.contact_form {width: 600px;}
+.contact_form dt {width: 120px; margin: 0 0 6px 0; padding: 0; float: left;}
+.contact_form dd {width: 480px; margin: 0 0 6px 0; float: left;}
+.contact_form dd input {width: 320px;}
+.contact_form dd textarea {width: 320px;}
+.contact_form dd .contact_form_radio {width:20px;}
+.contact_form dd select{width:324px;}
+#captchaInput {width: 130px; margin-left:16px}
+#captchaRefresh {width: 16px; height: 16px; text-indent: -2000px; background: url("../images/reload.png") no-repeat top; display: inline-block; margin-left:5px;}
+#sendButton {width: 100px;}
+#resetButton {width: 100px;}

@@ -1,0 +1,13 @@
+{
+    "name":"HORISEN Zend CMF",
+    "version":"0.5",
+    "built_number":"$Revision: 7256 $",
+    "date":"$Date: 2012-10-04 13:30:45 +0200 (чет, 04 окт 2012) $",
+    "changes_log":[
+        {"date":"20.04.2012","version":"0.1","description":"first documented version"},
+        {"date":"25.04.2012","version":"0.2","description":"page type data added"},
+        {"date":"14.06.2012","version":"0.3","description":"page model update"},
+        {"date":"17.08.2012","version":"0.4","description":"admin panel update, delete content plugin"},
+        {"date":"04.10.2012","version":"0.5","description":"theme suport"}
+    ]
+}

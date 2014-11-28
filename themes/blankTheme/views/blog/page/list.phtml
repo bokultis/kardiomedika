@@ -1,0 +1,51 @@
+<h1><?php echo $this->translate("BLOG")?></h1>
+<?php     
+    if(count($this->pages) > 0){
+?>
+<?php
+$i=0;
+/* @var $page Cms_Model_Page */
+foreach ($this->pages as $page) {
+?>
+<h2><a href="<?php echo $this->url(array('module'=>'blog','controller'=>'page','action'=>'index','url_id'=>$page->get_url_id()),$this->route,true);?>"><?php echo $this->escape($page->get_title());?></a></h2>    
+<article> 
+    <div class="row">
+        <div class="col-lg-2">
+            <img class="img-responsive" src="<?php echo $page->get_data('teaser_image');?>" alt="<?php echo $page->get_title();?>" />
+        </div>
+        <div class="col-lg-10">
+            <time>
+                <?php echo HCMS_Utils_Time::timeMySql2Custom($page->get_posted(), "dd.MM.YYYY")?>,
+                <?php echo HCMS_Utils_Time::timeMySql2Custom($page->get_posted(), "HH:mm")?>&nbsp;<?php echo $this->translate('Uhr');?> 
+            </time>
+            <p><?php echo $page->get_teaser();?></p>
+        </div>
+    </div>
+    <div class="row spaceTop">
+        <div class="col-lg-2">
+            <?php if($page->get_data("file")!='') {?><a class="" href="<?php echo $page->get_data("file")?>" target="_blank"><?php echo $this->translate('Download PDF');?></a><?php } ?>
+        </div>
+        <div class="col-lg-1 col-lg-offset-9">
+            <a href="<?php echo $this->url(array('module'=>'blog','controller'=>'page','action'=>'index','url_id'=>$page->get_url_id()),$this->route,true);?>"><?php echo $this->translate('more');?></a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2">
+            <p>
+                <?php echo $page->get_data("author")?>
+                <?php echo $this->translate('Comments');?>&nbsp;(<?php echo $page->get_data("num_comments")?>)
+            </p>
+        </div>
+    </div>
+    <hr />
+</article>
+<?php
+}
+?>
+<?php
+    $this->addScriptPath(APPLICATION_PATH . '/modules/cms/views/scripts/');
+    echo $this->paginationControl($this->paginator,'Sliding','paginator.phtml',array('route'=>$this->route,'listingParams'=>$this->listingParams));
+}
+else{
+    echo $this->translate('No Blog posts found');
+} ?>

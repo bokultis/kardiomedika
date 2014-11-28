@@ -1,0 +1,118 @@
+<?php
+$this->headScript()->appendFile('/plugins/tinymce/jquery.tinymce.js');
+$this->headScript()->appendFile('/js/tinyCommon.js');
+?>
+<script>
+   $(document).ready(function(){
+        $('#captchaRefresh').click(function(){
+            $.get('/' + CURR_LANG + '/contact/index/captcha-reload',function(data){
+                $('#codeCaptcha').html(data.html);
+                $('#captchaId').val(data.id);
+            });
+            return false;
+        });
+ });
+
+</script>
+<h1><?php echo $this->translate("BLOG")?></h1>
+<article>
+    <div class="col-lg-12">
+        <time>
+            <?php echo HCMS_Utils_Time::timeMySql2Custom($this->page->get_posted(), "HH:mm")?>&nbsp;<?php echo $this->translate('Uhr');?>, 
+            <?php echo HCMS_Utils_Time::timeMySql2Custom($this->page->get_posted(), "dd.MM.YYYY")?>
+        </time>
+        <h2><?php echo $this->escape($this->page->get_title());?></h2>
+        <hr />
+    </div>
+    <section class="row">
+        <div class="col-lg-12">
+            <p><?php echo $this->page->get_teaser();?></p> 
+            <p><?php echo $this->page->get_content();?></p>
+        </div>
+        <div class="col-lg-12">
+            <?php if($this->page->get_data("file")!=''){ ?><a href="<?php echo $this->page->get_data("file")?>" target="_blank"><?php echo $this->translate('Download PDF');?></a><?php } ?>
+            <a href="<?php echo $this->url(array('module'=>'blog','controller'=>'page','action'=>'list'), 'cms', true);?>"><?php echo $this->translate('Back');?></a>
+            <p>
+                <span><?php echo $this->translate('from ');?><?php echo $this->page->get_data("author");?></span><br />
+                <span><?php echo $this->translate('Comments');?>&nbsp;(<?php echo $this->data["num_comments"]?>)</span>
+            </p>
+            <a href="<?php echo $this->url(array('module'=>'blog','controller'=>'page','action'=>'list'), 'cms', true);?>"><?php echo $this->translate('Back');?></a>
+        </div>
+    </section> 
+    
+    <div>
+        <hr />
+        <?php $this->fbLike($this->fullUrl());?>
+        <?php $this->fbShare($this->fullUrl());?>
+        <hr />
+    </div>
+    
+    <section class="row">        
+        <div class="col-lg-12">
+        <h2><?php echo $this->translate("Comments")?> (<?php echo $this->data["num_comments"]?>)</h2>
+        </div>
+        <?php if(count($this->comments)>0){ ?>
+        
+        <?php        
+        foreach($this->comments as $comment){?>
+        <div class="col-lg-12">
+            <time> <?php echo HCMS_Utils_Time::timeMySql2Custom($comment->get_posted(), "H:m d. MMM yyyy")?>.&nbsp;</time>
+            <p><?php echo $this->translate('von ');?><?php echo $comment->get_name()?></p>
+            <p><?php echo $comment->get_message()?></p>          
+        </div>
+        <?php } ?>
+        
+        <?php } else {?>
+        <p> <?php echo $this->translate('No Blog comments found'); ?> </p>
+        <?php } ?>
+    </section>
+    
+    <section class="row">
+        <div class="col-lg-12">
+            <h2><?php echo $this->translate('Add Comment'); ?></h2>
+            <hr />
+        </div>
+        
+        <?php if(isset($this->success_message)){?><p><?php echo $this->success_message?></p><?php } ?>
+        <form class="blogComment" id="form_comment" name="form_comment" action="<?php echo $this->url(array('module'=>'blog','controller'=>'page','action'=>'index', 'url_id'=> $this->page->get_url_id() ), 'cms', true);?>" method="post">            
+            <div class="form-group <?php echo (isset($this->errors['name']) ? "form_field_error" : "") ?>">
+                <label class="col-sm-3 control-label"><?php echo $this->translate('First Name');?> *</label>
+                <div class="col-sm-9">
+                    <input placeholder="<?php echo $this->translate('First Name');?> *" id="data[name]" name="data[name]" class="form-control" value="<?php  if(isset($this->data["name"])) echo $this->data["name"]?>">                  
+                </div>
+            </div>
+            <div class="form-group <?php echo (isset($this->errors['email']) ? "form_field_error" : "") ?>">
+                <label class="col-sm-3 control-label"><?php echo $this->translate('eMail');?> *</label>
+                <div class="col-sm-9">
+                    <input placeholder="<?php echo $this->translate('eMail');?> *" id="data[email]" name="data[email]" class="form-control" value="<?php  if(isset($this->data["email"])) echo $this->data["email"]?>"> 
+                </div>
+            </div>
+            <div class="form-group <?php echo (isset($this->errors['message']) ? "form_field_error" : "") ?>">
+                <label class="col-sm-3 control-label"><?php echo $this->translate('First Name');?> *</label>
+                <div class="col-sm-9">
+                    <textarea  placeholder="<?php echo $this->translate('Message');?> *" id="data[message]" name="data[message]" class="form-control" ><?php if(isset($this->data["message"])) echo $this->data["message"]?></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label"><?php echo $this->translate("Picture code"); ?>&#42;</label>
+                <div class="col-sm-9">
+                    <input type="hidden" name="data[captcha]" value="dummy"/>
+                    <span id="codeCaptcha"><?php echo $this->captcha?></span>
+                </div>
+            </div>
+            <div class="form-group  <?php if(isset ($this->errors['captcha'])){echo "form_field_error";};?>">
+                <label class="col-sm-3 control-label" for="data[captcha]"><?php echo $this->translate('Security check');?>:</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="captcha[input]" id="captchaInput"  />
+                    <input type="hidden" name="captcha[id]" id="captchaId" value="<?php echo $this->captchaId?>">
+                    <a href="#" id="captchaRefresh"><?php echo $this->translate("Load new image"); ?></a>
+               </div>
+            </div>
+            <div class="col-sm-9 col-md-offset-3">
+                <input class="button" type="submit" class="send" name="submit[save]" value="<?php echo $this->translate('Send');?>">
+            </div>
+        </form>
+    </section>
+        <a class="button blogBack" href="<?php echo $this->url(array('module'=>'blog','controller'=>'page','action'=>'list'), 'cms', true);?>"><?php echo $this->translate('Back');?></a>
+</article>
+

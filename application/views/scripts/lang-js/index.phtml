@@ -1,0 +1,17 @@
+var translations = <?php echo json_encode($this->translations);?>;
+
+function translate(key){
+    var result = translations[key];
+    if(result != null){
+        return result;
+    }
+    else{
+        return key;
+    }
+}
+
+function _(key){
+    return translate(key);
+}
+
+

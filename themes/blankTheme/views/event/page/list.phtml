@@ -1,0 +1,50 @@
+<div class="pageContentHolder eleven columns">
+<?php
+    //Zend_Debug::dump($this->paging);
+    //Zend_Debug::dump($this->pages);
+    if(count($this->pages) > 0){
+?>
+<?php echo $this->contentBlock('events-intro-text', CURR_LANG);?>
+<table class="events">
+    <tr>
+        <td><strong><?php echo $this->translate('Von:'); ?></strong></td>
+        <td><strong><?php echo $this->translate('Bis:'); ?></strong></td>
+        <td><strong><?php echo $this->translate('Event:'); ?></strong></td>
+        <td></td>
+    </tr>
+<?php
+/* @var $page Cms_Model_Page */
+foreach ($this->pages as $page) {
+?>
+    <tr>
+        <th><?php echo $this->escape($this->formatDate($page->get_extension()->get_start_date()));?></th>
+        <th><?php echo$this->escape($this->formatUnlimitedDate($page->get_extension()->get_end_date()));?></th>
+        <td><?php echo $this->escape($page->get_title());?></td>
+        <td><a href="<?php echo $this->url(array('module'=>'event','controller'=>'page','action'=>'index','url_id'=>$page->get_url_id()),$this->route,true);?>"><?php echo $this->translate('read more');?></a>        </td>
+    </tr>
+<?php
+}
+?>
+</table>
+<?php
+    $this->addScriptPath(APPLICATION_PATH . '/modules/cms/views/scripts/');
+    echo $this->paginationControl($this->paginator,'Sliding','paginator.phtml',array('route'=>$this->route,'listingParams'=>$this->listingParams));
+}
+else{
+    echo $this->translate('No Events are found');
+}
+?>
+</div>
+<div class="rightSideContent six columns ">
+    <div class="socialSideContainer">
+        <nav class="socialSide">
+            <a href="#" class="facebook"></a>
+            <a href="#" class="twitter"></a>
+            <a href="#" class="google"></a>
+            <a href="#" class="soc1"></a>
+            <a href="#" class="linkedIn"></a>
+            <a href="#" class="soc2"></a>
+            <a href="#" class="soc3"></a>
+        </nav> 
+    </div>
+</div>

@@ -1,0 +1,21 @@
+{
+    "name": "horisen/cms-skeleton",
+    "description": "Horisen CMS Skeleton app",
+    "require": {
+	"horisen/installers": "*",
+	"horisen/cms-core-mod": "*",
+	"horisen/cms-tiny-pub": "*"
+    },
+    "minimum-stability": "dev",
+    "repositories": [ {"type": "composer", "url": "http://composer.horisen.biz/"} ],
+    "autoload": {
+        "psr-0": {
+            "Hcms\\": "src/"
+        }
+    },
+    "scripts": {
+        "pre-install-cmd": "Hcms\\Installer::preInstall",
+        "post-install-cmd": "Hcms\\Installer::postInstall",
+        "post-package-install": "Hcms\\Installer::postPackageInstall"
+    }
+}

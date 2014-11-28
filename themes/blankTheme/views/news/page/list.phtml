@@ -1,0 +1,83 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h1><?php echo $this->translate('News'); ?></h1>
+        <p><?php echo $this->translate('News Intro text'); ?></p>
+        <hr />
+    </div>
+</div>
+<?php
+    if(count($this->pages) > 0){
+?>
+
+<?php
+$i = 0;
+/* @var $page Cms_Model_Page */
+foreach ($this->pages as $page) {
+$teaser_url = $page->get_data('teaser_url');
+$img = $page->get_data('img');
+?>
+<?php if($i%2 == 0){?>
+<article class="row">
+    <div class="col-lg-12">
+        <h2><?php echo $this->escape($page->get_title());?></h2>
+    </div>
+    <?php if(isset($teaser_url) && $teaser_url != '' && isset($img) && $img != ''){ ?>
+        <div class="col-lg-2">
+            <a href="<?php echo $page->get_data('teaser_url'); ?>" target="_blank">
+                <img src="../1/<?php echo $page->get_data('img');?>" alt=""/>
+            </a>
+        </div>
+        <?php }else if(isset($img) && $img != ''){ ?>
+        <div class="col-lg-2">
+            <img src="../1/<?php echo $page->get_data('img');?>" alt=""/>
+        </div>
+    <?php } ?>
+    <div class="col-lg-10">
+        <time><?php echo HCMS_Utils_Time::timeMySql2Custom($page->get_posted(), Zend_Date::WEEKDAY.", ".Zend_Date::DATES);?></time>
+        <p>
+           <?php echo $this->escape($this->abbreviate($page->get_teaser(), 150)); ?>
+        </p>
+        <a href="<?php echo $this->url(array('module'=>'news','controller'=>'page','action'=>'index','url_id'=>$page->get_url_id()),$this->route,true);?>">&raquo; <?php echo $this->translate('more');?></a>
+    </div>
+</article>
+<?php }else{?>
+<article class="row">
+     <div class="col-lg-12">
+         <h2><?php echo $this->escape($page->get_title());?></h2>
+     </div>
+     <?php if(isset($teaser_url) && $teaser_url != '' && isset($img) && $img != ''){ ?>
+         <div class="col-lg-2 col-lg-push-10">
+             <a href="<?php echo $page->get_data('teaser_url'); ?>" target="_blank">
+                 <img src="../1/<?php echo $page->get_data('img');?>" alt=""/>
+             </a>
+         </div>
+         <?php }else if(isset($img) && $img != ''){ ?>
+         <div class="col-lg-2 col-lg-push-10">
+             <img src="../1/<?php echo $page->get_data('img');?>" alt=""/>
+         </div>
+     <?php } ?>
+     <div class="col-lg-10 col-lg-pull-2">
+         <time><?php echo HCMS_Utils_Time::timeMySql2Custom($page->get_posted(), Zend_Date::WEEKDAY.", ".Zend_Date::DATES);?></time>
+         <p>
+            <?php echo $this->escape($this->abbreviate($page->get_teaser(), 150)); ?>
+         </p>
+         <a href="<?php echo $this->url(array('module'=>'news','controller'=>'page','action'=>'index','url_id'=>$page->get_url_id()),$this->route,true);?>">&raquo; <?php echo $this->translate('more');?></a>
+     </div>
+ </article>
+<?php }?>
+<hr />
+<?php
+$i++;
+}
+?>
+
+<?php
+    $this->addScriptPath(APPLICATION_PATH . '/modules/cms/views/scripts/');
+    echo $this->paginationControl($this->paginator,'Sliding','paginator.phtml',array('route'=>$this->route,'listingParams'=>$this->listingParams));
+}
+else{
+    echo $this->translate('No news found');
+} ?>
+
+
+

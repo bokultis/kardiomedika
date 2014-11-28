@@ -1,0 +1,17 @@
+
+    <h1><?php echo $this->escape($this->page->get_title());?></h1>
+
+     <article>   
+        <p class="articlesDate"><?php echo HCMS_Utils_Time::timeMySql2Custom($this->page->get_data('publish_date'), Zend_Date::WEEKDAY.", ".Zend_Date::DATES);?></p>    
+        <?php echo $this->page->get_content();?>
+     </article><br /><br />
+   <div>
+        <hr />
+        <?php $this->fbLike($this->fullUrl());?>
+        <?php $this->fbShare($this->fullUrl());?>
+        <hr />
+    </div>
+    <br /><br />
+            <a class="back" href="<?php echo $this->url(array('module'=>'news','controller'=>'page','action'=>'list'),$this->route,true);?>">&laquo;<?php echo $this->translate('back');?></a>
+</div>
+

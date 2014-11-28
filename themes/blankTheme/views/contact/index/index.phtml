@@ -1,0 +1,152 @@
+<?php echo $this->headScript()->appendFile($this->themePath('/js/horisenForm.js')); ?>
+<script type="text/javascript">
+    $(document).ready(function(){
+        <?php if(isset($this->contact_settings['show_message_form_field_count']) && $this->contact_settings['show_message_form_field_count'] == "yes"){ ?>
+        $('#data\\[description\\]').keyup(function () {
+          var max = <?php echo $this->contact_settings['message_form_field_count']; ?>;
+          var len = $(this).val().length;
+          if (max >= len) {
+            $('#charNum').text(len + ' / ' + max);
+          }
+        });
+
+        var max = <?php echo $this->contact_settings['message_form_field_count']; ?>;
+        var len = $('#data\\[description\\]').val().length;
+        $('#charNum').text(len + ' / ' + max);   
+
+        <?php } ?>
+    });
+</script>
+<h1><?php echo $this->translate('Contact form');?></h1>
+<p>
+    <?php echo $this->translate('Contact Form Intro text');?>
+</p>
+<hr />
+<form id="contact_form" class="form-horizontal" role="form" method="post" action="<?php echo $this->url(array('module'=>'contact','controller'=>'index','action'=>'index'),'cms',true);?>" enctype="application/x-www-form-urlencoded">
+    <input type="hidden" name="submit[save]" value="Save" />
+        <div class="form-group <?php if(isset ($this->errors['gender'])){echo 'form_field_error';}?>" <?php   if($this->contact_settings['show_gender_form_field'] != 'yes' && $this->contact_settings['show_gender_form_field_required'] != 'yes') echo "style='display:none;'"; ?> >
+            <label data-conf="<?php echo $this->contact_settings['show_gender_form_field_required']; ?>" class="col-sm-3 control-label"><?php echo $this->translate('Gender:');?></label>
+                <div class="col-sm-9">
+                    <label>
+                        <input type="radio" name="data[gender]"  <?php if(isset($this->data['gender']) && $this->data['gender']=="Male") echo "checked=\"checked\"";?> value="Male" ><?php echo $this->translate('Herr')?>
+                        <input type="radio" name="data[gender]"  <?php if(isset($this->data['gender']) && $this->data['gender']=="Female") echo "checked=\"checked\"";?> value="Female" ><?php echo $this->translate('Frau')?>
+                    </label>
+                </div>
+            <?php //if(isset ($this->errors['gender'])){echo $this->errorMessages($this->errors['gender']);}?>
+        </div>
+        <div class="form-group <?php if(isset ($this->errors['email'])){echo 'form_field_error';};?>" <?php   if($this->contact_settings['show_email_form_field'] != 'yes') echo "style='display:none;'"; ?> >
+            <label class="col-sm-3 control-label"><?php echo $this->translate('Email');?></label>
+            <div class="col-sm-9">
+                <input data-conf="<?php   echo $this->contact_settings['show_email_form_field_count'] . "," . $this->contact_settings['email_form_field_count'] . "," . $this->contact_settings['show_email_form_field_required']; ?>" class="form-control " type="text" name="data[email]" id="data[email]" placeholder="<?php echo $this->translate('Email');?>" value="<?php echo (isset($this->data['email']))? $this->escape($this->data['email']):""; ?>" maxlength="1000" />
+                <?php //if(isset ($this->errors['email'])){echo $this->errorMessages($this->errors['email']);};?>
+            </div>
+        </div>
+        <div class="form-group <?php if(isset ($this->errors['first_name'])){echo 'form_field_error';};?>" <?php   if($this->contact_settings['show_first_name_form_field'] != 'yes') echo "style='display:none;'"; ?> >
+            <label class="col-sm-3 control-label"><?php echo $this->translate('First Name');?></label>
+            <div class="col-sm-9">
+            <input data-conf="<?php   echo $this->contact_settings['show_first_name_form_field_count'] . "," . $this->contact_settings['first_name_form_field_count'] . "," . $this->contact_settings['show_first_name_form_field_required']; ?>"  type="text" name="data[first_name]" id="data[first_name]" class="form-control"  placeholder="<?php echo $this->translate('First Name');?>"  value="<?php echo (isset($this->data['first_name']))? $this->escape($this->data['first_name']) :""; ?>" maxlength="100" />
+            <?php //if(isset ($this->errors['first_name'])){echo $this->errorMessages($this->errors['first_name']);}?>
+            </div>
+        </div>
+        <div class="form-group <?php if(isset ($this->errors['last_name'])){echo "form_field_error";};?>" <?php   if($this->contact_settings['show_last_name_form_field'] != 'yes') echo "style='display:none;'"; ?> >
+            <label class="col-sm-3 control-label"><?php echo $this->translate('Last Name');?></label>
+            <div class="col-sm-9">
+            <input data-conf="<?php   echo $this->contact_settings['show_last_name_form_field_count'] . "," . $this->contact_settings['last_name_form_field_count'] . "," . $this->contact_settings['show_last_name_form_field_required']; ?>"  type="text" name="data[last_name]" id="data[last_name]" class="form-control"  placeholder="<?php echo $this->translate('Last Name');?>"   value="<?php echo (isset($this->data['last_name']))?$this->escape($this->data['last_name']):""; ?>" maxlength="100"/>
+            <?php //if(isset ($this->errors['last_name'])){echo $this->errorMessages($this->errors['last_name']);};?>
+            </div>
+        </div>
+        <div class="form-group <?php if(isset ($this->errors['street'])){echo "form_field_error";};?>" <?php   if($this->contact_settings['show_street_form_field'] != 'yes') echo "style='display:none;'"; ?> >
+            <label class="col-sm-3 control-label"><?php echo $this->translate('Street');?></label>
+            <div class="col-sm-9">
+                <input data-conf="<?php   echo $this->contact_settings['show_street_form_field_count'] . "," . $this->contact_settings['street_form_field_count'] . "," . $this->contact_settings['show_street_form_field_required']; ?>" class="form-control" type="text" name="data[street]" id="data[street]" placeholder="<?php echo $this->translate('Street');?>"  value="<?php echo (isset($this->data['street']))? $this->escape($this->data['street']):""; ?>" maxlength="100"/>
+                <?php //if(isset ($this->errors['street'])){echo $this->errorMessages($this->errors['street']);};?>
+            </div>
+        </div>
+        <div class="form-group <?php if(isset ($this->errors['zip'])){echo "form_field_error";};?>" <?php   if($this->contact_settings['show_zip_form_field'] != 'yes') echo "style='display:none;'"; ?>>
+            <label class="col-sm-3 control-label"><?php echo $this->translate('Zip');?></label>
+            <div class="col-sm-9">
+                <input data-conf="<?php   echo $this->contact_settings['show_zip_form_field_count'] . "," . $this->contact_settings['zip_form_field_count'] . "," . $this->contact_settings['show_zip_form_field_required']; ?>" class="form-control" type="text" name="data[zip]" placeholder="<?php echo $this->translate('zip');?>" id="data[zip]" value="<?php echo (isset($this->data['zip']))? $this->escape($this->data['zip']):""; ?>" maxlength="10"/>
+            </div>
+        </div>
+        <div class="form-group  <?php if(isset ($this->errors['city'])){echo "form_field_error";};?>" <?php if($this->contact_settings['show_city_form_field'] != 'yes') echo "style='display:none;'"; ?>>
+            <label class="col-sm-3 control-label"><?php echo $this->translate('City');?></label>
+            <div class="col-sm-9">
+                 <input data-conf="<?php   echo $this->contact_settings['show_city_form_field_count'] . "," . $this->contact_settings['city_form_field_count'] . "," . $this->contact_settings['show_city_form_field_required']; ?>" class="form-control" placeholder="<?php echo $this->translate('City');?>" type="text" name="data[city]" id="data[city]" value="<?php echo (isset($this->data['city']))? $this->escape($this->data['city']):""; ?>" maxlength="100"/>
+            </div>
+        </div>
+        <div class="form-group <?php if(isset ($this->errors['country'])){echo "form_field_error";};?>" <?php   if($this->contact_settings['show_country_form_field'] != 'yes') echo "style='display:none;'"; ?>>
+            <label class="col-sm-3 control-label"><?php echo $this->translate('Select Country');?></label>
+            <div class="col-sm-9">
+                <select data-conf="<?php   echo  $this->contact_settings['show_country_form_field_required']; ?>" name="data[country]" id="data[country]"  class="form-control">
+                    <?php if ($this->contact_settings['ip_country_detection'] != 'yes'){ ?>
+                    <option value=""><?php echo $this->translate('Country:')?></option>
+                    <?php } ?>
+                     <?php foreach ($this->countries as $country) { ?>
+                     <option  <?php 
+                     if  ($this->contact_settings['ip_country_detection'] == 'yes'){
+                         if(isset($this->data['country']) && $this->data['country'] != ''){
+                             if($this->data['country'] == $country->get_name()) echo "selected=\"selected\""; 
+                         }else{
+                             if($this->my_country->get_code2() ==  $country->get_code2()) echo "selected=\"selected\""; 
+                         }
+                     }else{
+                        if($this->data['country'] == $country->get_name())echo "selected=\"selected\"";  
+                     }
+                     ?> value="<?php echo $country->get_name(); ?>"><?php echo $country->get_name();?></option>
+                     <?php } ?>
+                 </select>
+            </div>
+        </div>
+        <div class="form-group  <?php if(isset ($this->errors['phone'])){echo "form_field_error";};?>" <?php   if($this->contact_settings['show_phone_form_field'] != 'yes') echo "style='display:none;'"; ?> >
+            <label class="col-sm-3 control-label"><?php echo $this->translate('Telephone');?></label>
+            <div class="col-sm-9">
+                <input data-conf="<?php   echo $this->contact_settings['show_phone_form_field_count'] . "," . $this->contact_settings['phone_form_field_count'] . "," . $this->contact_settings['show_phone_form_field_required']; ?>" class="form-control" type="text" name="data[phone]" id="data[phone]" placeholder="<?php echo $this->translate('Telephone');?>" value="<?php echo (isset($this->data['phone']))? $this->escape($this->data['phone']):""; ?>" maxlength="100"/>
+                <?php //if(isset ($this->errors['phone'])){echo $this->errorMessages($this->errors['phone']);};?>
+            </div>
+        </div>
+        <div class="form-group <?php if(isset ($this->errors['mobile'])){echo "form_field_error";};?>" <?php   if($this->contact_settings['show_mobile_form_field'] != 'yes') echo "style='display:none;'"; ?> >
+            <label class="col-sm-3 control-label"><?php echo $this->translate('Mobile');?></label>
+            <div class="col-sm-9">
+                <input data-conf="<?php   echo $this->contact_settings['show_mobile_form_field_count'] . "," . $this->contact_settings['mobile_form_field_count'] . "," . $this->contact_settings['show_mobile_form_field_required']; ?>" class="form-control" type="text" name="data[mobile]" id="data[mobile]" placeholder="<?php echo $this->translate('Mobile');?>" value="<?php echo (isset($this->data['mobile']))? $this->escape($this->data['mobile']):""; ?>" maxlength="100"/>
+                <?php //if(isset ($this->errors['mobile'])){echo $this->errorMessages($this->errors['mobile']);};?>
+            </div>
+        </div>
+        <div class="form-group <?php if(isset ($this->errors['fax'])){echo "form_field_error";};?>" <?php   if($this->contact_settings['show_fax_form_field'] != 'yes') echo "style='display:none;'"; ?> >
+            <label class="col-sm-3 control-label"><?php echo $this->translate('Fax');?></label>
+            <div class="col-sm-9">
+                <input data-conf="<?php   echo $this->contact_settings['show_fax_form_field_count'] . "," . $this->contact_settings['fax_form_field_count'] . "," . $this->contact_settings['show_fax_form_field_required']; ?>" class="form-control" type="text" name="data[fax]" id="data[fax]" placeholder="<?php echo $this->translate('Fax');?>" value="<?php echo (isset($this->data['fax']))? $this->escape($this->data['fax']):""; ?>" maxlength="100"/>
+                <?php //if(isset ($this->errors['fax'])){echo $this->errorMessages($this->errors['fax']);};?>
+            </div>
+        </div>
+        <div class="form-group <?php if(isset ($this->errors['description'])){echo "form_field_error";};?>"  <?php   if($this->contact_settings['show_message_form_field'] != 'yes') echo "style='display:none;'"; ?>>
+            <label class="col-sm-3 control-label"><?php echo $this->translate('Message');?></label>
+            <div class="col-sm-9">
+                <textarea data-conf="<?php   echo $this->contact_settings['show_message_form_field_count'] . "," . $this->contact_settings['message_form_field_count'] . "," . $this->contact_settings['show_message_form_field_required']; ?>" class="form-control" cols="40" rows="10" maxlength="<?php if(isset($this->contact_settings['show_message_form_field_count']) && $this->contact_settings['show_message_form_field_count'] == "yes"){ echo $this->contact_settings['message_form_field_count']; }?>" name="data[description]" id="data[description]" placeholder="<?php echo $this->translate('Message');?>"><?php echo (isset($this->data['description']))? $this->escape($this->data['description']):""; ?></textarea>
+                <?php //if(isset ($this->errors['description'])){echo $this->errorMessages($this->errors['description']);};?>
+                <?php if(isset($this->contact_settings['show_message_form_field_count']) && $this->contact_settings['show_message_form_field_count'] == "yes"){ ?>
+                    <?php if(isset($this->contact_settings['show_message_form_field_counter']) && $this->contact_settings['show_message_form_field_counter'] == "yes"){  ?>
+                    <div id="charNum">0 / <?php echo $this->contact_settings['message_form_field_count']; ?></div>
+                    <?php } ?>
+
+                <?php } ?>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label"><?php echo $this->translate("Picture code"); ?>&#42;</label>
+            <div class="col-sm-9">
+                <input type="hidden" name="data[captcha]" value="dummy"/>
+                <span id="codeCaptcha"><?php echo $this->captcha?></span>
+            </div>
+        </div>
+        <div class="form-group  <?php if(isset ($this->errors['captcha'])){echo "form_field_error";};?>">
+            <label class="col-sm-3 control-label" for="data[captcha]"><?php echo $this->translate('Security check');?>:</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" name="captcha[input]" id="captchaInput"  />
+                <input type="hidden" name="captcha[id]" id="captchaId" value="<?php echo $this->captchaId?>">
+                <a href="#" id="captchaRefresh"><?php echo $this->translate("Load new image"); ?></a>
+           </div>
+        </div>
+        <div class="col-sm-9 col-md-offset-3">
+            <input class="button" id="sendButton" type="submit" value="<?php echo $this->translate("Send"); ?>" name="submit[save]" />
+        </div>
+</form>
