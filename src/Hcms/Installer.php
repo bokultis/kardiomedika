@@ -84,11 +84,11 @@ class Installer {
     }    
     
     protected function execPostInstall(){    
-        //remove .svn from packages
-        $this->removeSVN($this->dir . '/application/modules/', false);
-        $this->removeSVN($this->dir . '/library/', false);
-        $this->removeSVN($this->dir . '/public/plugins/', false);
-        $this->removeSVN($this->dir . '/public/modules/', false);
+        //remove VCS from packages
+        $this->removeVCS($this->dir . '/application/modules/', 'git', false);
+        $this->removeVCS($this->dir . '/library/', 'git', false);
+        $this->removeVCS($this->dir . '/public/plugins/', 'git', false);
+        $this->removeVCS($this->dir . '/public/modules/', 'git', false);
     }
     
     protected function execPreInstall(){
@@ -306,13 +306,13 @@ class Installer {
         return true;
     }
     
-    protected function removeSVN($dir, $checkRoot = true) {
-        $svn = $dir . '.svn';
-        if ($checkRoot && is_dir($svn)) {
-            chmod($svn, 0777);
-            $this->delTree($svn); // remove the .svn directory with a helper function
-            if (is_dir($svn)){
-                $this->io->write("Failed to delete $svn due to file permissions.");
+    protected function removeVCS($dir, $type, $checkRoot = true) {
+        $vcs = $dir . '.'. $type;
+        if ($checkRoot && is_dir($vcs)) {
+            chmod($vcs, 0777);
+            $this->delTree($vcs); // remove the . directory with a helper function
+            if (is_dir($vcs)){
+                $this->io->write("Failed to delete $vcs due to file permissions.");
             }
         }
         $handle = opendir($dir);
@@ -321,7 +321,7 @@ class Installer {
                 continue;// don't get lost by recursively going through the current or top directory
             }                
             if (is_dir($dir . $file)){
-                $this->removeSVN($dir . $file . '/'); // apply the SVN removal for sub directories
+                $this->removeVCS($dir . $file . '/', $type); // apply the VCS removal for sub directories
             }                
         }
     }
