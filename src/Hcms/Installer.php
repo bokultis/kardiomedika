@@ -70,7 +70,6 @@ class Installer {
             return true;
         }
         $extras = $installedPackage->getExtra(); 
-        $this->io->write($extras);die;
         if(!isset($extras['installer-name'])){
             return true;
         }
