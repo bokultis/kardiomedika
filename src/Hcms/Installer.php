@@ -96,6 +96,8 @@ class Installer {
         if (!$this->io->askConfirmation("Do you want to run cms project setup? If no, we will just download and install packages?", true)) {
             return true;
         }
+        
+        
         //dist files
         if ($this->io->askConfirmation("Do you want to copy .dist files and create ini files? (application.ini, cli.ini, .htaccess) ", true)) {
             if($this->copyDistFiles(array(

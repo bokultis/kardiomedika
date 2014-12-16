@@ -4,10 +4,11 @@
     "require": {
 	"horisen/installers": "*",
 	"horisen/cms-core-mod": "*",
-	"horisen/cms-tiny-pub": "*"
+	"horisen/cms-teaser-mod": "*",
+	"horisen/cms-tinymce-plugin": "*"
     },
     "minimum-stability": "dev",
-    "repositories": [ {"type": "composer", "url": "http://composer.horisen.biz/"} ],
+    "repositories": [ {"type": "composer", "url": "http://wa.cms.satis/"} ],
     "autoload": {
         "psr-0": {
             "Hcms\\": "src/"
