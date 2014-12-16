@@ -69,7 +69,8 @@ class Installer {
         if($installedPackage->getType() != 'horisen-cms_mod'){
             return true;
         }
-        $extras = $installedPackage->getExtra();        
+        $extras = $installedPackage->getExtra(); 
+        $this->io->write($extras);die;
         if(!isset($extras['installer-name'])){
             return true;
         }
