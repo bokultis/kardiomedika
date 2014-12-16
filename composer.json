@@ -2,10 +2,10 @@
     "name": "horisen/cms-skeleton",
     "description": "Horisen CMS Skeleton app",
     "require": {
-	"horisen/installers": "*",
-	"horisen/cms-core-mod": "*",
-	"horisen/cms-teaser-mod": "*",
-	"horisen/cms-tinymce-plugin": "*"
+    "horisen/installers": "*",
+    "horisen/cms-core-mod": "*",
+    "horisen/cms-teaser-mod": "*",
+    "horisen/cms-tinymce-plugin": "*"
     },
     "minimum-stability": "dev",
     "repositories": [ {"type": "composer", "url": "http://wa.cms.satis/"} ],
@@ -17,6 +17,7 @@
     "scripts": {
         "pre-install-cmd": "Hcms\\Installer::preInstall",
         "post-install-cmd": "Hcms\\Installer::postInstall",
-        "post-package-install": "Hcms\\Installer::postPackageInstall"
+        "post-package-install": "Hcms\\Installer::postPackageInstall",
+        "pre-package-install": "Hcms\\Installer::prePackageInstall"
     }
 }
