@@ -97,6 +97,12 @@ class Installer {
             return true;
         }
         
+        //create folders if not exist
+        $this->makeDir($this->dir . '/public/plugins/');
+        $this->makeDir($this->dir . '/public/modules/');
+        $os_name = php_uname();
+        $this->io->write($os_name); die;
+        
         
         //dist files
         if ($this->io->askConfirmation("Do you want to copy .dist files and create ini files? (application.ini, cli.ini, .htaccess) ", true)) {
@@ -342,5 +348,11 @@ class Installer {
             rmdir($dir); // remove the directory itself (rmdir only removes a directory once it is empty)
         }
     }    
+    
+    protected function makeDir($dir){
+        if (!is_dir($dir)) {
+            mkdir($dir); // remove the directory itself (rmdir only removes a directory once it is empty)
+        }
+    }
 
 }
