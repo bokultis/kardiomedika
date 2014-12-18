@@ -8,7 +8,7 @@
     "horisen/cms-tinymce-plugin": "*"
     },
     "minimum-stability": "dev",
-    "repositories": [ {"type": "composer", "url": "http://wa.cms.satis/"} ],
+    "repositories": [ {"type": "composer", "url": "http://composer.horisen.biz/"} ],
     "autoload": {
         "psr-0": {
             "Hcms\\": "src/"
