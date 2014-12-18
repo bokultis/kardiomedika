@@ -17,7 +17,8 @@
     "scripts": {
         "pre-install-cmd": "Hcms\\Installer::preInstall",
         "post-install-cmd": "Hcms\\Installer::postInstall",
-        "post-package-install": "Hcms\\Installer::postPackageInstall",
-        "pre-package-install": "Hcms\\Installer::prePackageInstall"
+        "pre-package-install": "Hcms\\Installer::prePackageInstall",
+        "post-package-install": "Hcms\\Installer::postPackageInstall"
+        
     }
 }

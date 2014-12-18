@@ -128,11 +128,7 @@ class Installer {
         if (!$this->io->askConfirmation("Do you want to run cms project setup? If no, we will just download and install packages?", true)) {
             return true;
         }
-        
-        
-        
-        
-        
+
         //dist files
         if ($this->io->askConfirmation("Do you want to copy .dist files and create ini files? (application.ini, cli.ini, .htaccess) ", true)) {
             if($this->copyDistFiles(array(
@@ -380,15 +376,25 @@ class Installer {
     
     protected function makeDir($dir){
         if (!is_dir($dir)) {
-            shell_exec("sudo chmod -R 777 $dir");
+            shell_exec("mkdir $dir");
+            $this->io->write("$dir created.");
         }
     }
     
     protected function makeSymlinkModulePublic($module){
+        
+        $osDetected = php_uname('s');
+        
         $from = $this->dir . '/application/modules/' . $module . '/public/' . $module;
         $to = $this->dir . '/public/modules/' . $module;
         if (!is_dir($from)) {
-            shell_exec("ln -s $from $to");
+            if(isset($osDetected) && $osDetected == "Linux"){
+                symlink($to, $from);
+                $this->io->write("Symlink created on OS $osDetected.");
+            }else if(isset($osDetected) && $osDetected == "Windows"){
+                symlink($to, $from);
+                $this->io->write("Symlink created on OS $osDetected.");
+            }
         }
     }
 
