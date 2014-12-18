@@ -155,19 +155,22 @@ class Installer {
                 $this->io->write("App log created");
             }
         }
-        //writtable
-        if ($this->io->askConfirmation("Do you want to make folders writable? ", true)) {
-            if($this->makeWritable(array(
-                $this->dir . '/cache',
-                $this->dir . '/logs/app.log',
-                $this->dir . '/public/captcha',
-                $this->dir . '/public/themes',
-                $this->dir . '/public/content',
-                $this->dir . '/tmp',
-            ))){
-                $this->io->write("Folders and files made writable");
+        $osDetected = php_uname('s');
+        if(isset($osDetected) && $osDetected == "Linux"){
+            //writtable
+            if ($this->io->askConfirmation("Do you want to make folders writable? ", true)) {
+                if($this->makeWritable(array(
+                    $this->dir . '/cache',
+                    $this->dir . '/logs/app.log',
+                    $this->dir . '/public/captcha',
+                    $this->dir . '/public/themes',
+                    $this->dir . '/public/content',
+                    $this->dir . '/tmp',
+                ))){
+                    $this->io->write("Folders and files made writable");
+                }
             }
-        } 
+        }
         //domain
         if ($this->io->askConfirmation("Do you want to make virtual domain? ", true)) {
             $domainName = $this->io->ask("Domain name? ", null);
