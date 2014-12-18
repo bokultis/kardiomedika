@@ -73,9 +73,7 @@ class Installer {
      * Execute Before Packages are installed
      */
     protected function execPrePackageInstall(){
-        //create folders if not exist
-        $this->makeDir($this->dir . '/public/plugins/');
-        $this->makeDir($this->dir . '/public/modules/');
+        
     }    
     
     /**
@@ -124,7 +122,7 @@ class Installer {
     }
     
     protected function execPreInstall(){
-        //general
+        //general      
         if (!$this->io->askConfirmation("Do you want to run cms project setup? If no, we will just download and install packages?", true)) {
             return true;
         }
