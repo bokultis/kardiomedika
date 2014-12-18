@@ -57,6 +57,31 @@ class Installer {
         return self::$instance->execPostInstall();
     }
     
+    /**
+     * 
+     * @param \Composer\Script\Event $event
+     */
+    public static function prePackageInstall(Event $event)
+    {
+        if(!isset(self::$instance )){
+            self::$instance = new self($event);
+        }
+        self::$instance->execPrePackageInstall();
+    }
+    
+    /**
+     * Execute Before Packages are installed
+     */
+    protected function execPrePackageInstall(){
+        //create folders if not exist
+        $this->makeDir($this->dir . '/public/plugins/');
+        $this->makeDir($this->dir . '/public/modules/');
+    }    
+    
+    /**
+     * 
+     * @param \Composer\Script\Event $event
+     */
     public static function postPackageInstall(Event $event)
     {
         if(!isset(self::$instance )){
@@ -65,6 +90,11 @@ class Installer {
         self::$instance->execPostPackageInstall($event->getOperation()->getPackage());
     }
     
+    /**
+     * Execute After Packages are installed
+     * @param type $installedPackage
+     * @return boolean
+     */
     protected function execPostPackageInstall($installedPackage){
         if($installedPackage->getType() != 'horisen-cms_mod'){
             return true;
@@ -73,6 +103,8 @@ class Installer {
         if(!isset($extras['installer-name'])){
             return true;
         }
+        //make symlinks
+        $this->makeSymlinkModulePublic($extras['installer-name']);
         $sqlFile = $this->dir . '/application/modules/' . $extras['installer-name'] . '/init.sql';
         if(!file_exists($sqlFile)){
             return true;
@@ -97,11 +129,8 @@ class Installer {
             return true;
         }
         
-        //create folders if not exist
-        $this->makeDir($this->dir . '/public/plugins/');
-        $this->makeDir($this->dir . '/public/modules/');
-        $os_name = php_uname();
-        $this->io->write($os_name); die;
+        
+        
         
         
         //dist files
@@ -351,7 +380,15 @@ class Installer {
     
     protected function makeDir($dir){
         if (!is_dir($dir)) {
-            mkdir($dir); // remove the directory itself (rmdir only removes a directory once it is empty)
+            shell_exec("sudo chmod -R 777 $dir");
+        }
+    }
+    
+    protected function makeSymlinkModulePublic($module){
+        $from = $this->dir . '/application/modules/' . $module . '/public/' . $module;
+        $to = $this->dir . '/public/modules/' . $module;
+        if (!is_dir($from)) {
+            shell_exec("ln -s $from $to");
         }
     }
 
