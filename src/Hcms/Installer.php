@@ -388,8 +388,6 @@ class Installer {
         
         $from = $this->dir . '/application/modules/' . $module . '/public/' . $module;
         $to = $this->dir . '/public/modules/' . $module;
-        $this->io->write("Symlink from: $from");
-        $this->io->write("Symlink to: $to");
         if (is_dir($from) && !file_exists($to)) {
             if(isset($osDetected) && $osDetected == "Linux"){
                 symlink($from, $to);

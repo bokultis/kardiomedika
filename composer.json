@@ -4,7 +4,6 @@
     "require": {
     "horisen/installers": "*",
     "horisen/cms-core-mod": "*",
-    "horisen/cms-teaser-mod": "*",
     "horisen/cms-tinymce-plugin": "*"
     },
     "minimum-stability": "dev",
