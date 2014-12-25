@@ -1,0 +1,11 @@
+{
+    "name": "horisen/cms-tinymce-plugin",
+    "description": "Horisen CMS Tiny Editor plugin",
+    "type": "horisen-cms_plugin",
+    "require": {
+        "horisen/cms-core-lib": "*"
+    },
+    "extra": {
+        "installer-name": "tinymce"
+    }
+}

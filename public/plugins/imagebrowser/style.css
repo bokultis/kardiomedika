@@ -1,0 +1,107 @@
+#ibContainer{
+    width: 690px;
+    height: 420px;
+    border-bottom: 1px solid #c7d0e1;
+}
+
+#ibServerbrowser{
+    float: left;
+    width: 350px;
+    height: 420px;
+}
+
+div.ibToolbar{
+    margin: 0px 0px 4px 0px;
+}
+
+#ibPanel{
+    float: left;
+    width: 325px;
+    height: 420px;
+    margin-left: 5px;
+    padding-left: 5px;
+    border-left: 1px solid #c7d0e1;
+}
+
+#ibPreview{
+    width: 320px;
+    height: 320px;
+    padding-bottom: 5px;
+    overflow: hidden;
+}
+
+#ibCropPreview{
+    display: none;
+    max-width: 530px;
+    max-height: 530px;
+    overflow: auto;
+    padding: 5px;
+}
+
+#ibCropClip{
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+}
+
+#ibStatusPanel{
+	color: #777;
+	margin-bottom: 6px;
+	font-size: 10px;
+}
+
+#ibActionStatus{
+    font-weight: normal;
+    height: 14px;
+    margin-top: 6px;
+	color: #777;
+	font-size: 10px;
+}
+
+.ui-resizable-helper{
+    border: 1px solid aqua;
+}
+
+#ibResize{
+    display: none;
+}
+
+.icon_image_apply{
+    background-image: url('images/image_apply.png') !important;
+}
+
+.icon_image_resize{
+    background-image: url('images/image_resize.png') !important;
+}
+
+.icon_image_crop{
+    background-image: url('images/image_crop.png') !important;
+}
+
+.icon_image_preview{
+    background-image: url('images/image_preview.png') !important;
+}
+
+.crop_down{
+	float: right;
+}
+.crop_down .ui-button-text{
+	font-size: 10px;
+    font-weight: normal;
+    padding: 3px 4px 3px 20px !important;
+    color: #383838;
+}
+
+#ibPreviewHover{
+    position:absolute;
+    border:1px solid #ccc;
+    background:#333;
+    padding:1px;
+    display:none;
+    color:#fff;
+    z-index: 100000;
+}
+
+#ibPreviewHover img{
+    max-width: 120px;
+}

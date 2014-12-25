@@ -1,0 +1,72 @@
+#fmOverlay
+{
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    top: 0px;
+    left: 0px;
+    background: #667878;
+    z-index: 10000;
+}
+#fmBox
+{
+    text-align:left;
+    position: absolute;
+    width: 300px;
+    border:1px;
+    border-style: solid;
+    font-weight: bold;
+    padding: 15px 15px 15px 35px;
+    display: none;
+    z-index: 10001;
+    background-position:10px center;
+    background-repeat:no-repeat;
+    -moz-border-radius: 6px;
+}
+a #closeBtn
+{
+    display:block;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-position:top;
+    background-image: url("images/cross_grey_red_small.png") !important;
+    width: 7px;
+    height: 7px;
+    z-index: 10002;
+    _font-size:2px;
+}
+a:hover #closeBtn 
+{
+    background-position:bottom;
+}
+.fmBox.ok
+{
+    background-image:url("images/ok.png");
+    background-color: #D5FFCE !important;
+    border-color:#9ADF8F !important;
+    color: #556652 !important;
+}
+.fmBox.err
+{
+    background-image:url("images/err.png");
+    background-color: #FFCECE !important;
+    border-color:#DF8F8F !important;
+    color: #665252 !important;
+}
+.fmBox.info
+{
+    background-image:url("images/info.png");
+    background-color: #DBE3FF !important;
+    border-color:#A2B4EE !important;
+    color: #585B66 !important;
+}
+.fmBox.warn
+{
+    background-image:url("images/warn.png");
+    background-color: #FFFBCC !important;
+    border-color:#E6DB55 !important;
+    color: #666452 !important;
+}

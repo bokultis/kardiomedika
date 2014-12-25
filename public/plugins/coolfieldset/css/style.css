@@ -1,0 +1,26 @@
+.coolfieldset, .coolfieldset_auto_expanded{
+    margin-top: 10px;
+}
+
+.coolfieldset, .coolfieldset.expanded, .coolfieldset_auto_expanded, .coolfieldset_auto_expanded.expanded{
+	border:1px solid #aaa;   
+}
+
+.coolfieldset.collapsed, .coolfieldset_auto_expanded.collapsed{
+	border:0;
+	border-top:1px solid #aaa;
+}
+
+.coolfieldset legend, .coolfieldset_auto_expanded legend{
+	padding-left:13px;
+	font-weight:bold;
+	cursor:pointer;
+}
+
+.coolfieldset legend, .coolfieldset.expanded legend, .coolfieldset_auto_expanded legend, .coolfieldset_auto_expanded.expanded legend{
+	background: transparent url(../images/expanded.gif) no-repeat center left;
+}
+
+.coolfieldset.collapsed legend, .coolfieldset_auto_expanded.collapsed legend{
+	background: transparent url(../images/collapsed.gif) no-repeat center left;
+}

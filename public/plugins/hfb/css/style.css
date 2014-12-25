@@ -1,0 +1,242 @@
+/*HFB Components*/
+
+.hfbContentSection{
+    background-color: white;
+    height: 400px;
+    margin: 0;
+    padding: 10px 15px;
+    width: 90%;
+}
+
+/* Search */
+.hfbSearchContainer {
+    width: 100%;
+    padding: 6px 10px 8px 10px;
+    margin: 0 0 5px 0;
+    background-color: #f2f2f2;
+    border-top: 1px solid #ccc;
+}
+
+.hfbSearchContainer input {
+    height: 14px;
+    width: 200px;
+    font-size: 11px;
+    border: 1px solid #bdc7d8;
+    padding: 2px 4px 4px 6px;
+    margin: 0 0 0 -1px;
+    float: left;
+}
+.hfbSearchContainer button {
+    width: 22px;
+    height: 22px;
+    float: left;
+    border: none 0;
+    background: white url("../images/search_delete_btn.png") no-repeat center;
+    margin: 0 0 0 -1px;
+    cursor: pointer;
+}
+.hfbSearchContainer .right {float:right;}
+.hfbSearchContainer .left {float:left;}
+
+/*select menu */
+
+.hfbFilterMenu {
+    position: relative;
+    font-size: 11px;
+}
+
+.hfbFilterMenu > div {
+    padding: 3px 20px 0 5px;
+    margin: 0px;
+    height: 17px;
+    cursor: pointer;
+    position: relative;
+    background: url("../images/search_btn_bg.png") repeat-x;
+    border: 1px solid #989898;
+    font-weight: bold;
+}
+
+.hfbFilterMenu > div:hover {
+    background: #6c84b4;
+    border: 1px solid #3e5797;
+    color: white;
+}
+
+.hfbFilterMenu > div > span {
+    width: 9px;
+    height: 5px;
+    position: absolute;
+    top: 8px;
+    right: 5px;
+    background: url("../images/btn_filter.png") no-repeat top;
+}
+.hfbFilterMenu > div:hover > span {
+    width: 9px;
+    height: 5px;
+    position: absolute;
+    top: 8px;
+    right: 5px;
+    background: url("../images/btn_filter.png") no-repeat bottom;
+}
+
+.hfbFilterMenu > ul {
+    padding: 0;
+    margin: 0px;
+    min-width: 240px;
+    position: absolute;
+    top: 20px;
+    left: 0px;
+    display: none;
+    z-index: 100;
+    list-style: none outside none;
+    border: 1px solid #797a7c;
+    color: #333;
+    background: #fff;
+}
+
+.hfbFilterMenu > ul > li {
+    padding: 4px 5px 1px 22px;
+    margin: 0px;
+    position: relative;
+    border: none;
+    font-weight: normal;
+    cursor: pointer;
+    position: relative;
+    width: 240px;
+    background-repeat: no-repeat;
+    background-image: none;
+    background-position: 5px 5px;
+    background-color: white;
+}
+
+.hfbFilterMenu > ul > li:hover {
+    background-color: #6c84b4;
+    color: white;
+}
+.hfbFilterMenu > ul > li.selected {
+    background-image: url("../images/selected.png");
+}
+.hfbFilterMenu > ul > li.selected:hover {
+    background-image: url("../images/selected_hover.png");
+}
+
+/*search box*/
+
+input.hfbSearch {
+    height: 14px;
+    width: 200px;
+    padding: 2px 4px 4px 6px;
+    margin: 0 0 0 -1px;
+    float: left;
+    color: #444;
+    font-size: 11px;
+    border: 1px solid #bdc7d8;
+}
+
+button.hfbSearch {
+    width: 22px;
+    height: 22px;
+    float: left;
+    border: none 0;
+    margin: 0 0 0 -1px;
+    cursor: pointer;
+    background: white url("../images/search_delete_btn.png") no-repeat center;
+}
+
+input.hfbPlaceholder{
+    color: #888;
+}
+
+/* CONTENT TABLE */
+
+.hfbContentTable{
+    width: 100%;
+}
+
+.hfbContentTable table{
+    width: 100%;
+}
+
+.hfbContentTable th{
+    background-color: #c7d0e1;
+    border-top: 1px solid #CCCCCC;
+    margin: 0 5px;
+    padding: 7px 3px 7px 3px;
+    text-align: left;
+}
+
+.hfbContentTableHeader {
+    background-color: #c7d0e1;
+    padding: 2px 10px 2px 10px;
+    font-weight: bold;
+    border-top: 1px solid #a7b3c7;
+}
+
+.hfbContentTable td{
+    border-bottom: 1px solid #E9E9E9;
+    padding: 7px 3px 7px 3px;
+}
+
+.hfbContentTable td.em{
+    color: #2E58AA;
+    font-size: 11px;
+    padding: 5px 10px;
+    font-weight: bold;
+}
+
+/* PAGING */
+.hfbPagingContainer {
+    width: 100%;
+    margin: 0;
+    padding: 10px 15px;
+    background-color: white;
+}
+.hfbPaging {
+    margin: 0;
+    padding: 0;
+    text-align: right;
+    text-decoration: none;
+    position: relative;
+}
+
+.hfbPaging a {
+    padding: 0 2px 0 2px;
+    font-weight: normal;
+    color: #333;
+}
+
+.hfbPaging a:hover, .paging .selected {
+    font-weight: bold;
+    color: #333;
+    text-decoration: none;
+}
+
+.hfbPaging span{
+    font-weight: bold;
+}
+
+/*ImagePath*/
+div.hfbImagePath{
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0px 5px 0px 5px;
+    padding: 0px;
+    position: relative;
+}
+
+input.hfbImagePath {
+    padding-right: 10px;
+    margin: 0px;
+}
+
+button.hfbImagePath {
+    position: absolute;
+    right: 5px;
+    top: 7px;
+    width: 9px;
+    height: 9px;
+    border: none 0;
+    margin: 0 0 0 -1px;
+    cursor: pointer;
+    background: white url("../images/input-clear.png") no-repeat center;
+}

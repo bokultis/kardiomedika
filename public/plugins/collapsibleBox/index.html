@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <style>
+            .collapse .collapseBox.closed{
+                display: none;
+            }
+            .collapse .collapseBox.open{
+                display: block;
+            }
+            
+            .collapse .collapseHandle.closed{
+                font-weight: bold;
+            }
+            .collapse .collapseHandle.open{
+                font-weight: normal;
+            }            
+        </style>
+    </head>
+    <body>
+        <div class="collapse">
+            <div class="collapseHandle">Handle 1</div>
+            <div class="collapseBox">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ut augue posuere, dictum augue at, fringilla nisi. Praesent fermentum mattis sapien eu imperdiet. Morbi blandit felis velit, id fermentum risus interdum sit amet. In vehicula ante elit, sed rutrum ipsum condimentum cursus. Vestibulum scelerisque nisi mauris, sed tempor mi pellentesque quis. Nulla et interdum purus. Phasellus ut tincidunt augue. Nunc mi nunc, feugiat eu tincidunt et, iaculis in metus. Quisque eu accumsan arcu, vel sodales ligula. Aenean eget diam dapibus, rutrum lorem commodo, tristique nibh.                
+            </div>
+        </div>
+        <div class="collapse">
+            <div class="collapseHandle">Handle 2</div>
+            <div class="collapseBox">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ut augue posuere, dictum augue at, fringilla nisi. Praesent fermentum mattis sapien eu imperdiet. Morbi blandit felis velit, id fermentum risus interdum sit amet. In vehicula ante elit, sed rutrum ipsum condimentum cursus. Vestibulum scelerisque nisi mauris, sed tempor mi pellentesque quis. Nulla et interdum purus. Phasellus ut tincidunt augue. Nunc mi nunc, feugiat eu tincidunt et, iaculis in metus. Quisque eu accumsan arcu, vel sodales ligula. Aenean eget diam dapibus, rutrum lorem commodo, tristique nibh.                
+            </div>
+        </div>        
+        <script type="text/javascript" src="/js/jquery-1.11.1.min.js"></script>
+        <script type="text/javascript" src="jquery.collapsibleBox.js"></script>
+        <script>
+            $(".collapse").collapsibleBox({
+                handleSelector: ".collapseHandle",
+                collapsibleSelector: ".collapseBox",
+                openClass: "open",
+                closedClass: "closed",
+                onChange: function(el, closed){
+                    console.log(el, "is closed: ", closed);
+                }
+            });
+        </script>
+    </body>
+</html>
