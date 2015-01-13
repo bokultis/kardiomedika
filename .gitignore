@@ -1,0 +1,10 @@
+/application/configs/application.ini
+/application/configs/cli.ini
+/library/Zend
+/public/content
+
+#not include symlinks for modules in public folder
+#/public/modules/*
+
+/public/.htaccess
+/scripts/node_modules/*
