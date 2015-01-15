@@ -3,7 +3,7 @@
     "description": "Horisen CMS Skeleton app",
     "require": {
     "horisen/installers": "*",
-    "horisen/cms-core-mod": "v1.0.1",
+    "horisen/cms-core-mod": "v1.0.2",
     "horisen/cms-tinymce-plugin": "*"
     },
     "minimum-stability": "dev",
