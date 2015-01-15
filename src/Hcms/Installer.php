@@ -109,7 +109,7 @@ class Installer {
         }
         $sql = file_get_contents($sqlFile);
         if($this->execSql($sql)){
-            $this->io->write("Sql executed for module " . $installedPackage->getName());
+            //$this->io->write("Sql executed for module " . $installedPackage->getName());
         }
     }    
     
