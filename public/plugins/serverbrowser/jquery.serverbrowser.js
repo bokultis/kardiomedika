@@ -46,12 +46,14 @@
                 //buttons
 
                 //UP
-                self.find(".sbToolbar button.up").text(_("Move Up")).button({
-                    text:true,
-                    icons:{
-                        primary:"toolbar_icon icon_up"
-                    }
-                })
+                self.find(".sbToolbar button.up")
+//Edited by Neni
+//                .text(_("Move Up")).button({
+//                    text:true,
+//                    icons:{
+//                        primary:"toolbar_icon icon_up"
+//                    }
+//                })
                 .click(function(){
                     enterDir('..');
                     $(this).blur();
@@ -59,12 +61,14 @@
                 });
 
                 //NEW
-                self.find(".sbToolbar button.new").text(_("New Folder")).button({
-                    text:true,
-                    icons:{
-                        primary:"toolbar_icon icon_new_folder"
-                    }
-                })
+                self.find(".sbToolbar button.new")
+//Edited by Neni
+//                .text(_("New Folder")).button({
+//                    text:true,
+//                    icons:{
+//                        primary:"toolbar_icon icon_new_folder"
+//                    }
+//                })
                 .click(function(){
                     $(this).blur();
                     $.fn.prompt({
@@ -90,17 +94,24 @@
                 });
 
                 //RENAME
-                self.find(".sbToolbar button.rename").text(_("Rename")).button({
-                    text:true,
-                    icons:{
-                        primary:"toolbar_icon icon_rename"
-                    }
-                })
+                self.find(".sbToolbar button.rename")
+//Edited by Neni
+//                .text(_("Rename")).button({
+//                    text:true,
+//                    icons:{
+//                        primary:"toolbar_icon icon_rename"
+//                    }
+//                })
                 .click(function(){
                     $(this).blur();
                     var selectedObj = getSelected();
                     if(!selectedObj){
                         $.flashMessenger(_("Please select a file or a directory!"),{clsName:"warn"});
+                        return false;
+                    }
+
+                    //confirmation warning
+                    if (!confirm(_("If this item is in use in the front-end, after executing this action it will become unavailable. Are you sure you want to continue?"))){
                         return false;
                     }
                     var oldName = '';
@@ -134,40 +145,42 @@
                 });
 
                 //DELETE
-                self.find(".sbToolbar button.delete").text(_("Delete")).button({
-                    text:true,
-                    icons:{
-                        primary:"toolbar_icon icon_delete"
-                    }
-                })
+                self.find(".sbToolbar button.delete")
+//Edited by Neni
+//                .text(_("Delete")).button({
+//                    text:true,
+//                    icons:{
+//                        primary:"toolbar_icon icon_delete"
+//                    }
+//                })
                 .click(function(){
                     $(this).blur();
-                    if (confirm(_('Are you sure you want to delete this item ?'))){
-                        var selectedObj = getSelected();
-                        if(selectedObj){
-                            if(selectedObj.type == "file"){
-                                json.deleteFile(selectedObj.path,{
-                                    'success':function(data){
-                                        reload();
-                                        $.flashMessenger(_("File deleted."));
-                                    },
-                                    'error':function (self,req,stat,err,id,key){
-                                        $.flashMessenger(err,{clsName:"err"});
-                                    }
-                                })
-                            }else{
-                                json.rmdir(selectedObj.path,{
-                                    'success':function(data){
-                                        reload();
-                                        $.flashMessenger(_("Directory deleted"));
-                                    },
-                                    'error':function (self,req,stat,err,id,key){
-                                        $.flashMessenger(err,{clsName:"err"});
-                                    }
-                                })
-                            }
+                    var selectedObj = getSelected();
+                    if(!selectedObj){
+                        $.flashMessenger(_("Please select a file or a directory!"),{clsName:"warn"});
+                        return false;
+                    }
+                    if (confirm(_('Are you sure you want to delete this item ?') + "\n\n" + _("If this item is in use in the front-end, after executing this action it will become unavailable. Are you sure you want to continue?"))){
+                        if(selectedObj.type == "file"){
+                            json.deleteFile(selectedObj.path,{
+                                'success':function(data){
+                                    reload();
+                                    $.flashMessenger(_("File deleted."));
+                                },
+                                'error':function (self,req,stat,err,id,key){
+                                    $.flashMessenger(err,{clsName:"err"});
+                                }
+                            })
                         }else{
-                            $.flashMessenger(_("Please select a file or a directory!"),{clsName:"warn"});
+                            json.rmdir(selectedObj.path,{
+                                'success':function(data){
+                                    reload();
+                                    $.flashMessenger(_("Directory deleted"));
+                                },
+                                'error':function (self,req,stat,err,id,key){
+                                    $.flashMessenger(err,{clsName:"err"});
+                                }
+                            })
                         }
                         return false;
                     }else{
@@ -176,12 +189,14 @@
                 });
 
                 //UPLOAD
-                self.find(".sbToolbar button.upload").text(_("Upload")).button({
-                    text:true,
-                    icons:{
-                        primary:"toolbar_icon icon_upload"
-                    }
-                })
+                self.find(".sbToolbar button.upload")
+//Edited by Neni
+//                .text(_("Upload")).button({
+//                    text:true,
+//                    icons:{
+//                        primary:"toolbar_icon icon_upload"
+//                    }
+//                })
                 .click(function(){
                     $(this).blur();
                     jQuery('#file_upload').val("");
@@ -235,7 +250,6 @@
         });
 
         function initJsonRpc(){
-            
             //init json rpc
             json = jQuery.Zend.jsonrpc({
                 'url': sessionUrl(opts.serverUrl + '/active_module/' + opts.activeModule),
@@ -291,7 +305,13 @@
                     updateStats();
                 },
                 'error':function (self,req,stat,err,id,key){
-                    alert(err);
+                    //if invalide init path just reload to root, else show err
+                    if(err.substring(0,12) == 'Invalid Path'){
+                        reload();
+                    }
+                    else{
+                        alert(err);
+                    }
                 }
             })
         }
@@ -307,6 +327,7 @@
                     statusText.push(_("Used") + ": " + used);
                     statusText.push(_("Free") + ": " + free);
                     self.find('.statusPanel').html(statusText.join(" | "));
+                    self.find('#sbExtList .extList').text(data.extensions.join(", "));
                 },
                 'error':function (self,req,stat,err,id,key){
                     alert(err);
@@ -394,7 +415,9 @@
                 //select default file
                 if(selectFile && $(this).data("path") == selectFile){
                     $(this).addClass('ui-selected');
-                    //opts.selectableOptions.selected(null,$(this));
+                    if(opts.selectableOptions.selected){
+                        opts.selectableOptions.selected(null,$(this));
+                    }
                 }
             })
             bindContextMenu(self.find('.sbList'));
@@ -415,12 +438,15 @@
                         case "copy":
                         case "paste":
                             copyPaste(action, path, type);
-                            break;
+                            return false;
                         case "open":
+                            if(el.hasClass('dir')){
+                                return false;
+                            }
                             var link = $("base").attr("href") + self.data('currPath') + '/' + el.data("path");
                             window.open(link, "_blank");
                             break;
-                         case "unzip":
+                        case "unzip":
                             json.unzip(path,{
                                 'success':function(data){
                                     reload();
@@ -480,7 +506,7 @@
         function getUploadDialog(){
             if(uploadDialog == null){
                 uploadDialog = $("#sbUploadDialog");
-                uploadDialog.find("form").attr("action", sessionUrl('/' + CURR_LANG + '/admin/file-server/upload/active_module/' + opts.activeModule));
+                uploadDialog.find("form").attr("action", sessionUrl("/file-server/upload/active_module/" + opts.activeModule));
                 //add file action
                 uploadDialog.find("#sbUploadAdd").click(function(){
                     uploadDialogAddFile();
@@ -566,7 +592,7 @@
                 }
                 $.ajax({
                   type: "POST",
-                  url: sessionUrl('/' + CURR_LANG + '/admin/file-server/paste/active_module/' + opts.activeModule),
+                  url: sessionUrl("/file-server/paste/active_module/" + opts.activeModule),
                   data: "clipboardPath="+clipboardPath+"&path="+path+"&type="+ type + "&clipboardType="+ clipboardType
                 }).done(function( result ) {
                     if(result.success){
@@ -671,7 +697,7 @@
     $.fn.serverbrowser.defaults =
     {
         'template':'/plugins/serverbrowser/template.tpl',
-        'serverUrl':'/' + CURR_LANG + '/admin/file-server/index',
+        'serverUrl':'/file-server/index',
         'selectableOptions':{},
         'initPath':'',
         'activeModule':'',

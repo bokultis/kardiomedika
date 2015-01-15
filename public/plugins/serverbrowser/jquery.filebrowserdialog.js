@@ -46,7 +46,7 @@ include('/plugins/serverbrowser/style.css');
                     }
                 },
                 'activeModule': opts.activeModule,
-                'initPath':initPath,
+                'initPath':opts.initPath,
                 'startingSlash':opts.startingSlash,
                 "fileWebRoot":opts.fileWebRoot
             };
@@ -68,23 +68,11 @@ include('/plugins/serverbrowser/style.css');
                         text: _("Select"),
                         click: function() {
                             var selectedFile = dialogElement.find("#file_browser").serverbrowser('selected');
-                            if(selectedFile == null || selectedFile.path == null){
+                            if(selectedFile == null || selectedFile.type != 'file' || selectedFile.path == null){
                                 alert(_("Please select an file."));
                                 return false;
                             }
-                            //select folder
-                            else if(opts.extensions == '/'){
-                                if(selectedFile.type != 'dir'){
-                                    alert(_("Please select a folder."));
-                                    return false;
-                                }                                
-                            }
-                            //select file
                             else{
-                                if(selectedFile.type != 'file'){
-                                    alert(_("Please select an file."));
-                                    return false;
-                                }
                                 //validate selected file
                                 if(opts.extensions){
                                     var extension = pathinfo(selectedFile.path,'PATHINFO_EXTENSION');
@@ -95,14 +83,14 @@ include('/plugins/serverbrowser/style.css');
                                         return false;
                                     }
                                 }
+                                if(self){
+                                    self.val(selectedFile.path);
+                                }
+                                if(opts.onSelect){
+                                    opts.onSelect(selectedFile.path);
+                                }
+                                dialogElement.dialog("close");
                             }
-                            if(self){
-                                self.val(selectedFile.path);
-                            }
-                            if(opts.onSelect){
-                                opts.onSelect(selectedFile.path);
-                            }
-                            dialogElement.dialog("close");                            
                         }
                     },
                     {
@@ -120,13 +108,10 @@ include('/plugins/serverbrowser/style.css');
             self.attr("readonly", "readonly");
 
             //append browse link
-            $('<button class="btn_general">' + _('Browse') + '...</button>').insertAfter(self).click(function(){
+            $('<button class="btn_general" type="button">' + _('Browse') + '...</button>').insertAfter(self).click(function(){
                 var initPath = "";
-                if(self.val() != ''){
+                if(self.val()){
                     initPath = self.val();
-                }
-                else{
-                    initPath = options.initPath;
                 }
                 openFileDialog(initPath);
                 return false;

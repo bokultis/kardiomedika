@@ -5,7 +5,7 @@
 (function($)
 {
     include('/plugins/serverbrowser/jquery.serverbrowser.js');
-    include('/plugins/serverbrowser/style.css');
+    //include('/plugins/serverbrowser/style.css');
     include('/plugins/jcrop/jquery.Jcrop.min.js');
     include('/plugins/jcrop/jquery.Jcrop.css');
     
@@ -187,6 +187,9 @@
                 })
                 .click(function previewClick(){
                     $(this).blur();
+                    //show crop clip
+                    $("#ibCropClip").show();
+                    $('#ibCropPreview img').show();
                     $("#ibCropPreview").dialog({
                         title: _("Preview"),
                         resizable: false,
@@ -222,7 +225,7 @@
 
         function applyChanges(selection){
             selection.sourcePath = self.find('#ibPreview img').data("path");
-            $.post(opts.processUrl + '/active_module/' + opts.activeModule,selection,function(data){
+            $.post(sessionUrl(opts.processUrl + '/active_module/' + opts.activeModule),selection,function(data){
                 if(data.success){
                     //reload files list
                     self.find("#ibServerbrowser").serverbrowser('reload');
@@ -267,10 +270,10 @@
                 }
                 if(opts.cropBox[1]){
                     statusText.push(_("Max height") + ": " + opts.cropBox[1] + "px");
-            }
+                }
                if(opts.minSize[0]){
                     statusText.push(_("Min width") + ": " + opts.minSize[0] + "px");
-        }
+                }
                 if(opts.minSize[1]){
                     statusText.push(_("Min height") + ": " + opts.minSize[1] + "px");
                 }
@@ -533,7 +536,7 @@
     {
         'template':'/plugins/imagebrowser/template.tpl',
         'initPath':'/',
-        'processUrl':'/' + CURR_LANG + '/admin/file-server/process-image',
+        'processUrl':'/file-server/process-image',
         'cropBox':[0,0],
         'minSize':[0,0],
         'startingSlash':true

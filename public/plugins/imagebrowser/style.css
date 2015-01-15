@@ -99,9 +99,10 @@ div.ibToolbar{
     padding:1px;
     display:none;
     color:#fff;
-    z-index: 100000;
+    z-index: 20000;
 }
 
 #ibPreviewHover img{
     max-width: 120px;
 }
+

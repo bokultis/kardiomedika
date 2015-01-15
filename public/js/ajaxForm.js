@@ -5,26 +5,6 @@
 
 var ajaxForm = (function() {
     var div = null;
-
-    function getDialog(dialogId){
-        if(dialogId){
-            return $("#"+dialogId);
-        }else{
-            if(this.div){
-                return $(this.div);
-            }
-            else{
-                var id = 'ajaxFormDialog';
-                var div = document.createElement("div");
-                div.id = id;
-                document.body.appendChild(div);
-                this.div = div;
-                return $(div);
-            }   
-        }
-        
-    }
-
     /**
      * execute callback
      */
@@ -33,26 +13,16 @@ var ajaxForm = (function() {
             options.onClose(success,data);
         }
     }
-
     var ajaxResult = false;
     var ajaxData = null;
-
+    
+    
     return { // public interface
-        dialogOptions: {
-            autoOpen: true,
-            height: 550,
-            width: 400,
-            modal: true,
-            saveCaption: 'Save',
-            cancelCaption: 'Cancel',
+        /*restabsOptions: {
             onClose: function(success, data){},
-            onContent: function(dialog){},
-            close: function(ev,ui){
-                //execute callback
-                executeOnClose(ajaxForm.dialogOptions, ajaxResult, ajaxData);
-                $(this).dialog('destroy');
-            }
-        },
+            onContent: function(restabsId){}
+           
+        },*/
         /**
          * return escaped element id
          */
@@ -85,44 +55,63 @@ var ajaxForm = (function() {
             }
         },
         
-        dialog: function (formUrl,options) {
+        newTab: function (formUrl, options) {
             if(options == null){
                 options = {};
             }
-            ajaxForm.dialogOptions = $.extend({}, ajaxForm.dialogOptions, options);
-            var method = options.method?options.method:"GET";
-            var dialogId = options.dialogId?options.dialogId:"";
+            //console.log("Data: " + options);
+            ajaxForm.restabsOptions = $.extend({}, ajaxForm.restabsOptions, options);
+            //console.log(ajaxForm.restabsOptions);
+            var method = "GET";
+            var restabsIdBtn = $(".res-tabs").restabs("getActiveId");
+            var restabsId = $("#" + restabsIdBtn).attr("aria-controls");
+            
+            
             $.ajax({
                 type: method,
                 url: formUrl,
                 data: options.data,
                 success: function(data) {
-                    var self = getDialog(dialogId);
+                    var self = $("#" + restabsId);
                     //set dialog content
                     self.html(data);
+                    
                     //set dialog title
                     self.attr("title",self.find("form").attr("title"));
+                    
                     //set post action
                     var postAction = self.find("form").attr("action");
                     var saveCallback = null;
                     //set dialog buttons
                     self.find("input:submit,button.submit").each(function(){
                         if($(this).attr("name") == 'submit[save]'){
-                            ajaxForm.dialogOptions.saveCaption = $(this).val();
+                            ajaxForm.restabsOptions.saveCaption = $(this).val();
                             //fetch callback event on select
+                            
                             if($(this).data('onsave')){
                                 saveCallback = $(this).data('onsave');
                             }
                         }
                         if($(this).attr("name") == 'submit[cancel]'){
-                            ajaxForm.dialogOptions.cancelCaption = $(this).val();
+                            ajaxForm.restabsOptions.cancelCaption = $(this).val();
                         }
                         $(this).remove();
+                        
+                    }); 
+                    // add pageId to all inputs 
+                    var editedPageId = $("#" + restabsIdBtn).attr("data-pageid");
+                    self.find("input:text, textarea, select").each(function(){
+                        $(this).attr("data-pageid", editedPageId);
+                        var oldId = $(this).attr("id");
+                        var newId = oldId + "-" + editedPageId;
+                        $(this).attr("id", newId);
                     });
-                    var dialogButtons = {};
+                    
+                    
+                    var restabsButtons = {};
                     //SAVE BUTTON
-                    if(ajaxForm.dialogOptions.saveCaption != ''){
-                        dialogButtons[ajaxForm.dialogOptions.saveCaption] = function() {
+                    if(ajaxForm.restabsOptions.saveCaption != ''){
+                        restabsButtons[ajaxForm.restabsOptions.saveCaption] = function() {
                             //exec callback and stop exec if cb result is false
                             if(saveCallback){
                                 var cbResult = saveCallback();
@@ -142,8 +131,8 @@ var ajaxForm = (function() {
                                         }
                                         ajaxResult = true;
                                         ajaxData = data;
-
-                                        self.dialog('close');
+                                        
+                                        
                                     }
                                     else{
                                         var errors = {};
@@ -161,31 +150,42 @@ var ajaxForm = (function() {
                                 error: function(data) {
                                     alert(_('An error has occured retrieving data!'));
                                 }
-                            })
+                            });
                         };
                     }
+                    
+                    
                     //CANCEL BUTTON
-                    if(ajaxForm.dialogOptions.cancelCaption != ''){
-                        dialogButtons[ajaxForm.dialogOptions.cancelCaption] = function(){
+                    
+                    if(ajaxForm.restabsOptions.cancelCaption != ''){
+                        restabsButtons[ajaxForm.restabsOptions.cancelCaption] = function(){
                             //execute callback
                             ajaxData = null;
                             ajaxResult = false;
-                            self.dialog('close');
                         };
                     }
-
-                    ajaxForm.dialogOptions.buttons = dialogButtons;
-
-                    $.extend(ajaxForm.dialogOptions, options);
-                    //open dialog
-                    self.dialog(ajaxForm.dialogOptions);
-                    //custom content process
-                    ajaxForm.dialogOptions.onContent(self);
+                    
+                    ajaxForm.restabsOptions.buttons = restabsButtons;
+                    self.append( "<div class='actionButtonContainer'> <button class='btn btn-primary' id='saveButton'>" + ajaxForm.restabsOptions.saveCaption + "</button>  <button class='btn btn-primary' id='cancelButton'>" + ajaxForm.restabsOptions.cancelCaption + "</button> </div>" );
+                    
+                    
+                    
+                    self.on("save", restabsButtons[ajaxForm.restabsOptions.saveCaption]);
+                    
+                    
+                    
+                    
+                    ajaxForm.restabsOptions.onContent(self);
+                    
                 },
-                error: function(data) {
+                error: function() {
                     alert(_('An error has occured retrieving data!'));
                 }
             });
         }
     };
 })();
+
+
+                 
+               

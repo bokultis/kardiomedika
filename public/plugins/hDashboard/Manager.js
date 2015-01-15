@@ -134,7 +134,7 @@ var hDashboard = {
                 var componentClass = this.reflectClass(className);                  
                 var obj = new componentClass(null,componentClass);
                 //var class
-                html += '<li><div class="hd-component" data-class_name="' + className +'">' + obj.title + '</div></li>';
+                html += '<li><div class="btn hd-component" data-class_name="' + className +'">' + obj.title + '<i class="fa fa-arrows"></i></div></li>';
             }
             $("#hd-toolbox .hd-toolbox-widgets").html(html);
         },

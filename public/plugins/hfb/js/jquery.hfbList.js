@@ -52,7 +52,7 @@
                     }
                     //render pager
                     if(self.data('pager')){
-                        $.fn.hfbList.pager(self.data('pager'),self,data.page,data.perPage,data.total);
+                        $.fn.hfbList.pager(self.data('pager'),self,data.page,data.perPage,data.total,data.records);
                     }
                     
                 });
@@ -62,6 +62,7 @@
 
     var cache = {};
 
+    
     $.fn.hfbList.tmpl = function (str, data){
         // Figure out if we're getting a template, or if we need to
         // load the template - and be sure to cache the result.
@@ -140,6 +141,7 @@
             'next': page + 1,
             'records': records
         }
+
         var pagerTpl = '/plugins/hfb/tpls/pager.tpl';
         if(opts.params && opts.params.pager_tpl){ 
             pagerTpl = opts.params.pager_tpl;
@@ -157,12 +159,13 @@
                 return false;
             });
             //attach input box
-            pagerObj.find('input.pageInput').keydown(function(e){
-                if (e.which != 13) {
-                    return;
+            pagerObj.find('input.pageInput').keyup(function(e){
+                var newPage = parseInt($(this).val(), 10);
+                if(!newPage){
+                    return true;
                 }
                 var params = listObj.data('params');
-                params.page =$(this).attr('value');
+                params.page = newPage;
                 $(listObj).hfbList({
                     'params':params
                 });
@@ -172,6 +175,10 @@
             pagerObj.find('select.perPageSelect').change(function(){
                 var params = listObj.data('params');
                 params.perPage =$(this).attr('value');
+                //used for select per page list
+                if(!params.perPage){
+                    params.perPage =$(this).val();
+                }
                 $(listObj).hfbList({
                     'params':params
                 });

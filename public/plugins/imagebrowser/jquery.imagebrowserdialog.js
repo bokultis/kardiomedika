@@ -3,7 +3,7 @@
  * 
  */
 include('/plugins/imagebrowser/jquery.imagebrowser.js');
-include('/plugins/imagebrowser/style.css');
+//include('/plugins/imagebrowser/style.css');
 
 (function($)
 {
@@ -16,13 +16,13 @@ include('/plugins/imagebrowser/style.css');
         var opts = {};
         var self = null;
         var dialogElement = null;
-
+        
         if(arguments.length == 2 && arguments[0] == 'update'){
             self = $(this);
             storeOptions(arguments[1]);
             return;
         }
-        
+
         //create options
         opts = $.extend({}, $.fn.imagebrowserdialog.defaults, options);
         
@@ -31,13 +31,13 @@ include('/plugins/imagebrowser/style.css');
             storeOptions(options);
             return openImageDialog(options.initPath);
         }
-        
+
         function storeOptions(options){
             opts = self.data('opts');
             opts = $.extend({}, opts, options);
             self.data('opts',opts);
         }
-
+        
         function openImageDialog(initPath){
             opts = self.data('opts');
             dialogElement = $("#image_browser_dialog");
@@ -103,7 +103,7 @@ include('/plugins/imagebrowser/style.css');
                                     alert(sprintf(_("Maximum image width is %dpx, but %dpx detected. Please CROP or RESIZE the image."),opts.maxwidth,selectedFile.width));
                                     return false;
                                 }
-                                if(opts.minwidth && selectedFile.width < opts.maxwidth){
+                                if(opts.minwidth && selectedFile.width < opts.minwidth){
                                     alert(sprintf(_("Minimum image width is %dpx, but %dpx detected."),opts.minwidth,selectedFile.width));
                                     return false;
                                 }
@@ -138,22 +138,17 @@ include('/plugins/imagebrowser/style.css');
         {
             self = $(this);
             self.data('opts',opts);
-            if(opts.readonly){
             self.attr("readonly", "readonly");
-            }
 
             //append browse link
-            $('<button class="imageBrowseBtn btn btn-primary" type="button">' + _('Browse') + '...</button>').insertAfter(self).click(function(){
+            $('<button class="btn_general" type="button">' + _('Browse') + '...</button>').insertAfter(self).click(function(){
                 var initPath = "";
-                if(self.val() != ''){
+                if(self.val()){
                     initPath = self.val();
-                }
-                else{
-                    initPath = options.initPath;
                 }
                 openImageDialog(initPath);
                 return false;
-            });            
+            });
 
             applyPreview(this);
         });
@@ -192,8 +187,7 @@ include('/plugins/imagebrowser/style.css');
         maxwidth: 0,
         maxheight: 0,
         minwidth: 0,
-        minheight: 0,
-        readonly: true
+        minheight: 0
     };
         
  
