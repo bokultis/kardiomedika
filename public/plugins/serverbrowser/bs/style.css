@@ -1,0 +1,33 @@
+.sbContainer{
+    width: 100%;
+}
+
+div.sbToolbar{
+    margin: 0px 0px 4px 0px;
+}
+
+ul.sbList{
+    height: 350px;
+    overflow: auto;
+}
+
+ul.sbList li{
+   -moz-user-select     : none;
+   -khtml-user-select   : none;
+   -webkit-user-select  : none;
+   -o-user-select       : none;
+   user-select          : none;
+}
+
+ul.sbList li abbr{
+    display: inline-block;
+    width: 60%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    -moz-binding: url('/plugins/serverbrowser/bs/ellipsis.xml#ellipsis');
+    text-decoration: none;
+    border-bottom-width: 0;
+    cursor: default;
+}

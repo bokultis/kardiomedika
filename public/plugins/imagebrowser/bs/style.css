@@ -1,0 +1,72 @@
+#image_browser_dialog{
+    width: 800px;
+}
+
+/*#ibContainer{
+    height: 480px;
+}
+
+#ibServerbrowser{
+    height: 480px;
+}
+
+#ibPanel{
+    height: 480px;
+}*/
+
+#ibPreview{
+    height: 320px;
+    padding-bottom: 5px;
+    overflow: hidden;
+}
+
+#ibCropPreview{
+    display: none;
+    max-width: 530px;
+    max-height: 530px;
+    overflow: auto;
+    padding: 5px;
+}
+
+#ibCropClip{
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+}
+
+#ibStatusPanel{
+    color: #777;
+    margin-bottom: 6px;
+    font-size: 10px;
+}
+
+#ibActionStatus{
+    font-weight: normal;
+    height: 14px;
+    margin-top: 6px;
+	color: #777;
+	font-size: 10px;
+}
+
+.ui-resizable-helper{
+    border: 1px solid aqua;
+}
+
+#ibResize{
+    display: none;
+}
+
+#ibPreviewHover{
+    position:absolute;
+    border:1px solid #ccc;
+    background:#333;
+    padding:1px;
+    display:none;
+    color:#fff;
+    z-index: 20000;
+}
+
+#ibPreviewHover img{
+    max-width: 120px;
+}
+
