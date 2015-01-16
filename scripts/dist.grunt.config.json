@@ -1,0 +1,12 @@
+{
+    "rsync": {
+        "hosts": {
+            "staging": {
+                "command": "rsync -r -v --progress -c --rsh=\"ssh -p8142\" --exclude-from=\"../docs/deploy/horisen2015/exclude.txt\" ../ hrs_2015_acc_ssh@194.0.137.132:/var/www/horisen2015staging.horisen.biz/"
+            },
+            "live": {
+                "command": "rsync -r -v --progress -c --rsh=\"ssh -p8142\" --exclude-from=\"../docs/deploy/horisen2015/exclude.txt\" ../ horisen_com_admin@194.0.137.132:/var/www/clients/client1/web122/"
+            }
+        }
+    }
+}
