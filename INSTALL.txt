@@ -1,7 +1,11 @@
-Update composer.json to include wanted packages. Search for packages here http://composer.local/
+Update composer.json to include wanted packages. Search for packages here http://composer.horisen.biz/
 
 Enter here from shell and run
 
 > php scripts/composer.phar install
 
 Follow the steps and good luck!
+
+For more info check out: 
+http://redmine.horisen.biz:3000/projects/zend-cms/wiki/Quick_Start_GIT
+http://redmine.horisen.biz:3000/projects/zend-cms/wiki/Composer#Create-NEW-App-Project

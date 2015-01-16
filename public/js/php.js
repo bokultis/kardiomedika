@@ -126,6 +126,11 @@
         return tmp_arr;
     }
 
+    function nl2br (str, is_xhtml) {
+        var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
+        return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
+    }    
+
     function htmlspecialchars (string, quote_style, charset, double_encode) {
         var optTemp = 0,
         i = 0,
@@ -172,6 +177,23 @@
 
         return string;
     }
+
+function escapeHtml(text) {
+    if(!text || text == ''){
+        return text;
+    }
+    var map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+
+    return text.replace(/[&<>"']/g, function(m) {
+        return map[m];
+    });
+}    
 
 function number_format (number, decimals, dec_point, thousands_sep) {
     number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
