@@ -409,7 +409,7 @@ class Installer {
         
         $osDetected = php_uname('s');
         
-        $from = $this->dir . '/application/modules/' . $module . '/public/' . $module;
+        $from = $this->dir . '/application/modules/' . $module . '/public';
         $to = $this->dir . '/public/modules/' . $module;
         if (is_dir($from) && !file_exists($to)) {
             if(isset($osDetected) && $osDetected == "Linux"){
