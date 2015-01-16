@@ -12,4 +12,5 @@
 /public/themes
 /public/.htaccess
 /scripts/node_modules
+/scripts/grunt.config
 /tmp
