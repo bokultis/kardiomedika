@@ -126,6 +126,20 @@ class Installer {
         if (!$this->io->askConfirmation("Do you want to run cms project setup? If no, we will just download and install packages?", true)) {
             return true;
         }
+        
+        //make ignored folders
+        $this->makeDirs(array(
+            $this->dir . '/cache',
+            $this->dir . '/cache/core',
+            $this->dir . '/cache/class',
+            $this->dir . '/cache/file',
+            $this->dir . '/public/captcha',
+            $this->dir . '/public/modules',
+            $this->dir . '/public/themes',
+            $this->dir . '/public/content',
+            $this->dir . '/logs',
+            $this->dir . '/tmp'
+        ));        
 
         //dist files
         if ($this->io->askConfirmation("Do you want to copy .dist files and create ini files? (application.ini, cli.ini, .htaccess) ", true)) {
@@ -163,6 +177,7 @@ class Installer {
                     $this->dir . '/cache',
                     $this->dir . '/logs/app.log',
                     $this->dir . '/public/captcha',
+                    $this->dir . '/public/modules',
                     $this->dir . '/public/themes',
                     $this->dir . '/public/content',
                     $this->dir . '/tmp',
@@ -292,6 +307,14 @@ class Installer {
         }
         return true;
     }
+    
+    protected function makeDirs(array $dirs){
+        foreach ($dirs as $dir) {
+            if(!is_dir($dir)){
+                mkdir($dir);
+            }
+        }
+    }    
 
     protected function makeWritable($path) {
         if (is_array($path)) {
