@@ -15,12 +15,12 @@ module.exports = function(grunt) {
             css: {
                 src: [  '../public/plugins/bxSlider/bx_styles/jquery.bxslider.css', '../public/css/font-awesome.css',
                         '../public/plugins/fancybox/jquery.fancybox.css',
-                        '../public/themes/horisen_2015/css/bootstrap.min.css',
-                        '../public/themes/horisen_2015/css/bootstrap-form.css', '../public/themes/horisen_2015/css/bootstrap-grid.css',
-                        '../public/themes/horisen_2015/css/fonts.css', '../public/themes/horisen_2015/css/style.css',
-                        '../public/themes/horisen_2015/css/internal-pages.css', '../public/themes/horisen_2015/css/search.css',
-                        '../public/themes/horisen_2015/css/sticky-footer.css'],
-                dest: '../public/themes/horisen_2015/css/build.css'
+                        '../public/themes/' + config.theme.name + '/css/bootstrap.min.css',
+                        '../public/themes/' + config.theme.name + '/css/bootstrap-form.css', '../public/themes/' + config.theme.name + '/css/bootstrap-grid.css',
+                        '../public/themes/' + config.theme.name + '/css/fonts.css', '../public/themes/' + config.theme.name + '/css/style.css',
+                        '../public/themes/' + config.theme.name + '/css/internal-pages.css', '../public/themes/' + config.theme.name + '/css/search.css',
+                        '../public/themes/' + config.theme.name + '/css/sticky-footer.css'],
+                dest: '../public/themes/' + config.theme.name + '/css/build.css'
             },
             js: {
                 options: {
@@ -29,16 +29,16 @@ module.exports = function(grunt) {
                 src: [  '../public/js/head.js', '../public/js/jquery-1.11.1.min.js',
                 '../public/plugins/picturefill/picturefill.js', '../public/plugins/bxSlider/jquery.bxSlider.js',
                 '../public/plugins/fancybox/jquery.fancybox.pack.js',
-                '../public/plugins/collapsibleBox/jquery.collapsibleBox.js', '../public/themes/horisen_2015/js/main.js',
+                '../public/plugins/collapsibleBox/jquery.collapsibleBox.js', '../public/themes/' + config.theme.name + '/js/main.js',
                 '../public/modules/contact/js/jquery.ajaxSubmit.js'],
-                dest: '../public/themes/horisen_2015/js/build.js'                
+                dest: '../public/themes/' + config.theme.name + '/js/build.js'                
             },
             intro_css: {
                 src: [  '../public/css/font-awesome.css',
-                        '../public/themes/horisen_2015/css/bootstrap-form.css', '../public/themes/horisen_2015/css/bootstrap-grid.css',
-                        '../public/themes/horisen_2015/css/fonts.css', '../public/themes/horisen_2015/css/style.css',
-                        '../public/themes/horisen_2015/css/intro.css'],
-                dest: '../public/themes/horisen_2015/css/intro_build.css'
+                        '../public/themes/' + config.theme.name + '/css/bootstrap-form.css', '../public/themes/' + config.theme.name + '/css/bootstrap-grid.css',
+                        '../public/themes/' + config.theme.name + '/css/fonts.css', '../public/themes/' + config.theme.name + '/css/style.css',
+                        '../public/themes/' + config.theme.name + '/css/intro.css'],
+                dest: '../public/themes/' + config.theme.name + '/css/intro_build.css'
             },
             intro_js: {
                 options: {
@@ -47,8 +47,8 @@ module.exports = function(grunt) {
                 src: [  '../public/js/head.js', '../public/js/jquery-1.11.1.min.js',
                 '../public/plugins/picturefill/picturefill.js', '../public/plugins/mousewheel/jquery.mousewheel.min.js',
                 '../public/plugins/sequence/jquery.sequence-min.js',
-                '../public/themes/horisen_2015/js/intro.js'],
-                dest: '../public/themes/horisen_2015/js/intro_build.js'                
+                '../public/themes/' + config.theme.name + '/js/intro.js'],
+                dest: '../public/themes/' + config.theme.name + '/js/intro_build.js'                
             }            
         },
         uglify: {
@@ -57,19 +57,19 @@ module.exports = function(grunt) {
             },            
             dist: {
                 files: {
-                    '../public/themes/horisen_2015/js/build.min.js': ['../public/themes/horisen_2015/js/build.js'],
-                    '../public/themes/horisen_2015/js/intro_build.min.js': ['../public/themes/horisen_2015/js/intro_build.js']
+                    '../public/themes/' + config.theme.name + '/js/build.min.js': ['../public/themes/' + config.theme.name + '/js/build.js'],
+                    '../public/themes/' + config.theme.name + '/js/intro_build.min.js': ['../public/themes/' + config.theme.name + '/js/intro_build.js']
                 }
             }
         },
         cssmin : {
             css:{
-                src: '../public/themes/horisen_2015/css/build.css',
-                dest: '../public/themes/horisen_2015/css/build.min.css'
+                src: '../public/themes/' + config.theme.name + '/css/build.css',
+                dest: '../public/themes/' + config.theme.name + '/css/build.min.css'
             },
             intro_css:{
-                src: '../public/themes/horisen_2015/css/intro_build.css',
-                dest: '../public/themes/horisen_2015/css/intro_build.min.css'
+                src: '../public/themes/' + config.theme.name + '/css/intro_build.css',
+                dest: '../public/themes/' + config.theme.name + '/css/intro_build.min.css'
             }            
         },
         copy: {

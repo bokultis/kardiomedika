@@ -1,4 +1,7 @@
 {
+    "theme": {
+        "name": "theme-name"
+    },    
     "rsync": {
         "hosts": {
             "staging": {
