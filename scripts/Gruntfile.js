@@ -82,8 +82,9 @@ module.exports = function(grunt) {
             }          
         },
         exec:{
-            svn_update: {
-                cmd: 'svn up ../'
+            git_pull: {
+                cwd: '../'
+                cmd: 'git pull'
             },            
             deploy: {
                 cmd: function(mode, host) {                  
@@ -99,8 +100,9 @@ module.exports = function(grunt) {
                     return command;
                 }
             },
-            svn_commit: {
-                cmd: 'svn commit -m "grunt new build" ../'
+            git_push: {
+                cwd: '../',
+                cmd: 'git add .;git commit -m "grunt new build";git push'
             }            
         },
         imagemin: {
@@ -125,7 +127,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-exec');
 
-    grunt.registerTask('default', ['exec:svn_update', 'concat', 'uglify', 'cssmin', 'copy', 'exec:svn_commit']);
+    grunt.registerTask('default', ['exec:git_pull', 'concat', 'uglify', 'cssmin', 'copy', 'exec:git_push']);
     
     var mode = grunt.option('mode') || 'simulation';
     var host = grunt.option('host') || 'staging';
