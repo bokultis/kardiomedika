@@ -9,6 +9,10 @@ module.exports = function(grunt) {
     
     var config = grunt.file.readJSON('grunt.config.json');
     
+    var uglifyConf = {};                    
+    uglifyConf['../public/themes/' + config.theme.name + '/js/build.min.js'] = ['../public/themes/' + config.theme.name + '/js/build.js'];
+    uglifyConf['../public/themes/' + config.theme.name + '/js/intro_build.min.js'] = ['../public/themes/' + config.theme.name + '/js/intro_build.js'];    
+        
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         concat: {
@@ -56,10 +60,7 @@ module.exports = function(grunt) {
                 mangle: false
             },            
             dist: {
-                files: {
-                    '../public/themes/' + config.theme.name + '/js/build.min.js': ['../public/themes/' + config.theme.name + '/js/build.js'],
-                    '../public/themes/' + config.theme.name + '/js/intro_build.min.js': ['../public/themes/' + config.theme.name + '/js/intro_build.js']
-                }
+                files: uglifyConf
             }
         },
         cssmin : {
@@ -83,7 +84,7 @@ module.exports = function(grunt) {
         },
         exec:{
             git_pull: {
-                cwd: '../'
+                cwd: '../',
                 cmd: 'git pull'
             },            
             deploy: {
