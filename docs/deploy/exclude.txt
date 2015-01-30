@@ -1,4 +1,6 @@
 .svn
+.git
+.gitignore
 /docs
 /library/Zend
 /library/PHPExcel
@@ -7,9 +9,14 @@
 /logs/*
 /cache/*
 /application/configs/*
+/application/modules/contact/configs/config.php
 /public/content/*
 /public/captcha/*
 /public/tmp/*
 /public/*.htaccess
 /public/plugins/tinymce
-
+public/themes/*
+/scripts/node_modules
+/scripts/*grunt*
+/scripts/*Grunt*
+/scripts/package.json

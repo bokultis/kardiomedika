@@ -128,7 +128,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-exec');
 
-    grunt.registerTask('default', ['exec:git_pull', 'concat', 'uglify', 'cssmin', 'copy', 'exec:git_push']);
+    grunt.registerTask('default', ['concat', 'uglify', 'cssmin', 'copy']);
+    
+    grunt.registerTask('git', ['exec:git_pull', 'concat', 'uglify', 'cssmin', 'copy', 'exec:git_push']);
     
     var mode = grunt.option('mode') || 'simulation';
     var host = grunt.option('host') || 'staging';
