@@ -1,22 +1,16 @@
 /application/configs/application.ini
 /application/configs/cli.ini
-/library/Zend
-/library/THM
+/application/modules/**
+/library/**
 /public/content
-
 /logs
-
 /public/captcha
-
-#cache
-/cache/class
-/cache/core
-/cache/file
+/cache
 
 #not include symlinks for modules in public folder
 /public/modules
 /public/themes
-/public/uploads
 /public/.htaccess
 /scripts/node_modules
+/scripts/grunt.config.json
 /tmp

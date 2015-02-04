@@ -2,12 +2,15 @@
     "name": "horisen/cms-skeleton",
     "description": "Horisen CMS Skeleton app",
     "require": {
-    "horisen/installers": "*",
-    "horisen/cms-core-mod": "1.0.2",
-    "horisen/cms-tinymce-plugin": "*"
+        "horisen/installers": "*",
+        "horisen/cms-core-mod": "2.*",
+        "horisen/cms-tinymce-plugin": "*"
     },
     "minimum-stability": "dev",
-    "repositories": [ {"type": "composer", "url": "http://composer.horisen.biz/"} ],
+    "repositories": [{
+            "type": "composer",
+            "url": "http://composer.horisen.biz/"
+        }],
     "autoload": {
         "psr-0": {
             "Hcms\\": "src/"
@@ -18,6 +21,6 @@
         "post-install-cmd": "Hcms\\Installer::postInstall",
         "pre-package-install": "Hcms\\Installer::prePackageInstall",
         "post-package-install": "Hcms\\Installer::postPackageInstall"
-        
+
     }
 }

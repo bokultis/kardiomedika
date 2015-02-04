@@ -4,8 +4,10 @@ $shortopts = ""; // Optional value
 
 $longopts  = array(
     "directory::",
+    "owner::",
     "domain::",
     "newsyntax::",
+    "zenddir::",
     "help::"
 );
 $options = getopt($shortopts, $longopts);
@@ -22,12 +24,11 @@ php init-project.php --directory=/work/web-apps/cms/branches/mfa --domain=wa.cms
 Available parameters
 
     --directory=projects directory
+    --owner=webserver user:group name
     --domain=new virtual domain name
     --newsyntax=if domain is for apache >= 2.4
-    --help=show help
-    
-
-
+    --zenddir=path to the zend lib
+    --help=show help   
 ";
     exit(0);
 }
@@ -38,6 +39,11 @@ if(isset($options['directory'])){
     if(!is_dir($directory)){
         $directory = __DIR__ . DIRECTORY_SEPARATOR . $directory;
     }
+}
+
+$owner = false;
+if(isset($options['owner'])){
+    $owner = $options['owner'];
 }
 
 $domain = null;
@@ -65,6 +71,8 @@ copyDistFiles(array(
     $directory . '/public/dist.htaccess'    => $directory . '/public/.htaccess'    
 ));
 
+echoMessage ("Please add update your application.ini and cli.ini files with DB credentials.");
+
 //make log
 $logFile = fopen($directory . "/logs/app.log", "w");
 if($logFile === false){
@@ -74,6 +82,14 @@ else{
     fclose($logFile);    
 }
 
+makeDirs(array(
+    $directory . '/cache',
+    $directory . '/public/captcha',
+    $directory . '/public/themes',
+    $directory . '/public/content',
+    $directory . '/tmp',    
+));
+
 makeWritable(array(
     $directory . '/cache',
     $directory . '/logs/app.log',
@@ -81,7 +97,7 @@ makeWritable(array(
     $directory . '/public/themes',
     $directory . '/public/content',
     $directory . '/tmp',
-));
+), $owner);
 
 //zend lib
 if(isset($options['zenddir'])){
@@ -119,15 +135,32 @@ function copyDistFiles($assoc){
     }
 }
 
-function makeWritable($path){
+function makeDirs(array $dirs){
+    foreach ($dirs as $dir) {
+        if(!is_dir($dir)){
+            mkdir($dir);
+        }
+    }
+}
+
+function makeWritable($path, $owner){
     
     if(is_array($path)){
         foreach ($path as $currPath) {
-            makeWritable($currPath);
+            makeWritable($currPath, $owner);
         }
     }
     else{
-        shell_exec("sudo chmod -R 777 $path");     
+        //make folder
+        if(!$owner){
+            shell_exec("sudo chmod -R 777 $path");
+        } else{
+            shell_exec("sudo chown -R $owner $path");
+        }
+        
+        /*if($result == null){
+            errorMessage("Error changing owner of the file [$path] to be $owner");
+        }*/       
     }
 
 }
@@ -167,6 +200,3 @@ function makeVirtualDomain($projectDir, $domain, $newSyntax = false){
     
     echoMessage ("Please add $domain entry in your hosts file");
 }
-
-
-
