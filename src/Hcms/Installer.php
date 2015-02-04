@@ -66,14 +66,14 @@ class Installer {
         if(!isset(self::$instance )){
             self::$instance = new self($event);
         }
-        self::$instance->execPrePackageInstall();
+        self::$instance->execPrePackageInstall($event);
     }
     
     /**
      * Execute Before Packages are installed
      */
     protected function execPrePackageInstall(){
-        
+        print_r($event->getOperation()->getPackage());
     }    
     
     /**
