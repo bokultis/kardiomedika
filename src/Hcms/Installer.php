@@ -115,10 +115,10 @@ class Installer {
     
     protected function execPostInstall(){    
         //remove VCS from packages
-        $this->removeVCS($this->dir . '/application/modules/', 'git', false);
-        $this->removeVCS($this->dir . '/library/', 'git', false);
-        $this->removeVCS($this->dir . '/public/plugins/', 'git', false);
-        $this->removeVCS($this->dir . '/public/modules/', 'git', false);
+        //$this->removeVCS($this->dir . '/application/modules/', 'git', false);
+        //$this->removeVCS($this->dir . '/library/', 'git', false);
+        //$this->removeVCS($this->dir . '/public/plugins/', 'git', false);
+        //$this->removeVCS($this->dir . '/public/modules/', 'git', false);
     }
     
     protected function execPreInstall(){
