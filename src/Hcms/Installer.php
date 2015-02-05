@@ -73,7 +73,7 @@ class Installer {
      * Execute Before Packages are installed
      */
     protected function execPrePackageInstall(){
-        print_r($event->getOperation()->getPackage());
+        
     }    
     
     /**

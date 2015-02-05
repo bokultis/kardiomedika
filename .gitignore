@@ -6,6 +6,8 @@
 /logs
 /public/captcha
 /cache
+/vendor
+composer.lock
 
 #not include symlinks for modules in public folder
 /public/modules
