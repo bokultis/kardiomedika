@@ -1,6 +1,8 @@
 .svn
 .git
 .gitignore
+composer.lock
+
 /docs
 /library/Zend
 /library/PHPExcel
@@ -9,7 +11,11 @@
 /logs/*
 /cache/*
 /application/configs/*
-/application/modules/contact/configs/config.php
+
+/application/modules/*/configs/local.*.php
+/themes/configs/*/local.*.php
+
+/public/modules/*
 /public/content/*
 /public/captcha/*
 /public/tmp/*
