@@ -65,5 +65,12 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         }
         Zend_Loader_PluginLoader::setIncludeFileCache($classFileIncCache);
     }
+    
+    /**
+     * Attach custom Dispatcher
+     */
+    public function _initDispatcher(){
+        Zend_Controller_Front::getInstance()->setDispatcher(new HCMS_Controller_Dispatcher());
+    }    
 
 }
