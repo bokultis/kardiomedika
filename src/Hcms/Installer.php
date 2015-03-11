@@ -155,24 +155,18 @@ class Installer {
         if ($this->io->askConfirmation("Do you want to update ini db settings? ", true)) {
             if($this->updateDbIniSettings()){
                 $this->io->write("Ini db updated");
-            }else{
-                $this->io->write("ERROR: Ini db is not updated");
             }
         }
         //db create
         if ($this->io->askConfirmation("Do you want to create db tables and populate data? ", true)) {
             if($this->createDb()){
                 $this->io->write("Db tables and data created");
-            }else{
-                $this->io->write("ERROR: Db tables and data are not created");
             }
         }          
         //app log
         if ($this->io->askConfirmation("Do you want to create app log file? ", true)) {
             if($this->makeAppLog()){
                 $this->io->write("App log created");
-            }else{
-                $this->io->write("ERROR: App log is not created");
             }
         }
         $osDetected = php_uname('s');
