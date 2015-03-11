@@ -16,6 +16,7 @@ class Application_Model_Application extends HCMS_Model_Entity
     protected $_status_dt;
     protected $_style_json;
     protected $_fb_settings;
+    protected $_gsc_settings;
     protected $_twitter_settings;
     protected $_og_settings;
     protected $_email_settings;
@@ -107,6 +108,26 @@ class Application_Model_Application extends HCMS_Model_Entity
         $this->_fb_settings = $_fb_settings;
         return $this;
     }
+    
+        public function get_gsc_settings($key = null) {
+        if(!isset ($key)){
+            return $this->_gsc_settings;
+        }
+        else{
+            if(isset ($this->_gsc_settings[$key])){
+                return $this->_gsc_settings[$key];
+            }
+            else{
+                return null;
+            }
+        }
+    }
+
+    public function set_gsc_settings($_gsc_settings) {
+        $this->_gsc_settings = $_gsc_settings;
+        return $this;
+    }
+    
 
     public function get_twitter_settings($key = null) {
         if(!isset ($key)){

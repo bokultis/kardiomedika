@@ -200,12 +200,12 @@ class Application_Model_ApplicationMapper extends HCMS_Model_Mapper {
      */
     public static function getData(Application_Model_Application $application, $notNull = true){
         $data = array();
-        $fields = array('id','name','status','status_dt','style_json','fb_settings','twitter_settings','email_settings','settings','og_setings');
+        $fields = array('id','name','status','status_dt','style_json','fb_settings','gsc_settings','twitter_settings','email_settings','settings','og_setings');
 
         foreach ($fields as $field) {
             $value = $application->__get($field);
             if($value != null || !$notNull){
-                if(in_array($field, array('style_json','fb_settings','twitter_settings','email_settings','settings','og_setings'))){
+                if(in_array($field, array('style_json','fb_settings','gsc_settings','twitter_settings','email_settings','settings','og_setings'))){
                     $value = json_encode($value);
                 }
                 $data[$field] = $value;
@@ -224,7 +224,7 @@ class Application_Model_ApplicationMapper extends HCMS_Model_Mapper {
         $data = array();
 
         $this->_entityToRow($application, $data);
-//        print_r($data);die;
+        //print_r($data);die;
         $id = $application->get_id();
         if (!isset ($id) || $id <= 0) {
             unset($data['id']);
@@ -245,6 +245,7 @@ class Application_Model_ApplicationMapper extends HCMS_Model_Mapper {
     public static function rowToEntity(Zend_Db_Table_Row_Abstract $row, Application_Model_Application $application){
         $application    ->set_email_settings(self::getJsonSetings($row->email_settings))
                         ->set_fb_settings(self::getJsonSetings($row->fb_settings))
+                        ->set_gsc_settings(self::getJsonSetings($row->gsc_settings))
                         ->set_twitter_settings(self::getJsonSetings($row->twitter_settings))
                         ->set_og_settings(self::getJsonSetings($row->og_settings))
                         ->set_id($row->id)
@@ -257,7 +258,7 @@ class Application_Model_ApplicationMapper extends HCMS_Model_Mapper {
     
     protected function _entityToRow(Application_Model_Application $application,array &$row){
         $this->_populateDataArr($row, $application, array('id','name','status','status_dt',
-                'style_json','fb_settings','twitter_settings','email_settings','settings','og_settings'),array('style_json','fb_settings','twitter_settings','email_settings','settings','og_settings'));
+                'style_json','fb_settings','gsc_settings','twitter_settings','email_settings','settings','og_settings'),array('style_json','fb_settings','gsc_settings','twitter_settings','email_settings','settings','og_settings'));
     }
     
     private static function getJsonSetings($json){
