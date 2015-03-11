@@ -1,0 +1,28 @@
+<?php
+    //add contact module scripts
+    $this->addScriptPath(APPLICATION_PATH . '/modules/contact/views/scripts');
+    //add theme view path for contact module
+    $this->addScriptPath(APPLICATION_PATH . '/../themes/' . $this->theme . '/views/contact');
+    
+    $globalSettings = HCMS_Utils::loadThemeConfig('config.php', 'contact');
+    $fieldTypes = HCMS_Utils::loadThemeConfig('types.php', 'contact');
+    $formId = 'contact';
+    $formParams = $globalSettings['forms'][$formId];
+    $fields = Contact_Form_Generic::getFieldsArr($fieldTypes, $formParams['fields']);
+?>
+        <div class="feedbackContainer">
+            <div class="feedbackSide feedbackFront">
+                <form id="horisenFeedback" action="<?php echo $this->url(array('module'=>'contact','controller'=>'generic','action'=>'index','form_id' => $formId),'cms',true);?>" method="POST" role="form">
+                    <h2><?php echo $this->translate('Do you need some more information?'); ?></h2>
+<?php
+//Zend_Debug::dump($this->errors);
+echo $this->formFields($fields, array('formId' => $formId));
+?>
+                    <button type="submit" name="submit[save]" class="btn btn-default feedbackBtn"><?php echo $this->translate('Send feedback'); ?></button>
+                    <p><?php echo $this->translate('We are glad to help you in every way'); ?></p>
+                </form>
+            </div>
+            <div class="feedbackSide feedbackBack">
+                <?php echo $this->translate("Thank you! <br>We'll get in touch with you as soon as possible.");?>
+            </div>                
+        </div>

@@ -1,0 +1,13 @@
+<?php
+$this->hideDisturber = true;
+echo $this->render('page/static/' . CURR_LANG . '/subscribe-header.phtml');
+?>
+<form id="form-<?php echo $this->formId; ?>" class="subscribeForm" method="post" role="form" action="<?php echo $this->url(array('module'=>'contact','controller'=>'subscribe-generic','action'=>'index','form_id' => $this->formId),'cms',true);?>" enctype="multipart/form-data">
+<?php
+    //Zend_Debug::dump($this->errors);
+    echo $this->formFields($this->fields);
+?>
+    <div class="form-group col-sm-6 col-xs-12 newsletterSubmitWrapper">
+        <input type="submit" name="submit[save]" id="submit[save]" class="btn btn-default kontaktBtn" value="<?php echo $this->translate("Send"); ?>">
+    </div>    
+</form>

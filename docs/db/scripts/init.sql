@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `application` (
 --
 
 INSERT INTO `application` (`id`, `name`, `status`, `status_dt`, `style_json`, `fb_settings`, `twitter_settings`, `og_settings`, `email_settings`, `settings`) VALUES
-(1, 'HORISEN CMS Skeleton', 'A', '2014-09-19 21:47:09', NULL, '{}', '{}', '{}', '{\r\n  "from_email":"fbapp@horisen.biz",\r\n  "from_name":"HORISEN CMS Skeleton",\r\n  "reply_email":"no-reply@horisen.com",\r\n  "to_emails":[{"name":"CMS","email":"boris@horisen.com"}],\r\n  "transport":"smtp",\r\n  "parameters":{\r\n    "server":"mail.horisen.com",\r\n    "auth":"login",\r\n    "username":"fbapp@horisen.biz",\r\n    "password":"Fbh0r1sen*9",\r\n    "port":"587"\r\n  }\r\n}', '{"hosting_quota":524288000,"theme":"blankTheme","captcha":{ "fontName" : "font4.ttf", "wordLen" : "3", "timeout" : "300", "width" : "150", "height" : "40", "dotNoiseLevel" : "20", "lineNoiseLevel": "2" }, "ga":{ "email":"nis@horisen.com", "password":"h0r1sens0lut10ns", "account_id":"58280383", "tracking_id":"UA-30607857-1" },"default_upload":{"default_extensions":["pjpeg", "jpeg", "jpg", "png", "x-png", "gif", "pdf"],"default_mimetypes":["image/pjpeg","image/jpeg","image/jpg","image/png","image/x-png","image/gif","application/pdf"]} }');
+(1, 'HORISEN CMS Skeleton', 'A', '2014-09-19 21:47:09', NULL, '{}', '{}', '{}', '{\r\n  "from_email":"fbapp@horisen.biz",\r\n  "from_name":"HORISEN CMS Skeleton",\r\n  "reply_email":"no-reply@horisen.com",\r\n  "to_emails":[{"name":"CMS","email":"boris@horisen.com"}],\r\n  "transport":"smtp",\r\n  "parameters":{\r\n    "server":"mail.horisen.com",\r\n    "auth":"login",\r\n    "username":"fbapp@horisen.biz",\r\n    "password":"Fbh0r1sen*9",\r\n    "port":"587"\r\n  }\r\n}', '{"hosting_quota":524288000,"theme":"genesis","captcha":{ "fontName" : "font4.ttf", "wordLen" : "3", "timeout" : "300", "width" : "150", "height" : "40", "dotNoiseLevel" : "20", "lineNoiseLevel": "2" }, "ga":{ "email":"nis@horisen.com", "password":"h0r1sens0lut10ns", "account_id":"58280383xxx", "tracking_id":"UA-30607857-1xxx" },"default_upload":{"default_extensions":["pjpeg", "jpeg", "jpg", "png", "x-png", "gif", "pdf"],"default_mimetypes":["image/pjpeg","image/jpeg","image/jpg","image/png","image/x-png","image/gif","application/pdf"]} }');
 
 
 
@@ -1423,3 +1423,13 @@ CREATE TABLE IF NOT EXISTS `upgrade_db_log` (
   `insert_dt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Log table. All scripts should be logged here.' AUTO_INCREMENT=1 ;
+
+
+-- --------------------------------------------------------
+-- UPDATES
+-- --------------------------------------------------------
+
+ALTER TABLE  `application` ADD  `gsc_settings` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT  'google search custom json settings' AFTER  `fb_settings` ;
+UPDATE `wa_cms_genesis`.`application` SET `gsc_settings` = '{"name":"GCS","cx":"007912923026636597571:lcus_eiwovs","active":"A","css":{".gs-title":{"color":"red","font-size":"18px"},".gs-bidi-start-align":{"color":"green","font-size":"10px"},".gs-visibleUrl":{"color":"blue","font-size":"19px"}}} ' WHERE `application`.`id` =1;
+
+

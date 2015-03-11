@@ -1,0 +1,12 @@
+<?php if(isset($this->data['new_status']) && $this->data['new_status'] == 'unsubscribed'){ ?>
+
+<p>Bitte klicken Sie auf den folgenden Link, um sich abzumelden.</p>
+
+<?php } else { ?>
+
+<p>Vielen Dank für Ihre Anmeldung für unsere Mailing-Liste.<br><br>
+Bitte klicken Sie auf den folgenden Link, um Ihr Abonnement zu aktivieren.</p>
+
+<?php } ?>
+
+<a href="<?php echo $this->data['link'];?>"><?php echo $this->data['link'];?></a>

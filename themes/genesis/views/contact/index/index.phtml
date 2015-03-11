@@ -1,0 +1,83 @@
+<?php
+$settings = $this->emailParams;
+$this->headScript()->appendScript('
+$(document).ready(function(){    
+    //feedback form
+    $("#horisenContact").ajaxSubmit({
+        fieldSelector: \'[name="data\\[{field}\\]"]\',
+        onSubmit: function(data, errors){
+            if(data.success){
+                //reset form and close drawer
+                $("#horisenFeedback").get(0).reset();
+                //show message
+                var message = data["message"]? data["message"]: "Thank you";
+                //alert(message);
+                $("#formContainer").addClass("flipped");
+            }
+            else{
+                //alert(errors.join("\n"));
+            }
+        }
+    });
+});    
+');
+?>
+        
+            <div id="formContainer" class="formContact">
+                <div class="formSide formFront">
+                    <form id="horisenContact" action="<?php echo $this->url(array('module' => 'contact', 'controller' => 'index', 'action' => 'index'), 'cms', true); ?>" method="POST" role="form">
+                        <div class="form-group half-row">
+                            <label for="horisenFeedbackFirstname"><?php echo $this->translate('First name'); ?> <?php $this->fieldHelper($settings, 'first_name')->printRequired(); ?></label>
+                            <input type="text" name="data[first_name]" <?php $this->fieldHelper($settings, 'first_name')->printMaxLength(); ?> class="form-control" id="horisenFeedbackFirstName" placeholder="<?php echo $this->translate('Your first name'); ?>">   
+                        </div>
+                        <div class="form-group half-row right-half">
+                            <label for="horisenFeedbackLastname"><?php echo $this->translate('Last name'); ?> <?php $this->fieldHelper($settings, 'last_name')->printRequired(); ?></label>
+                            <input type="text" name="data[last_name]" <?php $this->fieldHelper($settings, 'last_name')->printMaxLength(); ?> class="form-control" id="horisenFeedbackLastName" placeholder="<?php echo $this->translate('Your last name'); ?>">    
+                        </div>
+                        <div class="form-group">
+                            <label for="horisenFeedbackCompany"><?php echo $this->translate('Company'); ?> <?php $this->fieldHelper($settings, 'company')->printRequired(); ?></label>
+                            <input type="text" name="data[company]" <?php $this->fieldHelper($settings, 'company')->printMaxLength(); ?> class="form-control" id="horisenFeedbackCompany" placeholder="<?php echo $this->translate('Your company name'); ?>">
+                        </div>
+                        <div class="form-group">
+                            <label for="horisenFeedbackEmail"><?php echo $this->translate('Email address'); ?> <?php $this->fieldHelper($settings, 'email')->printRequired(); ?></label>
+                            <input type="email" name="data[email]" <?php $this->fieldHelper($settings, 'email')->printMaxLength(); ?> class="form-control" id="horisenFeedbackEmail" placeholder="e.g. name@example.com">
+                        </div>
+                        <div class="form-group half-row">
+                            <label for="horisenFeedbackPhone"><?php echo $this->translate('Phone'); ?> <?php $this->fieldHelper($settings, 'phone')->printRequired(); ?></label>
+                            <input type="text" name="data[phone]" <?php $this->fieldHelper($settings, 'phone')->printMaxLength(); ?> class="form-control" id="horisenFeedbackPhone" placeholder="e.g. +41 21 1234567">
+                        </div>
+                        <div class="form-group half-row right-half">
+                            <label for="horisenFeedbackMobile"><?php echo $this->translate('Mobile'); ?> <?php $this->fieldHelper($settings, 'mobile')->printRequired(); ?></label>
+                            <input type="text" name="data[mobile]" <?php $this->fieldHelper($settings, 'mobile')->printMaxLength(); ?> class="form-control" id="horisenFeedbackMobile" placeholder="e.g. +41 78 1234567">
+                        </div>
+                        <div class="form-group half-row field-new-line">
+                            <label for="horisenFeedbackZip"><?php echo $this->translate('Zip'); ?> <?php $this->fieldHelper($settings, 'zip')->printRequired(); ?></label>
+                            <input type="text" name="data[zip]" <?php $this->fieldHelper($settings, 'zip')->printMaxLength(); ?> class="form-control" id="horisenFeedbackZip" placeholder="e.g. 9400">
+                        </div>
+                        <div class="form-group half-row right-half">
+                            <label for="horisenFeedbackCity"><?php echo $this->translate('City'); ?> <?php $this->fieldHelper($settings, 'city')->printRequired(); ?></label>
+                            <input type="text" name="data[city]" <?php $this->fieldHelper($settings, 'city')->printMaxLength(); ?> class="form-control" id="horisenFeedbackCity" placeholder="e.g. Rorschach">
+                        </div>
+                        <div class="form-group">
+                            <label for="horisenFeedbackCountry"><?php echo $this->translate('County'); ?></label>                            
+                            <select name="data[country]" id="horisenFeedbackCountry" class="form-control" placeholder="<?php echo $this->translate('Your country'); ?>">
+                                <option value=""><?php echo $this->translate('Your country'); ?></option>
+                                <?php foreach ($this->countries as $country) { ?>
+                                <option  <?php echo $this->formSelected($this->data, 'country', $country->get_code2());?> value="<?php echo $country->get_code2(); ?>"><?php echo $this->escape($country->get_name());?></option>
+                                <?php } ?>
+                            </select>                            
+                        </div>
+                        <div class="form-group messageBox">
+                            <label for="horisenFeedbackMessage"><?php echo $this->translate('Message'); ?> <?php $this->fieldHelper($settings, 'message')->printRequired(); ?></label>
+                            <textarea name="data[message]" id="horisenFeedbackMessage" <?php $this->fieldHelper($settings, 'message')->printMaxLength(); ?> class="form-control" rows="6" placeholder="<?php echo $this->translate('Your message'); ?>"></textarea>
+                        </div>
+                        <label for="data[honeypot]" style="display: none">Anti-spam email <input type="text" id="data[honeypot]" name="data[honeypot]"></label>
+                        <button type="submit" name="submit[save]" class="btn btn-default feedbackBtn"><?php echo $this->translate('Send feedback'); ?></button>
+                        <p><?php echo $this->translate('We will advise you personally and without obligation'); ?></p>
+                    </form>
+                </div>
+                <div class="formSide formBack">
+                    <?php echo $this->translate("Thank you! <br>We'll get in touch with you as soon as possible.");?>
+                </div>                
+            </div>
+                 

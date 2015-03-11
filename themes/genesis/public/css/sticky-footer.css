@@ -1,0 +1,49 @@
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom:360px;
+}
+.footer {
+  background-color: #181818;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height:360px;
+  padding: 20px 0;
+}
+
+@media (max-width: 960px){
+    .footer {position:absolute; bottom:0; height:auto; padding-top:2rem; background:#FFF;}
+    body > .footer {/*padding-top:3rem;*/height:2rem; overflow:hidden; border-top:solid 1px #CCC;}
+    body {margin-bottom:0;}
+    footer.footer-expanded {height:auto; background:#181818;}
+    footer.footer-expanded .container {overflow-y:auto; max-height:calc(100vh - 140px);}
+}
+@media (min-width:961px) and (max-width:983px) {
+    .footer{height: 550px;}
+    body{margin-bottom: 550px;}
+}
+@media (min-width:984px) and (max-width:1298px) {
+    body {margin-bottom:510px;}
+    .footer {height:510px;}
+    .socialIcons{width: 92%;}
+    .langBarFooter{width:8%;}
+}
+@media (min-width:1299px) and (max-width:1380px) {
+    body {margin-bottom:440px;}
+    .footer {height:440px;}
+    .socialIcons{width: 91%;}
+    .langBarFooter{width:9%;}
+}
+@media (min-width:1381px) and (max-width:1450px){
+    body {margin-bottom:440px;}
+    .footer {height:440px;}
+}
+@media (min-width:960px) and (max-width:1450px) {
+    main, .footer{padding-left: 60px; padding-right: 40px;}
+}

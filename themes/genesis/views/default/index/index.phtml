@@ -1,0 +1,136 @@
+<?php
+    $this->menuItemId = 1;
+    $this->headScript()->appendFile('/plugins/collapsibleBox/jquery.collapsibleBox.js');
+    $this->headScript()->appendScript('$(window).load(function(){
+        $(".collapse").collapsibleBox({
+            handleSelector: ".collapseHandle",
+            collapsibleSelector: ".collapseBox",
+            openClass: "open",
+            closedClass: "closed",
+            onChange: function(el, closed){
+               //console.log(el, "is closed: ", closed);
+            },
+            getIsClosed: function(widget){
+                var height = widget.$el.height();
+                //console.log("heights",widget.$el.find("img").outerHeight(true), widget.$el.find(".teaserItemHeading").outerHeight(true), widget.$el.find("p").outerHeight(true), widget.$el.find("a.horisenBtn").outerHeight(true));
+                var elementsHeight = widget.$el.find("img").outerHeight(true) + widget.$el.find(".teaserItemHeading").outerHeight(true) + widget.$el.find("p").outerHeight(true) + widget.$el.find("a.horisenBtn").outerHeight(true);
+                var closed = elementsHeight > height;
+                if(!closed){
+                    //remove toogle button
+                    widget.$el.find("h2.collapseHandle i").remove();
+                }
+                return {
+                    "closed": closed,
+                    "toggable": closed 
+                };
+            }            
+        });        
+    })');
+?>
+<div class="introTxt">
+    <h1>Cross-media marketing solutions</h1>
+    <h2>Tailored to your needs</h2>
+</div>
+<p>Choose a smart combination of services and web applications from HORISEN cloud-based software<br /> which will leverage your company in both analogue and digital business communications world.</p>
+<!-- Teaser Boxes -->
+<div class="teaserBox">
+    <div class="teaserItem">
+        <article class="collapse gradient">
+            <header>
+                <picture>
+                    <!--[if IE 9]><video style="display: none;"><![endif]-->
+                    <source media="(min-width: 960px)" srcset="/images/teaser/teaser1/produkte/produkte_960.jpg "></source>
+                    <source media="(min-width: 768px) and (-webkit-min-device-pixel-ratio: 2), (min-width: 768px) and (min--moz-device-pixel-ratio: 2)" srcset="/images/teaser/teaser1/produkte/produkte_768_2x.jpg "></source>
+                    <source media="(min-width: 768px)" srcset="/images/teaser/teaser1/produkte/produkte_768.jpg "></source>
+                    <source media="(min-width: 480px) and (-webkit-min-device-pixel-ratio: 2), (min-width: 480px) and (min--moz-device-pixel-ratio: 2)" srcset="/images/teaser/teaser1/produkte/produkte_480_2x.jpg "></source>
+                    <source media="(min-width: 480px)" srcset="/images/teaser/teaser1/produkte/produkte_480.jpg "></source>
+                    <source media="(min-width: 320px) and (-webkit-min-device-pixel-ratio: 2), (min-width: 320px) and (min--moz-device-pixel-ratio: 2)" srcset="/images/teaser/teaser1/produkte/produkte_320_2x.jpg "></source>
+                    <source media="(min-width: 320px)" srcset="/images/teaser/teaser1/produkte/produkte_320.jpg "></source>
+                    <!--[if IE 9]></video><![endif]-->
+                    <img alt="" srcset="/images/teaser/teaser1/produkte/produkte_320.jpg" src="/images/teaser/teaser1/produkte/produkte_960.jpg">
+                </picture>                
+                <div class="teaserItemHeading">
+                    <h2 class="collapseHandle closed">Produkte<i class="fa fa-play collapseHandle closed"></i></h2>
+                </div>
+            </header>
+            <div class="collapseBox closed">
+                <p>Shape and combine offline and online visitor experience! By using different products developed by HORISEN, you can easily reach desired business potential and engage different customers. With more than useful SMS services that are still widely-used, through always popular social media products that are proven to increase website traffic and overall conversion process (visitor to customer), we offer you modern and integrated customer loyalty system: the invisible customer card for more purchases and customer retention.<br />Among numerous products, we emphasize:</p>
+                <ul>
+                    <li><a href="#">The new iCard customer loyalty program</a></li>
+                    <li><a href="#">Megapromo web campaigns</a></li>
+                    <li><a href="#">SMS & Park solution</a></li>
+                    <li><a href="#">SMS & Win as a highly-viral service </a></li>
+                     <li><a href="#">MFA: Facebook fan page apps </a></li>
+                    <li><a href="#">Call & Pay: the fastest payment solution</a></li>
+                    <li><a href="#">Intranet Apps</a></li>
+                </ul>
+                <a href="/de/produkte" class="btn horisenBtn"><?php echo $this->translate('read more'); ?></a>
+            </div>
+        </article>
+    </div>
+    <div class="teaserItem">
+        <article class="collapse gradient">
+            <header>
+                <picture>
+                    <!--[if IE 9]><video style="display: none;"><![endif]-->
+                    <source media="(min-width: 960px)" srcset="/images/teaser/teaser2/telecom/telecom_960.jpg "></source>
+                    <source media="(min-width: 768px) and (-webkit-min-device-pixel-ratio: 2), (min-width: 768px) and (min--moz-device-pixel-ratio: 2)" srcset="/images/teaser/teaser2/telecom/telecom_768_2x.jpg "></source>
+                    <source media="(min-width: 768px)" srcset="/images/teaser/teaser2/telecom/telecom_768.jpg "></source>
+                    <source media="(min-width: 480px) and (-webkit-min-device-pixel-ratio: 2), (min-width: 480px) and (min--moz-device-pixel-ratio: 2)" srcset="/images/teaser/teaser2/telecom/telecom_480_2x.jpg "></source>
+                    <source media="(min-width: 480px)" srcset="/images/teaser/teaser2/telecom/telecom_480.jpg "></source>
+                    <source media="(min-width: 320px) and (-webkit-min-device-pixel-ratio: 2), (min-width: 320px) and (min--moz-device-pixel-ratio: 2)" srcset="/images/teaser/teaser2/telecom/telecom_320_2x.jpg "></source>
+                    <source media="(min-width: 320px)" srcset="/images/teaser/teaser2/telecom/telecom_320.jpg "></source>
+                    <!--[if IE 9]></video><![endif]-->
+                    <img alt="" srcset="/images/teaser/teaser2/telecom/telecom_320.jpg" src="/images/teaser/teaser2/telecom/telecom_960.jpg">
+                </picture>                
+                <div class="teaserItemHeading">
+                    <h2 class="collapseHandle closed">Telecom<i class="fa fa-play collapseHandle closed"></i></h2>
+                </div>
+            </header>
+            <div class="collapseBox closed">
+                <p>Your customers appreciate the convenience not only to call their family and friends, but also to consume different services, get help and support or participate in a winning game or voting campaign by simply dialing a phone number. In addition, they can pay for a service, schedule a meeting or reminder call, hear about the news or weather forecasts, and much more.<br />
+                HORISEN, as the best telecom-based service provider, uses the technology called Interactive Voice Response (IVR). IVR services are completely tailored to the customer profile and, therefore, significantly reduce costs and improve the customer experience. Companies are more likely to use IVR services in order to extend their business activities to 24/7 operation or support. And, the most important, IVR system gathers customer data very fast – especially by using premium-rate numbers.<br />
+                In addition to Telecom services, HORISEN offers Bulk SMS for Carrier – a powerful application system that helps you conquer the mass market within a short time and spread your business worldwide. </p>
+                <ul>
+                    <li><a href="#">Bulk SMS for Carrier</a></li>
+                    <li><a href="#">Call & Win</a></li>
+                    <li><a href="#">Call & Vote </a></li>
+                    <li><a href="#">Premium Number Hosting </a></li>
+                </ul>
+                <a href="/de/telecom" class="btn horisenBtn"><?php echo $this->translate('read more'); ?></a>
+            </div>
+        </article>
+    </div>
+    <div class="teaserItem">
+        <article class="collapse gradient">
+            <header>
+                <picture>
+                    <!--[if IE 9]><video style="display: none;"><![endif]-->
+                    <source media="(min-width: 960px)" srcset="/images/teaser/teaser3/design/design_960.jpg "></source>
+                    <source media="(min-width: 768px) and (-webkit-min-device-pixel-ratio: 2), (min-width: 768px) and (min--moz-device-pixel-ratio: 2)" srcset="/images/teaser/teaser3/design/design_768_2x.jpg "></source>
+                    <source media="(min-width: 768px)" srcset="/images/teaser/teaser3/design/design_768.jpg "></source>
+                    <source media="(min-width: 480px) and (-webkit-min-device-pixel-ratio: 2), (min-width: 480px) and (min--moz-device-pixel-ratio: 2)" srcset="/images/teaser/teaser3/design/design_480_2x.jpg "></source>
+                    <source media="(min-width: 480px)" srcset="/images/teaser/teaser3/design/design_480.jpg "></source>
+                    <source media="(min-width: 320px) and (-webkit-min-device-pixel-ratio: 2), (min-width: 320px) and (min--moz-device-pixel-ratio: 2)" srcset="/images/teaser/teaser3/design/design_320_2x.jpg "></source>
+                    <source media="(min-width: 320px)" srcset="/images/teaser/teaser3/design/design_320.jpg ">
+                    </source><!--[if IE 9]></video><![endif]-->
+                    <img alt="" srcset="/images/teaser/teaser3/design/design_320.jpg" src="/images/teaser/teaser3/design/design_960.jpg">
+                </picture>                
+                <div class="teaserItemHeading">
+                    <h2 class="collapseHandle closed">Design<i class="fa fa-play collapseHandle closed"></i></h2>
+                </div>
+            </header>
+            <div class="collapseBox closed">
+                <p>Design is not only about company’s logo or corporate colors anymore. Design has become a holistic view of a company regarding both visual and contextual approach. Customer loyalty is built through a quality designed brand, having in mind the whole concept and related marketing activities that provide a pure visual experience. <br />
+                We deliver beyond expectations – from professional advice, creative ideas and advertising concept approach, through corresponding storytelling and filming to monitoring and evaluation your campaign’s success. Our experts help you in creative consulting process combining offline and online media. Only with the right marketing strategy, thinking out-of-the-box and the right implementation steps, your business is on the top. <br />
+                HORISEN takes care of creative solutions and brand design strategies that provide a very strong business visibility. <br />
+                We offer you: </p>
+                <ul>
+                    <li><a href="#">Concept and Consulting </a></li>
+                    <li><a href="#">Design Areas  </a></li>
+                </ul>
+                <a href="/de/design-graphics/designs" class="btn horisenBtn"><?php echo $this->translate('read more'); ?></a>
+            </div>
+        </article>
+    </div>
+</div>

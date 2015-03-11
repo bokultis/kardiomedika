@@ -1,0 +1,26 @@
+<h2><?php echo $this->translate('New contact submission');?></h2>
+<table>
+<?php
+    foreach ($this->data as $fieldId => $value) {
+        if(isset($this->fields[$fieldId]['skip_email']) && $this->fields[$fieldId]['skip_email']){
+            continue;
+        }        
+        if(!isset($this->fields[$fieldId]['name'])){
+            continue;
+        }
+        if(isset($this->fields[$fieldId]['values'][$value])){
+            $value = $this->translate($this->fields[$fieldId]['values'][$value]);
+        }      
+        ?>
+        <tr>
+            <td style="font-size: 13px; font-weight: bold;">
+                <?php echo $this->translate($this->fields[$fieldId]['name']);?>
+            </td>
+            <td  style="font-size: 13px; font-weight: normal;">
+                <?php echo $this->escape($value); ?>
+            </td>
+        </tr>
+    <?php }
+?>
+<tr><td colspan="2"></td></tr>
+</table>

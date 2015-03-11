@@ -1,0 +1,44 @@
+<?php
+    $this->menuItemId = 1;
+    $this->headScript()->appendScript('$(window).load(function(){
+        $(".collapse").collapsibleBox({
+            handleSelector: ".collapseHandle",
+            collapsibleSelector: ".collapseBox",
+            openClass: "open",
+            closedClass: "closed",
+            onChange: function(el, closed){
+               //console.log(el, "is closed: ", closed);
+            },
+            getIsClosed: function(widget){
+                var height = widget.$el.height();
+                //console.log("heights",widget.$el.find("img").outerHeight(true), widget.$el.find(".teaserItemHeading").outerHeight(true), widget.$el.find(".collapseBox").outerHeight(true), widget.$el.find("a.horisenBtn").outerHeight(true));
+                var elementsHeight = widget.$el.find("img").outerHeight(true) + widget.$el.find(".teaserItemHeading").outerHeight(true) + widget.$el.find(".collapseBox").outerHeight(true) + widget.$el.find("a.horisenBtn").outerHeight(true);
+                var closed = elementsHeight > height;
+                if(!closed){
+                    //hide toogle button
+                    widget.$el.find("h2.collapseHandle i").hide();
+                } else {
+                    widget.$el.find("h2.collapseHandle i").show();
+                }
+                return {
+                    "closed": closed,
+                    "toggable": closed 
+                };
+            }            
+        });        
+    })');
+?>
+<div class="introTxt">
+    <h1>Cross-media marketing solutions</h1>
+    <h2>Tailored to your needs</h2>
+</div>
+<p>Five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.<br /> It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publish.</p>
+<!-- Teaser Boxes -->
+<div class="teaserBox">
+    <?php 
+    echo $this->renderTeaser2('teaser1', $this->menuItemId);
+    echo $this->renderTeaser2('teaser2', $this->menuItemId);
+    echo $this->renderTeaser2('teaser3', $this->menuItemId);
+    echo $this->renderTeaser2('teaser4', $this->menuItemId);
+    ?>
+</div>

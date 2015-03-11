@@ -5,6 +5,7 @@
 /public/content
 /logs
 /public/captcha
+/public/plugins
 /cache
 /vendor
 composer.lock
