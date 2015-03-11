@@ -211,7 +211,7 @@ class Installer {
         $dbUser = $this->io->ask("Db user? ", null);
         $dbPassword = $this->io->ask("Db password? ", null);
         $this->updateIniSettings(array(
-            'resources.db.params.dbname = "wa_cms"'  => 'resources.db.params.dbname = "' . $dbName. '"',
+            'resources.db.params.dbname = "wa_cms_genesis"'  => 'resources.db.params.dbname = "' . $dbName. '"',
             'resources.db.params.username = "root"'  => 'resources.db.params.username = "' . $dbUser. '"',
             'resources.db.params.password = "root"'  => 'resources.db.params.password = "' . $dbPassword. '"',
         ));
