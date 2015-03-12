@@ -3,9 +3,7 @@
     "description": "Horisen CMS Skeleton app",
     "require": {
         "horisen/installers": "*",
-        "horisen/cms-core-mod": "2.*",
-        "horisen/cms-teaser-mod": "2.*",
-        "horisen/cms-contact-mod": "2.*"
+        "horisen/cms-core-mod": "2.*"
     },
     "minimum-stability": "dev",
     "repositories": [{
