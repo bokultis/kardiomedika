@@ -1378,10 +1378,10 @@ CREATE TABLE IF NOT EXISTS `translate_language` (
 --
 
 INSERT INTO `translate_language` (`id`, `code`, `name`, `default`, `front_enabled`) VALUES
-(1, 'de', 'German', 'yes', 'yes'),
-(2, 'en', 'English', 'no', 'yes'),
-(4, 'fr', 'French', 'no', 'yes'),
-(5, 'it', 'Italian', 'no', 'yes');
+(1, 'de', 'G', 'yes', 'yes'),
+(2, 'en', 'E', 'no', 'yes'),
+(4, 'fr', 'F', 'no', 'no'),
+(5, 'it', 'I', 'no', 'no');
 
 -- --------------------------------------------------------
 
@@ -1430,6 +1430,6 @@ CREATE TABLE IF NOT EXISTS `upgrade_db_log` (
 -- --------------------------------------------------------
 
 ALTER TABLE  `application` ADD  `gsc_settings` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT  'google search custom json settings' AFTER  `fb_settings` ;
-UPDATE `wa_cms_genesis`.`application` SET `gsc_settings` = '{"name":"GCS","cx":"007912923026636597571:lcus_eiwovs","active":"A","css":{".gs-title":{"color":"red","font-size":"18px"},".gs-bidi-start-align":{"color":"green","font-size":"10px"},".gs-visibleUrl":{"color":"blue","font-size":"19px"}}} ' WHERE `application`.`id` =1;
+UPDATE `application` SET `gsc_settings` = '{"name":"GCS","cx":"007912923026636597571:lcus_eiwovs","active":"A","css":{".gs-title":{"color":"red","font-size":"18px"},".gs-bidi-start-align":{"color":"green","font-size":"10px"},".gs-visibleUrl":{"color":"blue","font-size":"19px"}}} ' WHERE `application`.`id` =1;
 
 
