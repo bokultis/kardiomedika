@@ -20,7 +20,6 @@ composer.lock
 /public/captcha/*
 /public/tmp/*
 /public/*.htaccess
-/public/plugins/tinymce
 public/themes/*
 /scripts/node_modules
 /scripts/*grunt*
