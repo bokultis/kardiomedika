@@ -3,6 +3,9 @@
 /application/modules/**/configs/local.*.php
 /themes/**/configs/**/local.*.php
 /application/modules/**
+/application/modules/**/configs/local.*.php
+/themes/**/configs/**/local.*.php
+/customization/modules/**/configs/local.*.php
 /library/**
 /public/content
 /logs
