@@ -1,6 +1,9 @@
 /application/configs/application.ini
 /application/configs/cli.ini
 /application/modules/**
+/application/modules/**/configs/local.*.php
+/themes/**/configs/**/local.*.php
+/customization/modules/**/configs/local.*.php
 /library/**
 /public/content
 /logs
