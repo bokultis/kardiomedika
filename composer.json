@@ -19,7 +19,7 @@
         "pre-install-cmd": "Hcms\\Installer::preInstall",
         "post-install-cmd": "Hcms\\Installer::postInstall",
         "pre-package-install": "Hcms\\Installer::prePackageInstall",
-        "post-package-install": "Hcms\\Installer::postPackageInstall"
-
+        "post-package-install": "Hcms\\Installer::postPackageInstall",
+        "post-package-update": "Hcms\\Installer::postPackageUpdate"
     }
 }

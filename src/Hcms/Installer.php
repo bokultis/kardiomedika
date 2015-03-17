@@ -111,6 +111,33 @@ class Installer {
         if($this->execSql($sql)){
             //$this->io->write("Sql executed for module " . $installedPackage->getName());
         }
+    }
+        
+    /**
+     * 
+     * @param \Composer\Script\Event $event
+     */
+    public static function postPackageUpdate(Event $event)
+    {
+        if(!isset(self::$instance )){
+            self::$instance = new self($event);
+        }
+        self::$instance->execPostPackageUpdate($event->getOperation()->getInitialPackage(),
+                $event->getOperation()->getTargetPackage());
+    }
+    
+    /**
+     * Execute After Packages are installed
+     * @param PackageInterface $initPackage
+     * @param PackageInterface $targetPackage
+     * @return boolean
+     */
+    protected function execPostPackageUpdate($initPackage, $targetPackage)
+    {
+        if($initPackage->getType() != 'horisen-cms_mod'){
+            return true;
+        }
+        $this->io->write("Updating version from: " . $initPackage->getVersion() . ", to: " . $targetPackage->getVersion());
     }    
     
     protected function execPostInstall(){    
