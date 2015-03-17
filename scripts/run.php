@@ -27,6 +27,9 @@ if (!defined('APPLICATION_ENV')) {
     define('APPLICATION_ENV', $env);
 }
 
+//composer autoload
+require_once APPLICATION_PATH . '/../vendor/autoload.php';
+
 /** Zend_Application */
 require_once 'Zend/Application.php';
 //require_once 'Facebook/facebook.php';
