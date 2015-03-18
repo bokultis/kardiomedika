@@ -3,6 +3,7 @@
 namespace Hcms;
 
 use Composer\Script\Event;
+use Composer\Installer\PackageEvent;
 
 class Installer {
     
@@ -61,7 +62,7 @@ class Installer {
      * 
      * @param \Composer\Script\Event $event
      */
-    public static function prePackageInstall(Event $event)
+    public static function prePackageInstall(PackageEvent $event)
     {
         if(!isset(self::$instance )){
             self::$instance = new self($event);
@@ -80,7 +81,7 @@ class Installer {
      * 
      * @param \Composer\Script\Event $event
      */
-    public static function postPackageInstall(Event $event)
+    public static function postPackageInstall(PackageEvent $event)
     {
         if(!isset(self::$instance )){
             self::$instance = new self($event);
@@ -117,7 +118,7 @@ class Installer {
      * 
      * @param \Composer\Script\Event $event
      */
-    public static function postPackageUpdate(Event $event)
+    public static function postPackageUpdate(PackageEvent $event)
     {
         if(!isset(self::$instance )){
             self::$instance = new self($event);
@@ -137,7 +138,15 @@ class Installer {
         if($initPackage->getType() != 'horisen-cms_mod'){
             return true;
         }
-        $this->io->write("Updating version from: " . $initPackage->getVersion() . ", to: " . $targetPackage->getVersion());
+        //$this->io->write("Updating version from: " . $initPackage->getVersion() . ", to: " . $targetPackage->getVersion());
+        //$this->io->write("Updating version from: " . $initPackage->getPrettyVersion() . ", to: " . $targetPackage->getPrettyVersion());
+        $extras = $initPackage->getExtra(); 
+        if(!isset($extras['installer-name'])){
+            return true;
+        }
+        $updatesDir = $this->dir . '/application/modules/' . $extras['installer-name'] . '/db_updates';
+        //$updatesDir = __DIR__ . '/test_updates';
+        $this->processUpdates($updatesDir, $initPackage->getPrettyVersion(), $targetPackage->getPrettyVersion());
     }    
     
     protected function execPostInstall(){    
@@ -305,6 +314,43 @@ class Installer {
             return false;
         }        
         return true;        
+    }
+    
+    /**
+     * Get update dir
+     * 
+     * @param string $updDir
+     * @param string $fromVersion
+     * @param string $toVersion
+     * @return mixed|false
+     */
+    protected function processUpdates($updDir, $fromVersion, $toVersion)
+    {
+        if(!is_dir($updDir)){
+            return false;
+        }
+        //we don't know still how to process downgrades
+        if(version_compare($fromVersion, $toVersion, '>=')){
+            return false;
+        }
+        //find all sql files in the dir
+        $files = glob($updDir . '/*.sql', GLOB_MARK); // find all files in the directory
+        $updates = array();
+        foreach ($files as $file) {
+            $fileVersion = basename($file);
+            if(version_compare($fileVersion, $fromVersion, '>') && version_compare($fileVersion, $toVersion, '<=')){
+                $updates[] = $file;
+            }
+        }
+        //sort updates
+        usort($updates, function($a, $b){
+           return version_compare($a, $b); 
+        });
+        
+        foreach ($updates as $updateSql) {
+            $this->io->write("Executing db update [$updateSql]");
+            $this->execSql(file_get_contents($updateSql));
+        }        
     }
     
     protected function copyDistFile($from, $to){
