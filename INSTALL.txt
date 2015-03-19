@@ -1,11 +1,11 @@
 Update composer.json to include wanted packages. Search for packages here http://composer.horisen.biz/
 
-Enter here from shell and run
+Enter here from shell and run (First install composer if not installed https://getcomposer.org/doc/00-intro.md#installation-linux-unix-osx)
 
-> php scripts/composer.phar install
+> composer install
 
 Follow the steps and good luck!
 
 For more info check out: 
-http://redmine.horisen.biz:3000/projects/zend-cms/wiki/Quick_Start_GIT
-http://redmine.horisen.biz:3000/projects/zend-cms/wiki/Composer#Create-NEW-App-Project
+http://redmine.horisen.biz:3000/projects/zend-cms/wiki/Install_via_composer
+http://redmine.horisen.biz:3000/projects/zend-cms/wiki/Composer
