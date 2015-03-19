@@ -489,8 +489,8 @@ class Installer {
                 symlink($from, $to);
                 $this->io->write("Symlink created on OS $osDetected.");
             }else if(isset($osDetected) && $osDetected == "Windows"){
-                symlink($from, $to);
-                $this->io->write("Symlink created on OS $osDetected.");
+//                symlink($from, $to);
+//                $this->io->write("Symlink created on OS $osDetected.");
             }
         }
     }
