@@ -5,7 +5,6 @@
 
 var ajaxDialogForm = (function() {
     var div = null;
-
     function getDialog(dialogId){
         if(dialogId){
             return $("#"+dialogId);

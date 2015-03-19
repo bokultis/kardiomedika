@@ -177,7 +177,7 @@
 
         return string;
     }
-
+    
 function escapeHtml(text) {
     if(!text || text == ''){
         return text;

@@ -18,11 +18,11 @@ var ajaxForm = (function() {
     
     
     return { // public interface
-        /*restabsOptions: {
+        restabsOptions: {
             onClose: function(success, data){},
             onContent: function(restabsId){}
            
-        },*/
+        },
         /**
          * return escaped element id
          */
@@ -56,6 +56,7 @@ var ajaxForm = (function() {
         },
         
         newTab: function (formUrl, options) {
+            //console.log(formUrl);
             if(options == null){
                 options = {};
             }
@@ -113,6 +114,7 @@ var ajaxForm = (function() {
                     if(ajaxForm.restabsOptions.saveCaption != ''){
                         restabsButtons[ajaxForm.restabsOptions.saveCaption] = function() {
                             //exec callback and stop exec if cb result is false
+                            
                             if(saveCallback){
                                 var cbResult = saveCallback();
                                 if(!cbResult){
@@ -131,7 +133,14 @@ var ajaxForm = (function() {
                                         }
                                         ajaxResult = true;
                                         ajaxData = data;
-                                        
+                                        var pageId = $("#" + restabsIdBtn).attr("data-pageid");
+                                        var textareaId = "#data\\[content\\]-" + pageId;
+                                        if ($("#" + restabsId).find(".mce-tinymce.mce-container.mce-panel").length != 0) {
+                                            tinymce.remove(textareaId);
+                                        }
+                                        var activeTab = $(".res-tabs").restabs("getActiveId");
+                                        $(".res-tabs").restabs("removeTab", activeTab);
+                                        $("body").trigger("updateList");
                                         
                                     }
                                     else{
@@ -143,7 +152,8 @@ var ajaxForm = (function() {
                                                 errorUl += '<li>' + errors[field][i] + '</li>';
                                             }
                                             errorUl += '</ul>';
-                                            $(ajaxForm.jqId(field)).parent().append(errorUl);
+                                            $("*[id^=" + "'" + field + "'" + "]").parent().append(errorUl).addClass("error");
+                                            $("#" + restabsIdBtn).addClass("errorTab");
                                         }
                                     }
                                 },
@@ -153,8 +163,6 @@ var ajaxForm = (function() {
                             });
                         };
                     }
-                    
-                    
                     //CANCEL BUTTON
                     
                     if(ajaxForm.restabsOptions.cancelCaption != ''){
@@ -168,12 +176,7 @@ var ajaxForm = (function() {
                     ajaxForm.restabsOptions.buttons = restabsButtons;
                     self.append( "<div class='actionButtonContainer'> <button class='btn btn-primary' id='saveButton'>" + ajaxForm.restabsOptions.saveCaption + "</button>  <button class='btn btn-primary' id='cancelButton'>" + ajaxForm.restabsOptions.cancelCaption + "</button> </div>" );
                     
-                    
-                    
                     self.on("save", restabsButtons[ajaxForm.restabsOptions.saveCaption]);
-                    
-                    
-                    
                     
                     ajaxForm.restabsOptions.onContent(self);
                     

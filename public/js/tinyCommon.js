@@ -25,7 +25,7 @@ var tiny = {
             //inlinepopups_skin: "hfb",
             
             // Example content CSS (should be your site CSS)
-            content_css : "../../themes/horisen_2015/css/tinyStyle.css",
+            content_css : "../../themes/genesis/css/tinyStyle.css",
             relative_urls : true,
             document_base_url : "/",
             
