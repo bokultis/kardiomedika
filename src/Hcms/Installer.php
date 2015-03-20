@@ -485,13 +485,8 @@ class Installer {
         $from = $this->dir . '/application/modules/' . $module . '/public';
         $to = $this->dir . '/public/modules/' . $module;
         if (is_dir($from) && !file_exists($to)) {
-            if(isset($osDetected) && $osDetected == "Linux"){
-                symlink($from, $to);
-                $this->io->write("Symlink created on OS $osDetected.");
-            }else if(isset($osDetected) && $osDetected == "Windows"){
-//                symlink($from, $to);
-//                $this->io->write("Symlink created on OS $osDetected.");
-            }
+            symlink($from, $to);
+            $this->io->write("Symlink created on OS $osDetected.");
         }
     }
 

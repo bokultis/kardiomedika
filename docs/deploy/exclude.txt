@@ -2,11 +2,14 @@
 .git
 .gitignore
 composer.lock
+composer.json
+INSTALL.txt
 
 /docs
 /library/Zend
 /library/PHPExcel
 /tests
+/src
 /tmp/*
 /logs/*
 /cache/*
@@ -25,3 +28,4 @@ public/themes/*
 /scripts/*grunt*
 /scripts/*Grunt*
 /scripts/package.json
+
