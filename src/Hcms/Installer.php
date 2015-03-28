@@ -252,10 +252,15 @@ class Installer {
         if(!is_array($settings) || count($settings) == 0){
             return false;
         }
-        $iniFile = $this->dir . '/application/configs/application.ini';
-        $fileContents = file_get_contents($iniFile);
-        $fileContents = strtr($fileContents, $settings);
-        file_put_contents($iniFile, $fileContents);
+        $iniFiles = array(
+            $this->dir . '/application/configs/application.ini',
+            $this->dir . '/application/configs/cli.ini',
+        );
+        foreach($iniFiles as $iniFile){
+            $fileContents = file_get_contents($iniFile);
+            $fileContents = strtr($fileContents, $settings);
+            file_put_contents($iniFile, $fileContents);            
+        }
     }
     
     protected function loadAppIni(){

@@ -3,13 +3,14 @@
     "description": "Horisen CMS Skeleton app",
     "require": {
         "horisen/installers": "*",
-        "horisen/cms-core-mod": "2.*"
+        "horisen/cms-core-mod": "2.*",
+        "horisen/cms-cli-lib": "2.*"
     },
     "minimum-stability": "dev",
     "repositories": [{
-            "type": "composer",
-            "url": "http://composer.horisen.biz/"
-        }],
+        "type": "composer",
+        "url": "http://composer.horisen.biz/"
+    }],
     "autoload": {
         "psr-0": {
             "Hcms\\": "src/"
@@ -20,6 +21,8 @@
         "post-install-cmd": "Hcms\\Installer::postInstall",
         "pre-package-install": "Hcms\\Installer::prePackageInstall",
         "post-package-install": "Hcms\\Installer::postPackageInstall",
-        "post-package-update": "Hcms\\Installer::postPackageUpdate"
+        "post-package-update": "Hcms\\Installer::postPackageUpdate",
+        "dbup": "php scripts/run.php -c cli -a dbupd -e development",
+        "dbup-live": "php scripts/run.php -c cli -a dbupd -e development -s no"
     }
 }

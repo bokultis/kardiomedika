@@ -1,192 +1,179 @@
 <?php
 
-class CliController extends HCLI_Controller_Action {
+trait CliColors
+{
+    private $foregroundColors = array(
+        'black' => '0;30',
+        'dark_gray' => '1;30',
+        'blue' => '0;34',
+        'light_blue' => '1;34',
+        'green' => '0;32',
+        'light_green' => '1;32',
+        'cyan' => '0;36',
+        'light_cyan' => '1;36',
+        'red' => '0;31',
+        'light_red' => '1;31',
+        'purple' => '0;35',
+        'light_purple' => '1;35',
+        'brown' => '0;33',
+        'yellow' => '1;33',
+        'light_gray' => '0;37',
+        'white' => '1;37'   
+    );
+    private $backgroundColors = array(
+        'black' => '40',
+        'red' => '41',
+        'green' => '42',
+        'yellow' => '43',
+        'blue' => '44',
+        'magenta' => '45',
+        'cyan' => '46',
+        'light_gray' => '47'        
+    );
 
+    // Returns colored string
+    public function getColoredString($string, $foregroundColor = null, $backgroundColor = null)
+    {
+        $coloredString = "";
+        // Check if given foreground color found
+        if (isset($this->foregroundColors[$foregroundColor])) {
+            $coloredString .= "\033[" . $this->foregroundColors[$foregroundColor] . "m";
+        }
+        // Check if given background color found
+        if (isset($this->backgroundColors[$backgroundColor])) {
+            $coloredString .= "\033[" . $this->backgroundColors[$backgroundColor] . "m";
+        }
+        // Add string and end coloring
+        $coloredString .= $string . "\033[0m";
+        return $coloredString;
+    }
+}
+
+class CliController extends HCLI_Controller_Action {
+    
+    use CliColors;
+    
     /**
      * Logger
      * @var Zend_Log
      */
     protected $_logger = null;
+    
+    /**
+     *
+     * @var Zend_Db_Adapter_Abstract 
+     */
+    protected $db = null;
 
-    public function __construct(Zend_Controller_Request_Abstract $request, Zend_Controller_Response_Abstract $response, array $invokeArgs = array()) {
+    public function __construct(Zend_Controller_Request_Abstract $request, Zend_Controller_Response_Abstract $response, array $invokeArgs = array())
+    {
         parent::__construct($request, $response, $invokeArgs);
         $this->_logger = Zend_Registry::get('Zend_Log');
+        $this->db = Zend_Registry::get('db');        
     }
-
-    public function echoAction() {
-        $console = $this->getConsoleOptions(
-                array('name|n=s' => 'Tell me your name')
-        );
-        $message = 'Hello ' . $console->getOption("name");
-        echo $message, "\n";
-        $this->_logger->log($message, Zend_Log::INFO);
-        exit(0);
-    }
-
-    private function _getSQLFiles($dir,$branch,&$files) {
-        if (false !== ($handle = opendir($dir))) {
-            /* This is the correct way to loop over the directory. */
-            while (false !== ($entry = readdir($handle))) {
-                $ext = pathinfo($entry, PATHINFO_EXTENSION);
-                if($ext == 'sql' && strpos($entry, '.tpl.sql') === false) {
-                    $files[$branch][] = $entry;
-                }
-            }
-            closedir($handle);
-        }
-    }
-
-    /* This is the static comparing function: */
-    static function cmpFiles($a, $b) {
-        $al = strtolower($a);
-        $bl = strtolower($b);
-        if ($al == $bl) {
-            return 0;
-        }
-        return ($al > $bl) ? +1 : -1;
+    
+    protected function writeLn($string, $foregroundColor = null, $backgroundColor = null)
+    {
+        echo "\n" . $this->getColoredString($string, $foregroundColor, $backgroundColor) . "\n";
     }
 
     /**
-     * Get full file path
-     *
-     * @param string $file
-     * @param string $branch
-     * @param string $ext
-     * @return string
-     */
-    private function _getFilePath($file,$dir,$ext = 'sql') {
-        if($ext != 'sql') {
-            $info = pathinfo($file);
-            $file = $info['filename'] . '.' . $ext;
-        }
-        $fileName = $dir . "/" . $file;
-        return $fileName;
-    }
-
-    /**
-     * Run all sql scripts from defined directories, but also can run PHP files with the same name
-     * which return function variable in the form, ex:
-     *
-     * function upd104(Zend_Db_Adapter_Abstract $db){
-     *    $application = new Application_Model_Application();
-     *    if(!Application_Model_ApplicationMapper::getInstance()->find(10, $application)){
-     *        return false;
-     *    }
-     *    echo $application->get_name() . "\n";
-     *    return true;
-     * };
-     *
-     * return 'upd104';
-     *
-     *
+     * Run all sql scripts from scripts/dbupdates
      *
      * @return mixed
      */
-    public function dbupdAction() {
-        $console = $this->getConsoleOptions(
-                array(
-                'simulation|s=s' => 'Just simulate yes|no'
-                )
-        );
+    public function dbupdAction()
+    {
+        $console = $this->getConsoleOptions(array(
+            'simulation|s=s' => 'Just simulate yes|no'
+        ));
 
         $simulation = $console->getOption("simulation") != 'no';
 
         if($simulation) {
-            echo "\nRUNNING in SIMULATION mode\n";
-        }
-        else {
-            echo "\nRUNNING in LIVE mode\n";
-        }
+            $this->writeLn('RUNNING in SIMULATION mode', null, 'yellow');
+        } else {            
+            $this->writeLn('RUNNING in LIVE mode', null, 'green');
+        }                
 
         $appOptions = $this->getInvokeArg('bootstrap')->getOptions();
-        if(!isset ($appOptions['dbupd']) || !isset ($appOptions['dbupd']['dirs'])) {
-            echo "Please specify [dbupd.dirs] in cli.ini !\n";
-            return;
-        }
-        $dirs = $appOptions['dbupd']['dirs'];
-
-        $sqlFiles = array();
+        $dir = APPLICATION_PATH . '/../scripts/dbupdates';
 
         //get files
-        foreach ($dirs as $branch => $dir) {
-            $this->_getSQLFiles($dir, $branch, $sqlFiles);
-            usort($sqlFiles[$branch], array("CliController", "cmpFiles"));
-        }
-        //get existing db updates
-        /* @var $db Zend_Db_Adapter_Abstract */
-        $db = Zend_Registry::get('db');
+        $sqlFiles = glob($dir . '/*.sql', GLOB_MARK);
+        array_walk($sqlFiles, function(&$item){
+            $item = basename($item);
+        });
+        usort($sqlFiles, function($a, $b){
+            $al = strtolower($a);
+            $bl = strtolower($b);
+            if ($al == $bl) {
+                return 0;
+            }
+            return ($al > $bl) ? +1 : -1;            
+        });
+
         $sql = 'SELECT * FROM upgrade_db_log';
         try {
-            $result = $db->fetchAll($sql);
+            $result = $this->db->fetchAll($sql);
             foreach ($result as $row) {
-                $branch = isset ($row['branch'])?$row['branch']:'trunk';
                 $file = trim($row['file']);
-                $index = array_search($file, $sqlFiles[$branch]);
+                $index = array_search($file, $sqlFiles);
                 if($index !== FALSE) {
-                    unset ($sqlFiles[$branch][$index]);
+                    unset ($sqlFiles[$index]);
                 }
             }
         }catch (Exception $exc) {
             if($exc->getCode() != 42) {
-                echo "\n" . $exc->getMessage() . "\n";
-                return false;
+                $this->writeLn($exc->getMessage(), null, 'red');
+                exit(1);
             }
         }
 
         //check if any files
-        $hasUpdates = false;
-        foreach ($sqlFiles as $branch => $files) {
-            if(count($files) > 0) {
-                $hasUpdates = true;
-                break;
-            }
+        if(!count($sqlFiles)) {
+            $this->writeLn('No files for update', 'yellow');
+            exit(0);
         }
-        if(!$hasUpdates) {
-            echo "No files for update.\n";
-            return;
-        }
+        
+        $this->writeLn('Pending SQL files:', null, 'green');
+        foreach ($sqlFiles as $sqlFile) {
+            $this->writeLn($sqlFile, 'green');
+        }        
 
-        if($simulation) {
-            echo "These files will be execute if you turn off simulation by running with options \"-s no\":\n";
+        if(!$simulation) {
             //get files
-            foreach ($sqlFiles as $branch => $files) {
-                foreach ($files as $file) {
-                    //check if php update exists with the same name
-                    if(file_exists($this->_getFilePath($file, $dirs[$branch], 'php'))) {
-                        echo "[$file](php) in $branch\n";
-                    }
-                    else {
-                        echo "[$file] in $branch\n";
-                    }
-                }
-            }
-            return;
-        }
-        else {
-            $dbConf = $db->getConfig();
-            //get files
-            foreach ($sqlFiles as $branch => $files) {
-                foreach ($files as $file) {
-                    //execute php first if exists
-                    $phpFile = $this->_getFilePath($file, $dirs[$branch], "php");
-                    if(file_exists($phpFile)) {
-                        $phpFunction = require $phpFile;
-                        //we can continue only if php function returns TRUE
-                        if(!$phpFunction($db)) {
-                            echo "result: php error\n";
-                            continue;
-                        }
-                    }
-                    $cmd = sprintf('mysql --default-character-set=utf8 --host=%s --user=%s --password=%s %s < %s',$dbConf['host'],$dbConf['username'],$dbConf['password'],$dbConf['dbname'],$dirs[$branch] . "/" . $file);
-                    echo "\nExecuting [$file]...";
-                    //echo "\n$cmd";
-                    $lastLine = system($cmd, $retval);
-                    echo "result: $retval\n";
-                }
+            foreach ($sqlFiles as $sqlFile) {
+                $this->executeQuery($sqlFile, $dir);
             }
         }
-
-        echo "DONE!\n";
+        
+        exit(0);
+    }
+    
+    protected function executeQuery($sqlFile, $dir)
+    {
+        $dbConf = $this->db->getConfig();
+        $cmd = sprintf('mysql --default-character-set=utf8 --host=%s --user=%s --password=%s %s < %s',
+                $dbConf['host'], $dbConf['username'], $dbConf['password'], $dbConf['dbname'],
+                $dir . '/' . $sqlFile);
+        $this->writeLn("Executing [$sqlFile]", 'yellow');
+        $retval = null;
+        $lastLine = system($cmd, $retval);        
+        //update db log
+        if($retval == 0){
+            try {
+                $this->db->insert('upgrade_db_log', array(
+                    'file'  => $sqlFile,
+                    'insert_dt' => date('c')
+                ));
+                $this->writeLn("$sqlFile OK", 'green');
+            } catch (Exception $exc) {
+                $this->writeLn("ERR updating log for [$sqlFile]:\n" . $exc->getMessage(), null, 'red');
+            }
+        } else {
+            $this->writeLn("ERR executing [$sqlFile]:\n" . $lastLine, null, 'red');
+        }                  
     }
 
 }
