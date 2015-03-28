@@ -33,15 +33,19 @@ class Installer {
      * @var \PDO
      */
     protected $db = null;
+    
+    protected $dbDir = '';
 
     /**
      * private constructor
+     * @param Event $event
      */
     private function  __construct($event)
     {
         $this->io = $event->getIO();
         $this->event = $event;
         $this->dir = realpath(__DIR__ . "/../../");
+        $this->dbDir = $this->dir . '/scripts/dbupdates';
     }    
 
     public static function preInstall(Event $event) {
@@ -108,10 +112,11 @@ class Installer {
         if(!file_exists($sqlFile)){
             return true;
         }
-        $sql = file_get_contents($sqlFile);
-        if($this->execSql($sql)){
+        $this->copySqlScript($sqlFile, $extras['installer-name']);
+        //$sql = file_get_contents($sqlFile);
+        //if($this->execSql($sql)){
             //$this->io->write("Sql executed for module " . $installedPackage->getName());
-        }
+        //}
     }
         
     /**
@@ -146,7 +151,7 @@ class Installer {
         }
         $updatesDir = $this->dir . '/application/modules/' . $extras['installer-name'] . '/db_updates';
         //$updatesDir = __DIR__ . '/test_updates';
-        $this->processUpdates($updatesDir, $initPackage->getPrettyVersion(), $targetPackage->getPrettyVersion());
+        $this->processUpdates($updatesDir, $initPackage->getPrettyVersion(), $targetPackage->getPrettyVersion(), $extras['installer-name']);
     }    
     
     protected function execPostInstall(){    
@@ -269,20 +274,11 @@ class Installer {
     }
     
     protected function createDb(){
-        if(!isset($this->db)){
-            if(!$this->openDb()){
-                $this->io->write("Database tables cannot be created");
-                return false;
-            }
-        }
-        $sql = file_get_contents($this->dir . '/docs/db/scripts/init.sql');
-        try {
-            $this->db->exec($sql);
-        } catch (\PDOException $e) {
-            $this->io->write("Error executing init.sql with error: " . $e->getMessage());
-            return false;
-        }
-        return true;
+        
+        $sqlFile = $this->dir . '/docs/db/scripts/init.sql';
+        return $this->copySqlScript($sqlFile, 'skeleton');
+        //$sql = file_get_contents($sqlFile);
+        //return $this->execSql($sql);
     }
     
     protected function execSql($sql){
@@ -327,9 +323,10 @@ class Installer {
      * @param string $updDir
      * @param string $fromVersion
      * @param string $toVersion
+     * @param string $module
      * @return mixed|false
      */
-    protected function processUpdates($updDir, $fromVersion, $toVersion)
+    protected function processUpdates($updDir, $fromVersion, $toVersion, $module)
     {
         if(!is_dir($updDir)){
             return false;
@@ -353,8 +350,9 @@ class Installer {
         });
         
         foreach ($updates as $updateSql) {
-            $this->io->write("Executing db update [$updateSql]");
-            $this->execSql(file_get_contents($updateSql));
+            //$this->io->write("Executing db update [$updateSql]");
+            //$this->execSql(file_get_contents($updateSql));
+            $this->copySqlScript($updateSql, $module);
         }        
     }
     
@@ -494,5 +492,47 @@ class Installer {
             $this->io->write("Symlink created on OS $osDetected.");
         }
     }
+    
+    /**
+     * Get next sql script num
+     * @return string
+     */
+    protected function getNextSqlNum()
+    {
+        $sqlFiles = glob($this->dbDir . '/*.sql', GLOB_MARK);
+        return sprintf('%03d', count($sqlFiles) + 1);
+    }
+    
+    protected function sqlScriptExists($scriptBaseName)
+    {
+        $sqlFiles = glob($this->dbDir . '/*' . $scriptBaseName, GLOB_MARK);
+        return count($sqlFiles) > 0;        
+    }
+    
+    /**
+     * Copy sql script
+     * @param string $fromFile
+     * @param string $module
+     * @return boolean
+     */
+    protected function copySqlScript($fromFile, $module)
+    {
+        $baseName = $this->getSqlScriptBaseName($fromFile, $module);
+        if($this->sqlScriptExists($baseName)){
+            return true;
+        }
+        $toFile = $this->dbDir . '/' . $this->getNextSqlNum() . '-' . $baseName;
+        if(!copy($fromFile, $toFile)){
+            $this->io->writeError("Error copying [$fromFile]");
+            return false;
+        }
+        return true;
+    }
+    
+    protected function getSqlScriptBaseName($file, $module)
+    {
+        return $module . '_' . basename($file);
+    }
+    
 
 }
