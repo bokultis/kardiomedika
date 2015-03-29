@@ -146,6 +146,8 @@ class CliController extends HCLI_Controller_Action {
             foreach ($sqlFiles as $sqlFile) {
                 $this->executeQuery($sqlFile, $dir);
             }
+        } else {
+            $this->writeLn('Please run [composer dbup-exec] to execute scripts.', 'yellow');
         }
         
         exit(0);

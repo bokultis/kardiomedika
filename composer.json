@@ -18,11 +18,12 @@
     },
     "scripts": {
         "pre-install-cmd": "Hcms\\Installer::preInstall",
-        "post-install-cmd": "Hcms\\Installer::postInstall",
+        "post-install-cmd": ["Hcms\\Installer::postInstall","php scripts/run.php -c cli -a dbupd -e development"],
+        "post-update-cmd": ["php scripts/run.php -c cli -a dbupd -e development"],
         "pre-package-install": "Hcms\\Installer::prePackageInstall",
         "post-package-install": "Hcms\\Installer::postPackageInstall",
         "post-package-update": "Hcms\\Installer::postPackageUpdate",
         "dbup": "php scripts/run.php -c cli -a dbupd -e development",
-        "dbup-live": "php scripts/run.php -c cli -a dbupd -e development -s no"
+        "dbup-exec": "php scripts/run.php -c cli -a dbupd -e development -s no"
     }
 }

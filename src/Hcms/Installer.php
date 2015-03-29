@@ -199,9 +199,9 @@ class Installer {
             }
         }
         //db create
-        if ($this->io->askConfirmation("Do you want to create db tables and populate data? ", true)) {
+        if ($this->io->askConfirmation("Do you want to prepare db init scripts? ", true)) {
             if($this->createDb()){
-                $this->io->write("Db tables and data created");
+                $this->io->write("Db init scripts prepared in [/scripts/dbupates] please run [composer dbup]");
             }
         }          
         //app log
