@@ -1,6 +1,6 @@
 {
-  "name": "horisen-2015",
-  "version": "0.1.0",
+  "name": "horisen-cms",
+  "version": "2.0.0",
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-contrib-concat": "^0.5.0",
@@ -10,6 +10,8 @@
     "grunt-contrib-jshint": "~0.10.0",
     "grunt-contrib-nodeunit": "~0.4.1",
     "grunt-contrib-uglify": "~0.5.0",
-    "grunt-exec": "^0.4.6"
+    "grunt-exec": "^0.4.6",
+    "grunt-ssh": "0.*",
+    "grunt-prompt": "1.*"    
   }
 }

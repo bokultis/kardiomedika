@@ -1,14 +1,19 @@
 {
     "theme": {
         "name": "theme-name"
+    },
+    "sshconfig": {
+        "staging": {
+            "host": "194.0.137.132",
+            "port": 8142,
+            "username": "username",
+            "remote_dir": "/var/www/clients/client0/xxx/"                                
+        }
     },    
     "rsync": {
         "hosts": {
             "staging": {
-                "command": "rsync -r -v --progress -c --rsh=\"ssh -p8142\" --exclude-from=\"../docs/deploy/horisen2015/exclude.txt\" ../ hrs_2015_acc_ssh@194.0.137.132:/var/www/horisen2015staging.horisen.biz/"
-            },
-            "live": {
-                "command": "rsync -r -v --progress -c --rsh=\"ssh -p8142\" --exclude-from=\"../docs/deploy/horisen2015/exclude.txt\" ../ horisen_com_admin@194.0.137.132:/var/www/clients/client1/web122/"
+                "command": "rsync -r -v --progress -c --rsh=\"ssh -p8142\" --exclude-from=\"../docs/deploy/exclude.txt\" ../ username@194.0.137.132:/var/www/clients/client0/xxx/"
             }
         }
     }

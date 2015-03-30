@@ -1,5 +1,25 @@
 module.exports = function(grunt) {
     
+    
+    function getTplVars(mapValues){
+        var result = {};
+        for(var key in mapValues){
+            result['{' + key + '}'] = mapValues[key];
+        }
+        return result;
+    }
+    
+    var strtr = function (str, replacePairs) {
+        var key, re;
+        for (key in replacePairs) {
+            if (replacePairs.hasOwnProperty(key)) {
+                re = new RegExp(key, "g");
+                str = str.replace(re, replacePairs[key]);
+            }
+        }
+        return str;
+    };
+    
     var processFileVersion = function(content, srcpath){
         var d = new Date();
         var month = d.getMonth() + 1;
@@ -104,7 +124,21 @@ module.exports = function(grunt) {
             git_push: {
                 cwd: '../',
                 cmd: 'git add .;git commit -m "grunt new build";git push'
-            }            
+            },
+            dbrsync: {
+                cmd: function(host) {                                      
+                    if(!config.sshconfig[host]){
+                        grunt.fail.fatal('[' + host + "] host not found in [sshconfig] of config file");
+                    }                    
+                    var hostConfig = config.sshconfig[host];
+                    var commandTpl = "rsync -r -v --progress -c --rsh=\"ssh -p{port}\" dbupdates/ {username}@{host}:{remote_dir}/scripts/dbupdates/";
+                    var command = strtr(commandTpl, getTplVars(hostConfig));
+                    grunt.log.writeln("Running db scripts rsynn on host:" + host);
+                    grunt.log.writeln("Command: " + command);
+
+                    return command;
+                }                
+            }
         },
         imagemin: {
             options: {
@@ -118,7 +152,28 @@ module.exports = function(grunt) {
                     dest: 'dist/'
                 }]
             }
-        }
+        },
+        prompt: {
+            ssh: {
+                options: {
+                    questions: [{
+                        config: 'sshexec.dbup.options.password', // arbitrary name or config for any other grunt task
+                        type: 'password', // list, checkbox, confirm, input, password
+                        message: 'SSH Password', // Question to ask the user, function needs to return a string,
+                        default: ''
+                    }]
+                }
+            }
+        },
+        sshconfig: config.sshconfig,
+        sshexec: {
+            dbup: {
+                command: 'php scripts/run.php -c cli -a dbupd -e development' + ((grunt.option("mode") === 'upload')?' -s no ':''),
+                options: {
+                    config: '<%= grunt.option("host") %>'
+                }
+            }
+        }        
     });
 
     grunt.loadNpmTasks('grunt-contrib-concat');
@@ -127,13 +182,20 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-exec');
+    grunt.loadNpmTasks('grunt-ssh');
+    grunt.loadNpmTasks('grunt-prompt');    
 
     grunt.registerTask('default', ['concat', 'uglify', 'cssmin', 'copy']);
     
     grunt.registerTask('git', ['exec:git_pull', 'concat', 'uglify', 'cssmin', 'copy', 'exec:git_push']);
     
     var mode = grunt.option('mode') || 'simulation';
+    grunt.option('mode', mode);
     var host = grunt.option('host') || 'staging';
+    grunt.option('host', host);
+    
     grunt.registerTask('deploy', ['exec:deploy:' + mode + ':' + host]);
+    
+    grunt.registerTask('dbdeploy', ['exec:dbrsync', 'prompt:ssh', 'sshexec:dbup']);
 
 };
