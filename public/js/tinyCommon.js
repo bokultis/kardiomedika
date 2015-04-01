@@ -28,6 +28,7 @@ var tiny = {
             content_css : "../../themes/genesis/css/tinyStyle.css",
             relative_urls : true,
             document_base_url : "/",
+            image_dimensions: false,
             
             file_browser_callback : function(field_name, url, type, win){
                 $(win.document.getElementById(field_name)).imagebrowserdialog({
