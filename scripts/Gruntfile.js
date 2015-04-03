@@ -133,7 +133,7 @@ module.exports = function(grunt) {
                     var hostConfig = config.sshconfig[host];
                     var commandTpl = "rsync -r -v --progress -c --rsh=\"ssh -p{port}\" dbupdates/ {username}@{host}:{remote_dir}/scripts/dbupdates/";
                     var command = strtr(commandTpl, getTplVars(hostConfig));
-                    grunt.log.writeln("Running db scripts rsynn on host:" + host);
+                    grunt.log.writeln("Running db scripts rsync on host:" + host);
                     grunt.log.writeln("Command: " + command);
 
                     return command;
@@ -196,6 +196,6 @@ module.exports = function(grunt) {
     
     grunt.registerTask('deploy', ['exec:deploy:' + mode + ':' + host]);
     
-    grunt.registerTask('dbdeploy', ['exec:dbrsync', 'prompt:ssh', 'sshexec:dbup']);
+    grunt.registerTask('dbdeploy', ['exec:dbrsync:' + host, 'prompt:ssh', 'sshexec:dbup']);
 
 };
