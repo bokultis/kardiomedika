@@ -1,6 +1,13 @@
 <?php
 
-class ErrorController extends Zend_Controller_Action {
+class ErrorController extends HCMS_Controller_Action_Cms {
+
+    public function init(){
+        //cli version
+        if (PHP_SAPI != 'cli') {
+            parent::init();
+        }        
+    }    
 
     public function errorAction() {
         $errors = $this->_getParam('error_handler');
@@ -21,7 +28,7 @@ class ErrorController extends Zend_Controller_Action {
                 break;
             default:
                 // application error
-                $this->getResponse()->setHttpResponseCode(500);
+                $this->getResponse()->setHttpResponseCode(400);
                 $this->view->message = 'Application error';
                 break;
         }
@@ -72,8 +79,7 @@ class ErrorController extends Zend_Controller_Action {
             else {
                 $response['message'] = "An application error occured.";
             }
-            echo Zend_Json::encode($response);
-            return;
+            return $this->getHelper('json')->direct($response);
         }
         
     }
