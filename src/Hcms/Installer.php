@@ -237,6 +237,13 @@ class Installer {
                 }
             }
         }
+        //grunt deplo
+        if ($this->io->askConfirmation("Do you want to copy dist.grunt.config and prepare deploy configuration?", true)) {
+            if($this->copyDistFile($this->dir . '/scripts/dist.grunt.config.json', $this->dir . '/scripts/grunt.config.json')){
+                $this->io->write("grunt.config.json created");
+            }
+        }
+        
         $this->io->write("Init project finished.");
         return true;
     }

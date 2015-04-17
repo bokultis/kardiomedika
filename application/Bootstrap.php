@@ -36,7 +36,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $resDb = $this->getPluginResource('db');
         Zend_Registry::set('db', $resDb->getDbAdapter());
         $cacheManager = $this->getPluginResource('cachemanager');
-        Zend_Registry::set('cachemanager', $cacheManager->getCacheManager());
+        if(isset($cacheManager)){
+            Zend_Registry::set('cachemanager', $cacheManager->getCacheManager());
+        }        
         //db profiler - uncomment to enable and install firephp for firefox
         /*$profiler = new Zend_Db_Profiler_Firebug('All DB Queries');
         $profiler->setEnabled(true);
@@ -50,7 +52,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
      * @return void
      */
     public function _initCache()
-    {
+    {        
+        if(!Zend_Registry::isRegistered('cachemanager')){
+            return false;
+        }
         $cache = HCMS_Cache::getInstance()->getCoreCache();
         //set cache for table metadata
         Zend_Db_Table_Abstract::setDefaultMetadataCache($cache);

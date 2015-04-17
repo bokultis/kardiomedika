@@ -1,6 +1,7 @@
 .svn
 .git
 .gitignore
+.gitkeep
 composer.lock
 composer.json
 INSTALL.txt
@@ -16,7 +17,7 @@ INSTALL.txt
 /application/configs/*
 
 /application/modules/*/configs/local.*.php
-/themes/configs/*/local.*.php
+/themes/*/configs/*/local.*.php
 
 /public/modules/*
 /public/content/*
@@ -29,3 +30,7 @@ public/themes/*
 /scripts/*Grunt*
 /scripts/package.json
 
+/vendor/zendframework/zendframework1/demos
+/vendor/zendframework/zendframework1/documentation
+/vendor/zendframework/zendframework1/puppet
+/vendor/zendframework/zendframework1/tests
