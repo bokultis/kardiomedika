@@ -54,12 +54,12 @@ SIISN
 <base href="<?php echo $this->serverUrl() . $this->fileWebRoot; ?>" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
 
-<?php if(APPLICATION_ENV == 'development'){ ?>
-<meta name="robots" content="noindex, nofollow, nosnippet, noodp, noarchive, noimageindex" />
-<meta name="googlebot" content="noindex, nofollow, nosnippet, noodp, noarchive, noimageindex" />
-<?php } ?>
 
     <?php
+    
+        //robots (user agents)
+        echo $this->userAgents($this->application);
+    
         //inline edit
         $this->frontAdmin()->init($this->module);
         $favicon =  $this->themePath('images/favicon.ico');
