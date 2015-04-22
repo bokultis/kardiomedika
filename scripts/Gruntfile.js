@@ -121,6 +121,26 @@ module.exports = function(grunt) {
                     return command;
                 }
             },
+            ftpdeploy: {
+                cmd: function(mode, host) {                                                          
+                    if(!config.ftp[host]){
+                        grunt.fail.fatal('[' + host + "] ftp host not found in config file");
+                    }
+                    var server = config.ftp[host];
+                    var excludeParam = "";
+                    if(server.exclude){
+                        for(var i in server.exclude){
+                            excludeParam += ' --exclude-glob="' + server.exclude[i] + '"';
+                        }
+                    }
+                    var modeParam = (mode == 'upload')? '': ' --dry-run';                    
+                    
+                    var command = "lftp -e 'mirror -v -c -R --ignore-time " + modeParam + excludeParam + " .. " + server.remote_dir + ";exit' -u " + server.username + "," + grunt.config.get('misc.password') + " " + server.host;
+                    grunt.log.writeln("Running FTP deploy in mode:" + mode + " on host:" + host);
+                    grunt.log.writeln("Command: " + command);
+                    return command;
+                }
+            },            
             git_push: {
                 cwd: '../',
                 cmd: 'git add .;git commit -m "grunt new build";git push'
@@ -163,6 +183,16 @@ module.exports = function(grunt) {
                         default: ''
                     }]
                 }
+            },
+            ftp: {
+                options: {
+                    questions: [{
+                        config: 'misc.password', // arbitrary name or config for any other grunt task
+                        type: 'password', // list, checkbox, confirm, input, password
+                        message: 'FTP Password', // Question to ask the user, function needs to return a string,
+                        default: ''
+                    }]
+                }                
             }
         },
         sshconfig: config.sshconfig,
@@ -173,7 +203,7 @@ module.exports = function(grunt) {
                     config: '<%= grunt.option("host") %>'
                 }
             }
-        }        
+        }
     });
 
     grunt.loadNpmTasks('grunt-contrib-concat');
@@ -197,5 +227,7 @@ module.exports = function(grunt) {
     grunt.registerTask('deploy', ['exec:deploy:' + mode + ':' + host]);
     
     grunt.registerTask('dbdeploy', ['exec:dbrsync:' + host, 'prompt:ssh', 'sshexec:dbup']);
+    
+    grunt.registerTask('ftpdeploy', ['prompt:ftp', 'exec:ftpdeploy:' + mode + ':' + host]);
 
 };
