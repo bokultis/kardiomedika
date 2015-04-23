@@ -130,7 +130,7 @@ module.exports = function(grunt) {
                     var excludeParam = "";
                     if(server.exclude){
                         for(var i in server.exclude){
-                            excludeParam += ' --exclude-glob="' + server.exclude[i] + '"';
+                            excludeParam += ' --exclude="' + server.exclude[i] + '"';
                         }
                     }
                     var modeParam = (mode == 'upload')? '': ' --dry-run';                    
