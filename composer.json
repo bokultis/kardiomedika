@@ -3,6 +3,7 @@
     "description": "Horisen CMS Skeleton app",
     "require": {
         "horisen/installers": "*",
+        "horisen/cms-def-mod": "2.*",
         "horisen/cms-core-mod": "2.*",
         "horisen/cms-cli-lib": "2.*"
     },
