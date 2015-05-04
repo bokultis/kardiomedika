@@ -130,34 +130,12 @@ echo $this->frontAdmin()->renderHeader();?>
 <?php if(!isset($this->hideDisturber) || !$this->hideDisturber){ ?>             
             <span id="feedbackToggle" class="fa fa-envelope"></span>
 <?php } ?>            
-            <span id="searchToggle" class="fa fa-search"></span>
+            
             <span id="menuToggle" class="menuToggle fa fa-bars"></span>
-<?php if(!isset($this->hideDisturber) || !$this->hideDisturber){ ?>            
-            <div id="feedback">
-                <div id="feedback_inner">
-                    <?php echo $this->render('disturber/contact_generic.phtml');?>
-                </div>
-                <div class="feedbackToggle">
-                    <label for="nav-trigger"><?php echo $this->translate('CONTACT US');?><i class="fa fa-chevron-down feedback-lab-icon"></i></label> 
-                </div>
-                <div class="feedbackToggle white">
-                    <label for="nav-trigger"><?php echo $this->translate('HORISEN AG');?></label> 
-                </div>
-            </div>
-<?php } ?>                        
+                       
         </div>
     </header>
-    <?php if(!isset($this->slideMainDisable) || !$this->slideMainDisable){
-        //find active menu item - by default 1 which is hidden home
-        $this->menuItemId = 1;
-        $activeMenu = $this->navigation()->findActive($this->menuItems['main']);
-        if(isset ($activeMenu) && isset ($activeMenu['page'])){
-            /*@var $activePage Zend_Navigation_Page_Mvc */
-            $activePage =  $activeMenu['page'];
-            $this->menuItemId = $activePage->entity->id;
-        }        
-        echo $this->renderTeaser2('slider-main',$this->menuItemId);        
-    } ?>
+
     <main>
         <div class="container">
             <?php echo $this->frontAdmin()->renderPage($this->layout()->content); ?>

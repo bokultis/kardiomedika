@@ -5,7 +5,8 @@
         "horisen/installers": "*",
         "horisen/cms-def-mod": "2.*",
         "horisen/cms-core-mod": "2.*",
-        "horisen/cms-cli-lib": "2.*"
+        "horisen/cms-cli-lib": "2.*",
+        "phpoffice/phpexcel": "1.8.0"
     },
     "minimum-stability": "dev",
     "repositories": [{
