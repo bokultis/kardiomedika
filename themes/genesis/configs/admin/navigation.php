@@ -28,12 +28,12 @@ return array(
         'privilege' => 'master',
         'pages' => array(
             array(
-                'id' => 'google-search-config',
-                'label' => 'Google Search',
-                'title' => 'Google Search',
+                'id' => 'google-services',
+                'label' => 'Google Services',
+                'title' => 'Google Services',
                 'module' => 'admin',
-                'controller' => 'application',
-                'action' => 'gsc-edit',
+                'controller' => 'google-service',
+                'action' => 'edit',
                 'order' => 10,
                 'class' => 'configuration',
                 'resource'  => 'admin',
@@ -51,8 +51,7 @@ return array(
                 'resource'  => 'admin',
                 'privilege' => 'master',
                 'iconClass' => 'dash -submenu_bullet'
-            ),
-             
+            )
         )
     ),
     array(
@@ -193,8 +192,11 @@ return array(
         'label' => 'Contact',
         'title' => 'Contact',
         'module' => 'contact',
-        'controller' => 'admin',
-        'action' => 'contact',
+        'controller' => 'admin-generic',
+        'params'    => array(
+            'form_id'   => 'contact'
+        ),
+        'action' => 'index',
         'order' => 90,
         'class' => 'menu',
         'iconClass' => 'dash -contact',

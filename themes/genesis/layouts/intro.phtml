@@ -47,21 +47,18 @@ SIISN
                                                                ESIRRRRRRRRRISN       NORRRRRRRRIN                       
                                                                                      SORRIISEN                              
 
--->    
+-->
 <!--[if lt IE 9]>
 <script type="text/javascript" src="/js/html5shiv.js"></script>
 <![endif]--> 
 <base href="<?php echo $this->serverUrl() . $this->fileWebRoot; ?>" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
-
-
+    
     <?php
     
         //robots (user agents)
         echo $this->userAgents($this->application);
     
-        //inline edit
-        $this->frontAdmin()->init($this->module);
         $favicon =  $this->themePath('images/favicon.ico');
         $this   ->headLink(array('rel' => 'icon', 'href' => $favicon, 'type' => 'image/x-icon'),'PREPEND')
                 ->headLink(array('rel' => 'shortcut icon', 'href' => $favicon, 'type' => 'image/x-icon'),'PREPEND'); //fb ico
@@ -70,20 +67,15 @@ SIISN
         echo $this->headTitle();
         
 
-        if(APPLICATION_ENV == 'development'){            
-            $this->headLink()->prependStylesheet($this->themePath('css/sticky-footer.css'));
-            $this->headLink()->prependStylesheet($this->themePath('css/search.css'));
-            $this->headLink()->prependStylesheet($this->themePath('css/internal-pages.css'));
-            $this->headLink()->prependStylesheet($this->themePath('css/style.css?v=2014-10-10'));
-            $this->headLink()->prependStylesheet($this->themePath('css/fonts.css'));
+        if(APPLICATION_ENV == 'development'){
+            $this->headLink()->prependStylesheet($this->themePath('css/intro.css?v=2014-09-24'));
+            $this->headLink()->prependStylesheet($this->themePath('css/style.css?v=2014-09-16'));
+            $this->headLink()->prependStylesheet($this->themePath('css/fonts.css'));        
             $this->headLink()->prependStylesheet($this->themePath('css/bootstrap-grid.css'));
             $this->headLink()->prependStylesheet($this->themePath('css/bootstrap-form.css'));
-            $this->headLink()->prependStylesheet($this->themePath('css/bootstrap.min.css'));
-            $this->headLink()->prependStylesheet('/css/font-awesome.css');
-            $this->headLink()->prependStylesheet('/plugins/bxSlider/bx_styles/jquery.bxslider.css');
-            $this->headLink()->prependStylesheet('/plugins/fancybox/jquery.fancybox.css');
+            $this->headLink()->prependStylesheet('/css/font-awesome.css'); 
         }else{
-            $this->headLink()->prependStylesheet($this->themePath('css/build.min.css?' . $buildNumber));
+            $this->headLink()->prependStylesheet($this->themePath('css/intro_build.min.css?' . $buildNumber));
         }
         
         $this->headStyle()->appendStyle(".gradient {filter: none;}", array('conditional' => 'gte IE 9'));
@@ -92,60 +84,44 @@ SIISN
         echo $this->headStyle();      
                 
         if(APPLICATION_ENV == 'development'){
-            $this->headScript()->appendFile('/modules/contact/js/jquery.ajaxSubmit.js');
-            $this->headScript()->prependFile($this->themePath('js/main.js?v=2014-10-10'));
-            $this->headScript()->prependFile('/plugins/collapsibleBox/jquery.collapsibleBox.js');
-            $this->headScript()->prependFile('/plugins/bxSlider/jquery.bxSlider.min.js');
+            $this->headScript()->prependFile($this->themePath('js/intro.js'));
+            $this->headScript()->prependFile('/plugins/sequence/jquery.sequence-min.js');
+            $this->headScript()->prependFile('/plugins/mousewheel/jquery.mousewheel.min.js');
             $this->headScript()->prependFile('/plugins/picturefill/picturefill.js');
-            $this->headScript()->prependFile('/plugins/fancybox/jquery.fancybox.pack.js');
             $this->headScript()->prependFile('/js/jquery-1.11.1.min.js');
             $this->headScript()->prependFile('/js/head.js');
         }else{
-            $this->headScript()->prependFile($this->themePath('js/build.min.js?' . $buildNumber));
+            $this->headScript()->prependFile($this->themePath('js/intro_build.min.js?' . $buildNumber));
         }
         $this->headScript()->prependScript('document.createElement( "picture" );');
-        
-        $bodyClasses = array();
+                        
         if(isset ($this->page) && null != $this->page->get_code() && '' != $this->page->get_code()){
-            $bodyClasses[] = $this->page->get_code();
+            $bodyClass = ' class="' . $this->page->get_code() . '"';
         }
-        if(isset($this->slideMainDisable) && $this->slideMainDisable){
-            $bodyClasses[] = 'no-slider';
+        else{
+            $bodyClass = '';
         }
-        $bodyClass = (count($bodyClasses))? 'class="' . implode(' ', $bodyClasses) . '"' : '';
-        
-?>    
+?>
+
 </head>
 <body <?php echo $bodyClass;?>>
-<?php
-//inline edit
-echo $this->frontAdmin()->renderHeader();?>
-    <header class="gradient">
+    <header class="gradient intro-page">
         <div class="container">
-            <a href="<?php echo $this->url(array('module' => 'cms', 'controller' => 'page', 'action' => 'index', 'page_id' => 59),'cms',true);?>" class="headerLogo spriteLogo"></a>
+            <a href="<?php echo $this->url(array('module' => 'cms', 'controller' => 'page', 'action' => 'index', 'page_id' => 59),'cms',true);?>" class="headerLogo"><img src="<?php echo ('/themes/genesis/images/horisen_intro_logo.png'); ?>" class="blackLogo" alt="HORISEN AG" /></a>
             <nav role="navigation">
                 <i class="fa fa-times main-menu-close"></i>
                 <?php echo $this->navigation()->menu()->setUseTranslator(false)->renderMenu($this->menuItems['main'],array('ulClass' => 'main-menu', 'indent' => 20, 'maxDepth' => 2)); ?>
             </nav>
-            <div id="search">
-                <?php $this->GoogleSearchCode($this->application); ?>
-            </div>
-            
-            <span id="searchToggle" class="fa fa-search"></span>
+           <?php $this->GoogleSearchCode($this->application); ?>
             <span id="menuToggle" class="menuToggle fa fa-bars"></span>
-                       
         </div>
     </header>
-
-
-        <div class="container">
-            <?php echo $this->frontAdmin()->renderPage($this->layout()->content); ?>
-        </div>
-        <div class="menu-overlay"></div>
-        <div class="feedback-overlay"></div>
-
-    
-
+    <!--<main>-->
+        <!--<div class="container">-->
+            <?php echo $this->layout()->content; ?>
+        <!--</div>-->
+        <!--<div class="menu-overlay"></div>-->
+    <!--</main>-->    
     <?php echo $this->headScript(); ?>
     <?php echo $this->GA(); ?>
 </body>

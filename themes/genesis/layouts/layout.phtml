@@ -52,6 +52,7 @@ SIISN
 <script type="text/javascript" src="/js/html5shiv.js"></script>
 <![endif]--> 
 <base href="<?php echo $this->serverUrl() . $this->fileWebRoot; ?>" />
+<?php echo $this->WebmasterTools(); ?>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
 
 <?php
@@ -114,6 +115,9 @@ SIISN
 ?>    
 </head>
 <body <?php echo $bodyClass;?>>
+   
+<?php echo $this->GTM(); ?>    
+          
 <?php
 //inline edit
 echo $this->frontAdmin()->renderHeader();?>
@@ -124,40 +128,17 @@ echo $this->frontAdmin()->renderHeader();?>
                 <i class="fa fa-times main-menu-close"></i>
                 <?php echo $this->navigation()->menu()->setUseTranslator(false)->renderMenu($this->menuItems['main'],array('ulClass' => 'main-menu', 'indent' => 20, 'maxDepth' => 2)); ?>
             </nav>
-            <div id="search">
+            
                 <?php $this->GoogleSearchCode($this->application); ?>
-            </div>
+            
 <?php if(!isset($this->hideDisturber) || !$this->hideDisturber){ ?>             
             <span id="feedbackToggle" class="fa fa-envelope"></span>
-<?php } ?>            
-            <span id="searchToggle" class="fa fa-search"></span>
-            <span id="menuToggle" class="menuToggle fa fa-bars"></span>
-<?php if(!isset($this->hideDisturber) || !$this->hideDisturber){ ?>            
-            <div id="feedback">
-                <div id="feedback_inner">
-                    <?php echo $this->render('disturber/contact_generic.phtml');?>
-                </div>
-                <div class="feedbackToggle">
-                    <label for="nav-trigger"><?php echo $this->translate('CONTACT US');?><i class="fa fa-chevron-down feedback-lab-icon"></i></label> 
-                </div>
-                <div class="feedbackToggle white">
-                    <label for="nav-trigger"><?php echo $this->translate('HORISEN AG');?></label> 
-                </div>
-            </div>
 <?php } ?>                        
+            <span id="menuToggle" class="menuToggle fa fa-bars"></span>
+                      
         </div>
     </header>
-    <?php if(!isset($this->slideMainDisable) || !$this->slideMainDisable){
-        //find active menu item - by default 1 which is hidden home
-        $this->menuItemId = 1;
-        $activeMenu = $this->navigation()->findActive($this->menuItems['main']);
-        if(isset ($activeMenu) && isset ($activeMenu['page'])){
-            /*@var $activePage Zend_Navigation_Page_Mvc */
-            $activePage =  $activeMenu['page'];
-            $this->menuItemId = $activePage->entity->id;
-        }        
-        echo $this->renderTeaser2('slider-main',$this->menuItemId);        
-    } ?>
+
     <main>
         <div class="container">
             <?php echo $this->frontAdmin()->renderPage($this->layout()->content); ?>
