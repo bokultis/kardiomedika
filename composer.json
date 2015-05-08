@@ -14,8 +14,7 @@
     }],
     "autoload": {
         "psr-0": {
-            "Hcms\\": "src/",
-            "Application_Model_": "application/modules/default/models/"
+            "Hcms\\": "src/"
         },
         "classmap": ["application/modules/default/models/"]
     },
