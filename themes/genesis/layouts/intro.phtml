@@ -112,19 +112,17 @@ SIISN
                 <i class="fa fa-times main-menu-close"></i>
                 <?php echo $this->navigation()->menu()->setUseTranslator(false)->renderMenu($this->menuItems['main'],array('ulClass' => 'main-menu', 'indent' => 20, 'maxDepth' => 2)); ?>
             </nav>
-            <?php $this->GoogleSearchCode($this->application); ?>
+           <?php $this->GoogleSearchCode($this->application); ?>
             <span id="menuToggle" class="menuToggle fa fa-bars"></span>
         </div>
     </header>
-
-    <div class="container">
-        <?php echo $this->frontAdmin()->renderPage($this->layout()->content); ?>
-    </div>
-    <div class="menu-overlay"></div>
-    <div class="feedback-overlay"></div>
-
+    <!--<main>-->
+        <!--<div class="container">-->
+            <?php echo $this->layout()->content; ?>
+        <!--</div>-->
+        <!--<div class="menu-overlay"></div>-->
+    <!--</main>-->    
     <?php echo $this->headScript(); ?>
     <?php echo $this->GA(); ?>
-
 </body>
 </html>

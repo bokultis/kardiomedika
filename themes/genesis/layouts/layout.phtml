@@ -52,6 +52,7 @@ SIISN
 <script type="text/javascript" src="/js/html5shiv.js"></script>
 <![endif]--> 
 <base href="<?php echo $this->serverUrl() . $this->fileWebRoot; ?>" />
+<?php echo $this->WebmasterTools(); ?>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
 
 <?php
@@ -114,6 +115,9 @@ SIISN
 ?>    
 </head>
 <body <?php echo $bodyClass;?>>
+   
+<?php echo $this->GTM(); ?>    
+          
 <?php
 //inline edit
 echo $this->frontAdmin()->renderHeader();?>
@@ -124,15 +128,14 @@ echo $this->frontAdmin()->renderHeader();?>
                 <i class="fa fa-times main-menu-close"></i>
                 <?php echo $this->navigation()->menu()->setUseTranslator(false)->renderMenu($this->menuItems['main'],array('ulClass' => 'main-menu', 'indent' => 20, 'maxDepth' => 2)); ?>
             </nav>
-            <div id="search">
+            
                 <?php $this->GoogleSearchCode($this->application); ?>
-            </div>
+            
 <?php if(!isset($this->hideDisturber) || !$this->hideDisturber){ ?>             
             <span id="feedbackToggle" class="fa fa-envelope"></span>
-<?php } ?>            
-            
+<?php } ?>                        
             <span id="menuToggle" class="menuToggle fa fa-bars"></span>
-                       
+                      
         </div>
     </header>
 
