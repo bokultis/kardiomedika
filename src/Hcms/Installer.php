@@ -244,6 +244,14 @@ class Installer {
             }
         }
         
+        //theme download
+        if ($this->io->askConfirmation("Do you want to download a theme?", true)) {
+            $themeName = $this->io->ask("Theme name (genesis)? ", 'genesis');
+            if($themeName){
+                $this->downloadTheme($themeName);
+            }            
+        }        
+        
         $this->io->write("Init project finished.");
         return true;
     }
@@ -541,5 +549,15 @@ class Installer {
         return $module . '_' . basename($file);
     }
     
+    
+    protected function downloadTheme($themeName)
+    {
+        $themeDir = $this->dir . '/themes/' . $themeName;
+        if(!is_dir($themeDir)){
+            mkdir($themeDir);
+        }
+        $command = "git archive --remote=ssh://git-user@git.horisen.biz:8142/opt/git/cms/genesis.git master:themes/$themeName | tar -x -C $themeDir";
+        shell_exec($command);        
+    }
 
 }
