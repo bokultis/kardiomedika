@@ -3,7 +3,6 @@
     "description": "Horisen CMS Skeleton app",
     "require": {
         "horisen/installers": "*",
-        "horisen/cms-def-mod": "2.*",
         "horisen/cms-core-mod": "2.*",
         "horisen/cms-cli-lib": "2.*",
         "phpoffice/phpexcel": "1.8.0"
@@ -15,8 +14,10 @@
     }],
     "autoload": {
         "psr-0": {
-            "Hcms\\": "src/"
-        }
+            "Hcms\\": "src/",
+            "Application_Model_": "application/modules/default/models/"
+        },
+        "classmap": ["application/modules/default/models/"]
     },
     "scripts": {
         "pre-install-cmd": "Hcms\\Installer::preInstall",
