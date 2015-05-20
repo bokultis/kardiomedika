@@ -4,8 +4,7 @@
     "require": {
         "horisen/installers": "*",
         "horisen/cms-core-mod": "2.*",
-        "horisen/cms-cli-lib": "2.*",
-        "phpoffice/phpexcel": "1.8.0"
+        "horisen/cms-cli-lib": "2.*"
     },
     "minimum-stability": "dev",
     "repositories": [{
