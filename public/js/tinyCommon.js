@@ -16,10 +16,14 @@ var tiny = {
                      "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
                      "save table contextmenu directionality emoticons template paste textcolor"
                ],
-            toolbar: "insertfile undo redo  | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | forecolor backcolor emoticons",            
+            toolbar: "insertfile undo redo  | bold italic | alignleft aligncenter alignright alignjustify | template | bullist numlist outdent indent | link image | forecolor backcolor emoticons",            
                        
             menubar : true,
             
+            templates: [ 
+                {title: 'Collapsible Box', description: '', url: '../../themes/cupandmore/templates/collapsible-box.html'} 
+            ],
+
             //skin
             //skin : "hfb",
             //inlinepopups_skin: "hfb",
