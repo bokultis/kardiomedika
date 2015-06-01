@@ -21,7 +21,7 @@ var tiny = {
             menubar : true,
             
             templates: [ 
-                {title: 'Collapsible Box', description: '', url: '../../themes/cupandmore/templates/collapsible-box.html'} 
+                {title: 'Collapsible Box', description: '', url: '../../themes/genesis/templates/collapsible-box.html'} 
             ],
 
             //skin
@@ -31,6 +31,7 @@ var tiny = {
             // Example content CSS (should be your site CSS)
             content_css : "../../themes/genesis/css/tinyStyle.css",
             relative_urls : true,
+            convert_urls: false,
             document_base_url : "/",
             image_dimensions: false,
             
