@@ -1373,15 +1373,7 @@ CREATE TABLE IF NOT EXISTS `translate_language` (
   UNIQUE KEY `code` (`code`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
---
--- Dumping data for table `translate_language`
---
 
-INSERT INTO `translate_language` (`id`, `code`, `name`, `default`, `front_enabled`) VALUES
-(1, 'de', 'G', 'yes', 'yes'),
-(2, 'en', 'E', 'no', 'yes'),
-(4, 'fr', 'F', 'no', 'no'),
-(5, 'it', 'I', 'no', 'no');
 
 -- --------------------------------------------------------
 
