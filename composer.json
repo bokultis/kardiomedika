@@ -4,6 +4,7 @@
     "require": {
         "horisen/installers": "*",
         "horisen/cms-core-mod": "2.*",
+        "horisen/cms-contact-mod": "2.*",
         "horisen/cms-cli-lib": "2.*"
     },
     "minimum-stability": "dev",

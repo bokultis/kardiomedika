@@ -12,16 +12,28 @@ var tiny = {
             // General options
             theme : "modern",
             plugins: [
-                     "advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
+                     "advlist autolink link image lists charmap print preview hr anchor pagebreak",
                      "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
-                     "save table contextmenu directionality emoticons template paste textcolor"
+                     "save table contextmenu directionality emoticons template paste textcolor codemirror"
                ],
-            toolbar: "insertfile undo redo  | bold italic | alignleft aligncenter alignright alignjustify | template | bullist numlist outdent indent | link image | forecolor backcolor emoticons",            
-                       
+            toolbar: "insertfile undo redo  | bold italic | alignleft aligncenter alignright alignjustify | template | bullist numlist outdent indent | link image | forecolor backcolor emoticons | code",            
+            codemirror: {
+                path: 'codemirror-4.8'
+            },   
+
+//            external_plugins: {"nanospell": "/plugins/tinymce/plugins/nanospell/plugin.js"},
+//            nanospell_server: "php", // choose "php" "asp" "asp.net" or "java"
+//            nanospell_dictionary: "en,de,fr,it",
+
+            browser_spellcheck : true,
+
             menubar : true,
             
             templates: [ 
-                {title: 'Collapsible Box', description: '', url: '../../themes/genesis/templates/collapsible-box.html'} 
+                {title: 'Collapsible Box ', description: '', url: '../../modules/cms/templates/collapsible-box.html'},
+                {title: 'Column 2-1 ', description: '', url: '../../modules/cms/templates/column-2-1.html'},
+                {title: 'Column 1-2 ', description: '', url: '../../modules/cms/templates/column-1-2.html'},
+                {title: 'Column 3 ', description: '', url: '../../modules/cms/templates/column-3.html'}
             ],
 
             //skin
@@ -29,9 +41,8 @@ var tiny = {
             //inlinepopups_skin: "hfb",
             
             // Example content CSS (should be your site CSS)
-            content_css : "../../themes/genesis/css/tinyStyle.css",
+            content_css : "../../modules/cms/css/tinyFrontStyle.css",
             relative_urls : true,
-            convert_urls: false,
             document_base_url : "/",
             image_dimensions: false,
             
