@@ -1,0 +1,61 @@
+/* 
+    Created on : Jul 6, 2015, 4:52:28 PM
+    Author     : boris
+*/
+
+.collapseArrow {
+  position: absolute;
+  right: 0px;
+  top: 13px;
+  font-size: 1rem; }
+
+.collapsibleSection h2 {
+  margin-left: 0; }
+
+.collapsibleSection {
+  position: relative; }
+
+.collapsibleSection div.open {
+  display: block; }
+
+.collapsibleSection div.closed {
+  display: none; }
+
+.collapsibleSection .collapseArrow {
+  top: 5px; }
+
+.listGroup h3.open .collapseArrow {
+  transform: rotate(90deg); }
+
+.collapseArrow {
+  transition: all .5s ease-in-out;
+  cursor: pointer; }
+
+.collapseArrow.open {
+  transform: rotate(90deg); }
+
+@media screen and (min-width: 960px) {
+  .listGroup .collapseArrow {
+    display: none; }
+
+  .collapsibleSection h3 {
+    position: relative;
+    display: inline-block;
+    margin-left: 10px;
+    margin-top: 5px;
+    cursor: pointer; }
+
+  .collapsibleSection .collapseArrow {
+    position: relative;
+    display: inline-block;
+    left: 0;
+    top: -3px; }
+
+  .designSection.collapsibleSection h3 {
+    cursor: pointer;
+    display: inline;
+    margin-left: 10px;
+    position: relative;
+    top: -3px; } }
+
+
