@@ -107,7 +107,7 @@ class Installer {
             return true;
         }
         //make symlinks
-        $this->makeSymlinkModulePublic($extras['installer-name']);
+        //$this->makeSymlinkModulePublic($extras['installer-name']);
         $sqlFile = $this->dir . '/application/modules/' . $extras['installer-name'] . '/init.sql';
         if(!file_exists($sqlFile)){
             return true;
