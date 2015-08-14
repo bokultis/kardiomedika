@@ -463,3 +463,7 @@ function sessionUrl(url){
     }
     return sessionFix.appendQS(url,"token",sessionFix.sessionId);
 }
+
+function jqId(myid) {
+    return '#' + myid.replace(/(:|\[|\]|\.)/g, '\\$1');
+}

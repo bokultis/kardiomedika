@@ -33,7 +33,11 @@ var tiny = {
                 {title: 'Collapsible Box ', description: '', url: '../../modules/cms/templates/collapsible-box.html'},
                 {title: 'Column 2-1 ', description: '', url: '../../modules/cms/templates/column-2-1.html'},
                 {title: 'Column 1-2 ', description: '', url: '../../modules/cms/templates/column-1-2.html'},
-                {title: 'Column 3 ', description: '', url: '../../modules/cms/templates/column-3.html'}
+                {title: 'Column 1-5 ', description: '', url: '../../modules/cms/templates/column-1-5.html'},
+                {title: 'Column 5-1 ', description: '', url: '../../modules/cms/templates/column-5-1.html'},
+                {title: 'Column 1-1-1 ', description: '', url: '../../modules/cms/templates/column-1-1-1.html'},
+                {title: 'Column 1-1 ', description: '', url: '../../modules/cms/templates/column-1-1.html'},
+                {title: 'Spyscroll ', description: '', url: '../../modules/cms/templates/spyscroll.html'}
             ],
 
             //skin
