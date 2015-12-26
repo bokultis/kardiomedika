@@ -1,0 +1,26 @@
+<?php
+$this->slideMainDisable = true;
+if($this->page->get_code() == 'impressum'){
+    $removeApiToc = true;
+}
+else{    
+    $removeApiToc = false;
+}
+
+$this->headScript()->appendFile('/plugins/bootstrap/js/bootstrap.min.js');
+if(!$removeApiToc){
+    $this->headScript()->appendFile($this->themePath('js/api.js?v=2014-11-18'));
+}
+$this->headLink()->appendStylesheet($this->themePath('css/api.css?v=2014-11-18'));
+
+$this->headLink()->appendStylesheet($this->themePath('plugins/prettify/prettify.css'));
+$this->headScript()->appendFile($this->themePath('plugins/prettify/prettify.js'));
+?>
+<?php if(!$removeApiToc){ ?>
+<div class="col-md-3 bs-docs-sidebar">
+    <div id="apiToc"></div> 
+</div>
+<?php } ?>
+<div id="apiContent" class="col-md-9">
+    <?php echo $this->renderPage($this->page); ?>    
+</div>

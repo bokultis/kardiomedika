@@ -1,0 +1,73 @@
+<?php
+    $this->menuItemId = 1;
+    $this->headScript()->appendScript('$(window).load(function(){
+        $(".collapse").collapsibleBox({
+            handleSelector: ".collapseHandle",
+            collapsibleSelector: ".collapseBox",
+            openClass: "open",
+            closedClass: "closed",
+            onChange: function(el, closed){
+               //console.log(el, "is closed: ", closed);
+            },
+            getIsClosed: function(widget){
+                var height = widget.$el.height();
+                //console.log("heights",widget.$el.find("img").outerHeight(true), widget.$el.find(".teaserItemHeading").outerHeight(true), widget.$el.find(".collapseBox").outerHeight(true), widget.$el.find("a.horisenBtn").outerHeight(true));
+                var elementsHeight = widget.$el.find("img").outerHeight(true) + widget.$el.find(".teaserItemHeading").outerHeight(true) + widget.$el.find(".collapseBox").outerHeight(true) + widget.$el.find("a.horisenBtn").outerHeight(true);
+                var closed = elementsHeight > height;
+                if(!closed){
+                    //hide toogle button
+                    widget.$el.find("h2.collapseHandle i").hide();
+                } else {
+                    widget.$el.find("h2.collapseHandle i").show();
+                }
+                return {
+                    "closed": closed,
+                    "toggable": closed 
+                };
+            }            
+        });        
+    })');
+?>
+<div class="introTxt">
+    <h1>Cross-media marketing solutions</h1>
+    <h2>Tailored to your needs</h2>
+</div>
+<p>Five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.<br /> It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publish.</p>
+<!-- Teaser Boxes -->
+<div class="teaserBox">
+    <?php 
+    echo $this->renderTeaser2('teaser1', $this->menuItemId);
+    echo $this->renderTeaser2('teaser2', $this->menuItemId);
+    echo $this->renderTeaser2('teaser3', $this->menuItemId);
+    echo $this->renderTeaser2('teaser4', $this->menuItemId);
+    ?>
+</div>
+<div>
+
+<?php
+$view = $this;
+function printNavItem($navItem, $view){
+    
+    /* @var $menuItem Cms_Model_MenuItem */
+    $menuItem = $navItem->entity;
+    if($menuItem->get_page_id() > 0){
+        echo $view->contentBlock($menuItem->get_page_id(), null, 'id');
+    }
+}
+
+function printNavItems($navItems, $view){   
+    foreach($navItems as $navItem){    
+        printNavItem($navItem, $view);
+        if ($navItem->hasPages()) {
+            printNavItems($navItem->getPages(), $view);
+        }
+    }    
+}
+
+printNavItems($this->menuItems['main'], $this);
+
+echo $this->contentBlock('widget-1'); ?>
+</div>
+<div>
+<?php echo $this->contentBlock('widget-2'); ?>
+</div>

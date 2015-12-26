@@ -1,0 +1,5 @@
+<?php if($this->subscription->get_status() == 'subscribed'){ ?>
+<p><?php echo $this->translate('You are successfully subscribed');?></p>
+<?php }else{ ?>
+<p><?php echo $this->translate('You are successfully unsubscribed');?></p>
+<?php } ?>

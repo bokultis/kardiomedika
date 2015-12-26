@@ -1,0 +1,77 @@
+<?php
+$this->hideDisturber = true;
+$this->slideMainDisable = true;
+$this->headScript()->appendScript('
+$(document).ready(function(){    
+    //feedback form
+    $("#horisenContact").ajaxSubmit({
+        fieldSelector: \'[name="data\\[{field}\\]"],.error-wrapper-{field}\',
+        onSubmit: function(data, errors){
+            if(data.success){
+                //show message
+                var message = data["message"]? data["message"]: "Thank you";
+                //alert(message);
+                $("#formContainer").addClass("flipped");
+            }
+            else{
+                //alert(errors.join("\n"));
+            }
+        }
+    });
+});    
+');
+
+echo $this->render('page/static/' . CURR_LANG . '/contact-header.phtml');
+?>
+<div class="row">
+<div class="col-md-6">
+            <div id="formContainer" class="formContact">
+                <div class="formSide formFront"><h2><?php echo $this->translate("Contact form");?></h2>
+                    <form id="horisenContact" action="<?php echo $this->url(array('module'=>'contact','controller'=>'generic','action'=>'index','form_id' => $this->formId),'cms',true);?>" method="POST" role="form">
+<?php
+    //Zend_Debug::dump($this->errors);
+    echo $this->formFields($this->fields);
+?>
+                        <button type="submit" name="submit[save]" class="btn btn-default feedbackBtn"><?php echo $this->translate('Send feedback'); ?></button>
+                        <p><?php echo $this->translate('We are glad to help you in every way'); ?></p>
+                    </form>
+                </div>
+                <div class="formSide formBack">
+                    <?php echo $this->translate("Thank you! <br>We'll get in touch with you as soon as possible.");?>
+                </div>                
+            </div>
+</div>
+<div class="col-md-6 addressInfo">
+    <h2><?php echo $this->translate("Address");?></h2>
+    <div class="col-md-4 contactAdress">
+        <ul>
+            <li>HORISEN AG</li>
+            <li>Hauptstrasse 65</li>
+            <li>CH-9400 Rorschach</li>
+            <li>Schweiz</li>
+        </ul>
+    </div>
+    <div class="col-md-8 contactMail">
+        <p>Email &nbsp;&nbsp; <a href="mailto:boris@horisen.com">boris@horisen.com</a></p>
+        <p>Web &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.horisen.com" target="_blank">www.horisen.com</a></p>
+        <p>Phone &nbsp;&nbsp;<a href="tel:+41 58 700 00 00">+41 58 700 00 00</a></p>
+    </div>
+    <div class="col-md-12 map">
+        <a class="group" rel="group1" href="https://www.google.com/maps/place/Hauptstrasse+65,+9400+Rorschach,+Switzerland/@47.478297,9.492442,6405m/data=!3m1!1e3!4m2!3m1!1s0x479b1bbb5963f3d1:0x763c1a978dfd97b2?hl=en" target="_blank">Google Maps</a>
+        <img src="<?php echo $this->themePath('images/contact_map_en.png'); ?>" />
+    </div>
+    <div class="col-md-12 route routeCar">
+        <h3><?php echo $this->translate("Traveling by car");?></h3>
+        <a target="_blank" href="https://maps.google.com?daddr=Hauptstrasse+65,+9400+Rorschach,+Switzerland"><?php echo $this->translate("Route planner");?></a>
+        <a target="_blank" href="<?php echo ('/uploads/contact/how-to-find-us_en.pdf'); ?>"><?php echo $this->translate("Directions");?></a>
+    </div>
+    <div class="col-md-12 route routeTrain">
+        <h3><?php echo $this->translate("Travelling by public transport");?></h3>
+        <a target="_blank" href="http://fahrplan.sbb.ch/bin/query.exe/dn?z=9400%20Rorschach%2C%20Hauptstrasse%2065&zadr=1"><?php echo $this->translate("Schedule");?></a>
+    </div> 
+    <div id="mapBox">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2696.5962504029876!2d9.4924424!3d47.478296799999995!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x479b1bbb5963f3d1%3A0x763c1a978dfd97b2!2sHauptstrasse+65%2C+9400+Rorschach%2C+Switzerland!5e0!3m2!1sen!2srs!4v1416228106113" width="100%" height="100%" frameborder="0" style="border:0"></iframe>
+    </div>
+</div>
+    </div>
+        

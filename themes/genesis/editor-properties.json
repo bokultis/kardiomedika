@@ -1,0 +1,127 @@
+{
+    "pages": {
+        "/themes/genesis/theme_edit/preview/complex.html": {
+            "name": "First Page",
+            "def": {
+                ".introTxt h1":{
+                    "name": "Page title h1",
+                    "props":["color","background-color","font-family","font-weight","text-align"],
+                    "labels": ["Color","Background color","Font","Font Weight","Align"],
+                    "description": "Update page h1 title here",
+                    "editorsConfig":{
+                        "font-family": {
+                            "names": ["Verdana","Arial", "Times New Roman"]
+                        }
+                    },
+                    "iconClass": "glyphicon glyphicon-star"
+                },
+                ".introTxt h2":{
+                    "name": "Page title h2",
+                    "props":["color","background-color","font-family","font-weight","text-align"],
+                    "labels": ["Color","Background color","Font","Font Weight","Align"],
+                    "description": "Update page h2 title here",
+                    "editorsConfig":{
+                        "font-family": {
+                            "names": ["Verdana","Arial", "Times New Roman"]
+                        }
+                    },
+                    "iconClass": "glyphicon glyphicon-star"
+                },
+                ".collapse .teaserItemHeading h2":{
+                    "name": "Teaser title",
+                    "props":["color","background-color","font-family","font-weight","text-align"],
+                    "labels": ["Color","Background color","Font","Font Weight","Align"],
+                    "description": "Update teaser title here",
+                    "editorsConfig":{
+                        "font-family": {
+                            "names": ["Verdana","Arial", "Times New Roman"]
+                        }
+                    },
+                    "iconClass": "glyphicon glyphicon-star"
+                },
+                ".container p":{
+                    "name": "Text",
+                    "props":["font-size","color"],
+                    "labels": ["Font size","Color"],
+                    "editorsConfig":{
+                        "font-size": {
+                            "fixedValues": ["original","10px","11px","12px"]
+                        }
+                    },
+                    "iconClass": "glyphicon glyphicon-font"
+                },
+                ".main-menu a, .main-menu span":{
+                    "name": "Links",
+                    "props":["font-size","color"],
+                    "labels": ["Font size","Color"],
+                    "editorsConfig":{
+                        "font-size": {
+                            "fixedValues": ["original","10px","11px","12px"]
+                        }
+                    },
+                    "iconClass": "glyphicon glyphicon-font"
+                },
+                ".btn.horisenBtn":{
+                    "name": "Button",
+                    "props":["color","background-color","font-family","font-weight"],
+                    "labels": ["Color","Background color","Font","Font Weight"],
+                    "description": "Update button here",
+                    "editorsConfig":{
+                        "font-family": {
+                            "names": ["Verdana","Arial", "Times New Roman"]
+                        }
+                    },
+                    "iconClass": "glyphicon glyphicon-star"
+                },
+                ".listGroup, .collapseContent, .listGroup p, .collapseContent p":{
+                    "name": "Box Concept",
+                    "props":["color","background-color","font-family","font-weight"],
+                    "labels": ["Color","Background color","Font","Font Weight"],
+                    "description": "Update box here",
+                    "editorsConfig":{
+                        "font-family": {
+                            "names": ["Verdana","Arial", "Times New Roman"]
+                        }
+                    },
+                    "iconClass": "glyphicon glyphicon-stop"
+                },
+                ".footer":{
+                    "name": "Footer",
+                    "props":["background-color"],
+                    "labels": ["Background color"],
+                    "description": "Update footer here",
+                    "editorsConfig":{
+                        "font-family": {
+                            "names": ["Verdana","Arial", "Times New Roman"]
+                        }
+                    },
+                    "iconClass": "glyphicon glyphicon-star"
+                },
+                "ul.footerMenu a, ul.footerMenu span":{
+                    "name": "Footer Menu",
+                    "props":["color","background-color","font-family","font-weight"],
+                    "labels": ["Color","Background color","Font","Font Weight"],
+                    "description": "Update footer menu here",
+                    "editorsConfig":{
+                        "font-family": {
+                            "names": ["Verdana","Arial", "Times New Roman"]
+                        }
+                    },
+                    "iconClass": "glyphicon glyphicon-star"
+                },
+                ".copyright a, .copyright span ":{
+                    "name": "Footer Copyright",
+                    "props":["color","background-color","font-family","font-weight"],
+                    "labels": ["Color","Background color","Font","Font Weight"],
+                    "description": "Update footer copyright text here",
+                    "editorsConfig":{
+                        "font-family": {
+                            "names": ["Verdana","Arial", "Times New Roman"]
+                        }
+                    },
+                    "iconClass": "glyphicon glyphicon-star"
+                }
+            }
+        }
+    }
+}

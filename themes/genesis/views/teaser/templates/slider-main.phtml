@@ -1,0 +1,37 @@
+<?php
+if(isset($this->items) && count($this->items)){
+    $sliderSpeed = ($this->teaser->get_content('speed'))? $this->teaser->get_content('speed'): 5000;
+?>
+<ul class="bxslider<?php if(count($this->items) == 1){echo ' single-slide';};?>" style="visibility: hidden;" data-speed="<?php echo $sliderSpeed; ?>">
+<?php
+    $style = '';
+    /* @var $item Teaser_Model_Item */
+    foreach ($this->items as $item) {
+        $liId = ($item->get_content('css_id'))? ' id="' . $item->get_content('css_id') . '"' : '';
+        if(null != $item->get_content('css_text')){
+            $style .= "\n" . $item->get_content('css_text');
+        }
+        $hasVideo = $item->get_content('video_url');
+?>
+            <li<?php echo $liId;?>>
+                <div class="container sliderButtonContainer">
+                <h1><?php echo $item->get_title(); ?></h1>
+                <?php if($item->get_content('subtitle')){?><h1><?php echo $item->get_content('subtitle');?></h1><?php } ?>
+                <h2><?php echo $item->get_content('text');?></h2>
+                <?php echo $this->renderTeaserPicture($item, $this->box, array('version' => '2014121709')); ?>
+                <?php if($hasVideo){ ?>
+                <a href="<?php echo $item->get_content('video_url'); ?>" class="videoPopupLink">
+                    <div class="sliderButton"><span><?php echo $this->translate('to see:<br />push the<br />button');?></span></div>
+                </a>
+                <?php } ?>
+                </div>
+            </li>
+<?php
+    }
+    if($style != ''){
+        $this->headStyle()->appendStyle($style);
+    }    
+?>
+        </ul>
+<?php
+} ?>

@@ -1,0 +1,23 @@
+<?php if(isset($this->items) && count($this->items)){
+    $item = $this->items[0];
+    $hasLink = trim($item->get_content('link')) != '';
+?>
+<div class="teaserItem">
+    <article class="collapse gradient">
+        <header>
+            <?php if($hasLink){?><a href="<?php echo $item->get_content('link');?>" target="<?php echo $item->get_content('link_target')? $item->get_content('link_target'): '_self';?>"><?php } ?><?php echo $this->renderTeaserPicture($item, $this->box); ?><?php if($hasLink){?></a><?php } ?>
+                <div class="teaserItemHeading">
+                    <h2 class="collapseHandle closed"><?php echo $this->escape($item->get_title());?><i class="fa fa-chevron-right collapseHandle"></i></h2>
+                </div>
+        </header>
+                <div class="collapseBox closed">
+                    <div>
+                        <?php echo $item->get_content('text');?>
+                    </div>
+<?php if($hasLink){?>
+                    <a class="horisenBtn" href="<?php echo $item->get_content('link');?>" target="<?php echo $item->get_content('link_target')? $item->get_content('link_target'): '_self';?>"><?php echo $this->translate('read more'); ?></a>
+<?php }?>                    
+                </div>
+    </article>
+</div>
+<?php } ?>

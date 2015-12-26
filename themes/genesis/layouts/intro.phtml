@@ -1,0 +1,127 @@
+<?php
+$versionInfo = require APPLICATION_PATH . '/version.php';
+$buildNumber = $versionInfo['built_number'];
+$this->doctype('HTML5');
+echo $this->doctype(); ?>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="<?php echo $this->currLang; ?>">
+<head>
+<meta charset="UTF-8">
+<!--
+IE                                                                                                                      
+SIISN                                                                                                                   
+ IRRRRRIE                                                                                                               
+ NRIIIIRRRRIEN                                                                                                          
+  RRIIIIIIIRRRRIEN                                                                                                      
+  NRIIIIIIIIIIIRRRRIEN                                                                                                  
+   SRIIIIIIIIIIIIIIRRRRIEN                                                                                              
+    SRIIIIIIIIIIIIIIIIIRRRRIEN                                                                                          
+     ERRIIIIIIIIIIIIIIIIIIIRRRRISN                                                                                      
+       IRRIIIIIIIIIIIIIIIIIIIIIRRRRISN                                                                                  
+        NIRRRIIIIIIIIIIIIIIIIIIIIIIRRRRISN                                                                              
+           EIRRRRRIIIIIIIIIIIIIIIIIIIIIRRRRISN                                                                          
+              NESIRRRRRRRRRIIIIIIIIIIIIIIIIRRRRISN                                                                      
+                     NEESIRRRRRRRRRRIIIIIIIIIIIRRRRISN                                                                  
+                              NESSIRRRRRRRRRIIIIIIRRRRRISN                                                              
+                                      NNESIIRRRRRRRRRRRRRRRRSE                                                          
+                                               NNESIIRRRRRRROOORIE                                                      
+              NIEENNN                                   NNESIRROOOOOISN                                                 
+               IOORRRRRRRRRIIIISSSEENNN                          NESIROORS                                              
+                SORIIIIIIIIRRRRRRRRRRRRRRRRRRRIIISSSEENNN                N                                              
+                 ERRIIIIIIIIIIIIIIIIIIIIIIIIIRRRRRRRRRRRRRRRRRRRIIISSSEEENE                                             
+                   IRRIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIRRRRRRROOOOOOOOOOI                                            
+                    NIRRRIIIIIIIIIIIIIIIIIIIIIIIIIIIRRRRRRRRRRRIISSENN                                                  
+                       SRRRRRRIIIIIIIIIIIRRRRRRRRRRRIISSENN              ESIROOS                                        
+                          ESIRRRRRRRRRRRRIISSENN                  NESIRRRRRRORS   EN         SORRSN                                     HORISEN AG     
+                                  NN                        NESIRRRRRRRIRRRIE   NRROON NRROE  RORRRRSN                                  Hauptstrasse 65   |   CH-9400 Rorschach   |   Switzerland
+                                                      NESIRRRRRRIIIIIIRRRIN    IRRIRI  SRRRR   SRRIIRRRIE                               Tel +41 58 700 00 00
+                                                NESIRRRRRRIIIIIIIIIIRRRS     SRRIIIRN  SRIIRR   SRIIIIIRRRRSN                           info@horisen.com
+                                          NESIRRRRRRIIIIIIIIIIIIIIRRRE     ERRIIIIRI   IRIIIRI   ERIIIIIIIRRRRSN        
+                                    NIIRRRRRRRIIIIIIIIIIIIIIIIIIRRIN     ERRIIIIIIRN   RIIIIIRE   ERRIIIIIIIIRROS       
+                                     SOORRIIIIIIIIIIIIIIIIIIIRRRS      NIRRIIIIIIRR    RIIIIIIRN   NRRIIIIIIIIIRR       
+                                       NSRRRRIIIIIIIIIIIIIRRRIE       SRRIIIIIIIIRE   NRIIIIIIRR    NRRIIIIIIIRON       
+                                          NSIRRRRRRRRRRRRRIE        SRRIIIIIIIIIRR    ERIIIIIIIRI     RRIIIIIRR         
+                                               NESSSSSEN          NRRIIIIIIIIIIIRE    SRIIIIIIIIRE     RRIRRRE          
+                                                                NIRRIIIIIIIIIIIRR     IRIIIIIIIIRO      IORE            
+                                                               IRRIIIIIIIIIIIIRON     RIIIIIIIIIRON      E              
+                                                             SHORRRIIIIIIIIRRRRN      RIIIIIIIIROI                      
+                                                               ESIRRRRRRRRRISN       NORRRRRRRRIN                       
+                                                                                     SORRIISEN                              
+
+-->
+<!--[if lt IE 9]>
+<script type="text/javascript" src="/js/html5shiv.js"></script>
+<![endif]--> 
+<base href="<?php echo $this->serverUrl() . $this->fileWebRoot; ?>" />
+<?php echo $this->tagManager(HCMS_Tags_TagManager::POS_HEAD); ?>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    
+    <?php
+    
+        $favicon =  $this->themePath('images/favicon.ico');
+        $this   ->headLink(array('rel' => 'icon', 'href' => $favicon, 'type' => 'image/x-icon'),'PREPEND')
+                ->headLink(array('rel' => 'shortcut icon', 'href' => $favicon, 'type' => 'image/x-icon'),'PREPEND'); //fb ico
+        //fb sharer
+        echo $this->headMeta();
+        echo $this->headTitle();
+        
+
+        if(APPLICATION_ENV == 'development'){
+            $this->headLink()->prependStylesheet($this->themePath('css/intro.css?v=2014-09-24'));
+            $this->headLink()->prependStylesheet($this->themePath('css/style.css?v=2014-09-16'));
+            $this->headLink()->prependStylesheet($this->themePath('css/fonts.css'));        
+            $this->headLink()->prependStylesheet($this->themePath('css/bootstrap-grid.css'));
+            $this->headLink()->prependStylesheet($this->themePath('css/bootstrap-form.css'));
+            $this->headLink()->prependStylesheet('/css/font-awesome.css'); 
+        }else{
+            $this->headLink()->prependStylesheet($this->themePath('css/intro_build.min.css?' . $buildNumber));
+        }
+        
+        $this->headStyle()->appendStyle(".gradient {filter: none;}", array('conditional' => 'gte IE 9'));
+        
+        echo $this->headLink();
+        echo $this->headStyle();      
+                
+        if(APPLICATION_ENV == 'development'){
+            $this->headScript()->prependFile($this->themePath('js/intro.js'));
+            $this->headScript()->prependFile('/plugins/sequence/jquery.sequence-min.js');
+            $this->headScript()->prependFile('/plugins/mousewheel/jquery.mousewheel.min.js');
+            $this->headScript()->prependFile('/plugins/picturefill/picturefill.js');
+            $this->headScript()->prependFile('/js/jquery-1.11.1.min.js');
+            $this->headScript()->prependFile('/js/head.js');
+        }else{
+            $this->headScript()->prependFile($this->themePath('js/intro_build.min.js?' . $buildNumber));
+        }
+        $this->headScript()->prependScript('document.createElement( "picture" );');
+                        
+        if(isset ($this->page) && null != $this->page->get_code() && '' != $this->page->get_code()){
+            $bodyClass = ' class="' . $this->page->get_code() . '"';
+        }
+        else{
+            $bodyClass = '';
+        }
+?>
+
+</head>
+<body <?php echo $bodyClass;?>>
+    <?php echo $this->tagManager(HCMS_Tags_TagManager::POS_BODY_START); ?>  
+    <header class="gradient intro-page">
+        <div class="container">
+            <a href="<?php echo $this->url(array('module' => 'cms', 'controller' => 'page', 'action' => 'index', 'page_id' => 59),'cms',true);?>" class="headerLogo"><img src="<?php echo ('/themes/genesis/images/horisen_intro_logo.png'); ?>" class="blackLogo" alt="HORISEN AG" /></a>
+            <nav role="navigation">
+                <i class="fa fa-times main-menu-close"></i>
+                <?php echo $this->navigation()->menu()->setUseTranslator(false)->renderMenu($this->menuItems['main'],array('ulClass' => 'main-menu', 'indent' => 20, 'maxDepth' => 2)); ?>
+            </nav>
+           <?php $this->GoogleSearchCode($this->application); ?>
+            <span id="menuToggle" class="menuToggle fa fa-bars"></span>
+        </div>
+    </header>
+    <!--<main>-->
+        <!--<div class="container">-->
+            <?php echo $this->layout()->content; ?>
+        <!--</div>-->
+        <!--<div class="menu-overlay"></div>-->
+    <!--</main>-->    
+    <?php echo $this->headScript(); ?>
+    <?php echo $this->tagManager(HCMS_Tags_TagManager::POS_BODY_END); ?>
+</body>
+</html>

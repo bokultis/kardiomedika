@@ -1,0 +1,220 @@
+<?php
+$versionInfo = require APPLICATION_PATH . '/version.php';
+$buildNumber = $versionInfo['built_number'];
+$this->doctype('HTML5');
+echo $this->doctype(); ?>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="<?php echo $this->currLang; ?>">
+<head>
+<meta charset="UTF-8">
+<!--
+IE                                                                                                                      
+SIISN                                                                                                                   
+ IRRRRRIE                                                                                                               
+ NRIIIIRRRRIEN                                                                                                          
+  RRIIIIIIIRRRRIEN                                                                                                      
+  NRIIIIIIIIIIIRRRRIEN                                                                                                  
+   SRIIIIIIIIIIIIIIRRRRIEN                                                                                              
+    SRIIIIIIIIIIIIIIIIIRRRRIEN                                                                                          
+     ERRIIIIIIIIIIIIIIIIIIIRRRRISN                                                                                      
+       IRRIIIIIIIIIIIIIIIIIIIIIRRRRISN                                                                                  
+        NIRRRIIIIIIIIIIIIIIIIIIIIIIRRRRISN                                                                              
+           EIRRRRRIIIIIIIIIIIIIIIIIIIIIRRRRISN                                                                          
+              NESIRRRRRRRRRIIIIIIIIIIIIIIIIRRRRISN                                                                      
+                     NEESIRRRRRRRRRRIIIIIIIIIIIRRRRISN                                                                  
+                              NESSIRRRRRRRRRIIIIIIRRRRRISN                                                              
+                                      NNESIIRRRRRRRRRRRRRRRRSE                                                          
+                                               NNESIIRRRRRRROOORIE                                                      
+              NIEENNN                                   NNESIRROOOOOISN                                                 
+               IOORRRRRRRRRIIIISSSEENNN                          NESIROORS                                              
+                SORIIIIIIIIRRRRRRRRRRRRRRRRRRRIIISSSEENNN                N                                              
+                 ERRIIIIIIIIIIIIIIIIIIIIIIIIIRRRRRRRRRRRRRRRRRRRIIISSSEEENE                                             
+                   IRRIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIRRRRRRROOOOOOOOOOI                                            
+                    NIRRRIIIIIIIIIIIIIIIIIIIIIIIIIIIRRRRRRRRRRRIISSENN                                                  
+                       SRRRRRRIIIIIIIIIIIRRRRRRRRRRRIISSENN              ESIROOS                                        
+                          ESIRRRRRRRRRRRRIISSENN                  NESIRRRRRRORS   EN         SORRSN                                     HORISEN AG     
+                                  NN                        NESIRRRRRRRIRRRIE   NRROON NRROE  RORRRRSN                                  Hauptstrasse 65   |   CH-9400 Rorschach   |   Switzerland
+                                                      NESIRRRRRRIIIIIIRRRIN    IRRIRI  SRRRR   SRRIIRRRIE                               Tel +41 58 700 00 00
+                                                NESIRRRRRRIIIIIIIIIIRRRS     SRRIIIRN  SRIIRR   SRIIIIIRRRRSN                           info@horisen.com
+                                          NESIRRRRRRIIIIIIIIIIIIIIRRRE     ERRIIIIRI   IRIIIRI   ERIIIIIIIRRRRSN        
+                                    NIIRRRRRRRIIIIIIIIIIIIIIIIIIRRIN     ERRIIIIIIRN   RIIIIIRE   ERRIIIIIIIIRROS       
+                                     SOORRIIIIIIIIIIIIIIIIIIIRRRS      NIRRIIIIIIRR    RIIIIIIRN   NRRIIIIIIIIIRR       
+                                       NSRRRRIIIIIIIIIIIIIRRRIE       SRRIIIIIIIIRE   NRIIIIIIRR    NRRIIIIIIIRON       
+                                          NSIRRRRRRRRRRRRRIE        SRRIIIIIIIIIRR    ERIIIIIIIRI     RRIIIIIRR         
+                                               NESSSSSEN          NRRIIIIIIIIIIIRE    SRIIIIIIIIRE     RRIRRRE          
+                                                                NIRRIIIIIIIIIIIRR     IRIIIIIIIIRO      IORE            
+                                                               IRRIIIIIIIIIIIIRON     RIIIIIIIIIRON      E              
+                                                             SHORRRIIIIIIIIRRRRN      RIIIIIIIIROI                      
+                                                               ESIRRRRRRRRRISN       NORRRRRRRRIN                       
+                                                                                     SORRIISEN                              
+
+-->    
+<!--[if lt IE 9]>
+<script type="text/javascript" src="/js/html5shiv.js"></script>
+<![endif]--> 
+<base href="<?php echo $this->serverUrl() . $this->fileWebRoot; ?>" />
+<?php echo $this->tagManager(HCMS_Tags_TagManager::POS_HEAD); ?>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+
+<?php
+       
+        //inline edit
+        $this->frontAdmin()->init($this->module);
+        $favicon =  $this->themePath('images/favicon.ico');
+        $this   ->headLink(array('rel' => 'icon', 'href' => $favicon, 'type' => 'image/x-icon'),'PREPEND')
+                ->headLink(array('rel' => 'shortcut icon', 'href' => $favicon, 'type' => 'image/x-icon'),'PREPEND'); //fb ico
+        //fb sharer
+        echo $this->headMeta();
+        echo $this->headTitle();      
+
+        if(APPLICATION_ENV == 'development'){   
+            $this->headLink()->prependStylesheet('/css/collapsible.css');
+            $this->headLink()->prependStylesheet($this->themePath('css/sticky-footer.css'));
+            $this->headLink()->prependStylesheet($this->themePath('css/search.css'));
+            $this->headLink()->prependStylesheet($this->themePath('css/internal-pages.css'));
+            $this->headLink()->prependStylesheet($this->themePath('css/style.css?v=2014-10-10'));
+            $this->headLink()->prependStylesheet($this->themePath('css/fonts.css'));
+            $this->headLink()->prependStylesheet($this->themePath('css/bootstrap-grid.css'));
+            $this->headLink()->prependStylesheet($this->themePath('css/bootstrap-form.css'));
+            $this->headLink()->prependStylesheet($this->themePath('css/bootstrap.min.css'));
+            $this->headLink()->prependStylesheet('/css/font-awesome.css');
+            //$this->headLink()->prependStylesheet('/plugins/bxSlider/bx_styles/jquery.bxslider.css');
+            $this->headLink()->prependStylesheet('/plugins/bxSlider/bxslider4.2.3/jquery.bxslider.css');
+            $this->headLink()->prependStylesheet('/plugins/fancybox/jquery.fancybox.css');
+        }else{
+            $this->headLink()->prependStylesheet($this->themePath('css/build.min.css?' . $buildNumber));
+        }
+        
+        $this->headStyle()->appendStyle(".gradient {filter: none;}", array('conditional' => 'gte IE 9'));
+        $this->themeCustom();
+        
+        echo $this->headLink();
+        echo $this->headStyle();      
+                
+        if(APPLICATION_ENV == 'development'){
+            $this->headScript()->prependFile('/plugins/spyscroll/boot-affix.js');
+            $this->headScript()->prependFile('/plugins/spyscroll/spyscroll.js');
+            $this->headScript()->appendFile('/modules/contact/js/jquery.ajaxSubmit.js');
+            $this->headScript()->prependFile($this->themePath('js/main.js?v=2014-10-10'));
+            $this->headScript()->prependFile('/plugins/collapsibleBox/jquery.collapsibleBox.js');
+            //$this->headScript()->prependFile('/plugins/bxSlider/jquery.bxSlider.min.js');
+            $this->headScript()->prependFile('/plugins/bxSlider/bxslider4.2.3/jquery.bxslider.min.js');
+            $this->headScript()->prependFile('/plugins/picturefill/picturefill.js');
+            $this->headScript()->prependFile('/plugins/fancybox/jquery.fancybox.pack.js');
+            $this->headScript()->prependFile('/js/jquery-1.11.1.min.js');
+            $this->headScript()->prependFile('/js/head.js');
+        }else{
+            $this->headScript()->prependFile($this->themePath('js/build.min.js?' . $buildNumber));
+        }
+        $this->headScript()->prependFile('/plugins/bxSlider/bxslider4.2.3/pf.gecko-picture.js');
+        $this->headScript()->prependScript('document.createElement( "picture" );');
+        
+        $bodyClasses = array();
+        if(isset ($this->page) && null != $this->page->get_code() && '' != $this->page->get_code()){
+            $bodyClasses[] = $this->page->get_code();
+        }
+        if(isset($this->slideMainDisable) && $this->slideMainDisable){
+            $bodyClasses[] = 'no-slider';
+        }
+        $bodyClass = (count($bodyClasses))? 'class="' . implode(' ', $bodyClasses) . '"' : '';
+        
+?>    
+</head>
+    <?php echo $this->bgChanger(); ?>
+<body <?php echo $bodyClass;?>>
+<?php echo $this->tagManager(HCMS_Tags_TagManager::POS_BODY_START); ?>     
+          
+<?php
+//inline edit
+
+
+
+
+echo $this->frontAdmin()->renderHeader();?>
+    <header class="gradient">
+        <div class="container">
+            <a href="<?php echo $this->url(array('module' => 'cms', 'controller' => 'page', 'action' => 'index', 'page_id' => 59),'cms',true);?>" class="headerLogo spriteLogo"></a>
+            <nav role="navigation">
+                <i class="fa fa-times main-menu-close"></i>
+                <?php echo $this->navigation()->menu()->setUseTranslator(false)->renderMenu($this->menuItems['main'],array('ulClass' => 'main-menu', 'indent' => 20, 'maxDepth' => 2)); ?>
+            </nav>
+            
+                <?php $this->GoogleSearchCode($this->application); ?>
+            
+<?php if(!isset($this->hideDisturber) || !$this->hideDisturber){ ?>             
+            <span id="feedbackToggle" class="fa fa-envelope"></span>
+<?php } ?>
+            <span id="menuToggle" class="menuToggle fa fa-bars"></span>
+<?php if((!isset($this->hideDisturber) || !$this->hideDisturber) && Application_Model_ModuleMapper::getInstance()->findByCode('contact', new Application_Model_Module)){ ?>            
+            <div id="feedback">
+                <div id="feedback_inner">
+                    <?php echo $this->render('disturber/contact_generic.phtml');?>
+                </div>
+                <div class="feedbackToggle">
+                    <label for="nav-trigger"><?php echo $this->translate('CONTACT US');?><i class="fa fa-chevron-down feedback-lab-icon"></i></label> 
+                </div>
+                <div class="feedbackToggle white">
+                    <label for="nav-trigger"><?php echo $this->translate('HORISEN AG');?></label> 
+                </div>
+            </div>
+<?php } ?>                        
+        </div>
+    </header>
+    <?php if((!isset($this->slideMainDisable) || !$this->slideMainDisable) && Application_Model_ModuleMapper::getInstance()->findByCode('teaser', new Application_Model_Module)){
+        //find active menu item - by default 1 which is hidden home
+        $this->menuItemId = 1;
+        $activeMenu = $this->navigation()->findActive($this->menuItems['main']);
+        if(isset ($activeMenu) && isset ($activeMenu['page'])){
+            /*@var $activePage Zend_Navigation_Page_Mvc */
+            $activePage =  $activeMenu['page'];
+            $this->menuItemId = $activePage->entity->id;
+        }        
+        echo $this->renderTeaser2('slider-main',$this->menuItemId);        
+    } ?>
+    <main>
+        <div class="container">
+            <?php echo $this->frontAdmin()->renderPage($this->layout()->content); ?>
+        </div>
+        <div class="menu-overlay"></div>
+        <div class="search-overlay"></div>
+        <div class="feedback-overlay"></div>
+    </main>
+    <footer class="footer">
+        <div class="container">
+            <div class="socialIcons">
+                    <a href="https://www.facebook.com/horisen" target="_blank" title="Facebook" class="footerFb"></a>
+                    <a href="https://www.linkedin.com/company/2468133" target="_blank" title="LinkedIn" class="footerIn"></a>
+                    <a href="https://www.xing.com/companies/horisenag" target="_blank" title="Xing" class="footerUk"></a>
+                    <a href="https://www.pinterest.com" target="_blank" title="Pinterest" class="footerPi"></a>
+                    <a href="https://www.twitter.com" target="_blank" title="Twitter" class="footerTw"></a>
+                    <a href="https://www.youtube.com" target="_blank" title="Youtube" class="footerYt"></a>
+                    <a href="https://www.horisen.com/newsletter" target="_blank" title="Newsletter" class="footerNl"></a>
+                    <a href="https://blog.horisen.com" target="_blank" title="Blog" class="footerBl"></a>
+                </div>
+            <ul class="langBarFooter">
+                <?php
+                if(isset ($this->availableLang) && is_array($this->availableLang) && count($this->availableLang)){
+                    foreach ($this->availableLang as $code => $value) {
+                        if(isset ($value['front_enabled']) && $value['front_enabled']){
+                            $langClass = $this->currLang == $code?"$code active":"$code";
+                            echo "<li><a href=\"" . $this->switchLang($code) . "\" class=\"$langClass\">" . $this->translate($value['name']) . "</a></li>";
+                        }
+                    }
+                } ?>
+            </ul>
+            <div class="footer-toggle"><i class="fa fa-chevron-up"></i></div>
+            <nav>
+                <?php echo $this->navigation()->menu()->setUseTranslator(false)->renderMenu($this->menuItems['footer'],array('ulClass' => 'footerMenu', 'indent' => 20, 'maxDepth' => 1)); ?>
+            </nav>
+            <div class="copyright">
+                <span>HORISEN AG</span><span>Hauptstrasse 65</span><span>9400 Rorschach</span><span>Schweiz</span><a href="tel:+41 58 700 00 00">Tel +41 58 700 00 00</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="mailto:boris@horisen.com" class="footerMail">boris@horisen.com</a></span><br />
+            </div>
+            <div class="logoFooter">
+                <a href="http://www.horisen.com" target="_blank"><!--<img src="<?php //echo $this->themePath('images/logo.png'); ?>"/>--></a>
+            </div>
+        </div>
+    </footer>
+
+    <?php echo $this->headScript(); ?>
+    <?php echo $this->tagManager(HCMS_Tags_TagManager::POS_BODY_END); ?>
+</body>
+</html>

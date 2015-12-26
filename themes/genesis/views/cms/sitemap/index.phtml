@@ -1,0 +1,21 @@
+<div class="introTxt">
+    <h1><?php echo $this->translate('Sitemap');?></h1>
+    <h2><?php echo $this->translate('All services you need are in one place');?></h2>
+</div>
+<?php
+    $this->slideMainDisable = true;
+    if(isset ($this->sitemapSettings) && isset ($this->sitemapSettings['menu']) && $this->sitemapSettings['menu'] != ''){        
+        //show one menu
+        if(isset ($this->menuItems[$this->sitemapSettings['menu']])){
+            $menu = $this->menuItems[$this->sitemapSettings['menu']];
+            echo $this->navigation()->menu()->setUseTranslator(false)->renderMenu($menu,array('ulClass' => 'sitemap', 'indent' => 20));
+        }
+
+    }
+    else{
+        //show all menus
+        foreach ($this->menuItems as $menuName => $menu) {
+            echo $this->navigation()->menu()->setUseTranslator(false)->renderMenu($menu,array('ulClass' => 'sitemap', 'indent' => 20));
+        }
+    }
+?>
