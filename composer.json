@@ -1,7 +1,7 @@
 
 {
-    "name": "horisen/cms",
-    "description": "Horisen Genesis CMS",
+    "name": "cms",
+    "description": "CMS",
     "type": "library",
     "keywords": [
         "cms",
