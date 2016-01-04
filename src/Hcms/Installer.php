@@ -243,14 +243,15 @@ class Installer {
                 $this->io->write("grunt.config.json created");
             }
         }
-        
+        /*
         //theme download
         if ($this->io->askConfirmation("Do you want to download a theme?", true)) {
             $themeName = $this->io->ask("Theme name (genesis)? ", 'genesis');
             if($themeName){
                 $this->downloadTheme($themeName);
             }            
-        }        
+        } 
+        */
         
         $this->io->write("Init project finished.");
         return true;
