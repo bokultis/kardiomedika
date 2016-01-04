@@ -12,7 +12,7 @@
 /public/captcha
 #/public/plugins
 /cache
-#/vendor
+/vendor
 composer.lock
 
 #not include symlinks for modules in public folder
