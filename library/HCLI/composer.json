@@ -1,0 +1,16 @@
+{
+    "name": "horisen/cms-cli-lib",
+    "description": "Horisen CMS CLI library",
+    "type": "horisen-cms_lib",
+    "require": {
+        "zendframework/zendframework1": ">=1.12"
+    },
+    "extra": {
+        "installer-name": "HCLI"
+    },
+    "autoload": {
+        "psr-0": {
+            "HCLI_": "library/"
+        }
+    }
+}

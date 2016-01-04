@@ -1,0 +1,16 @@
+{
+    "name": "horisen/cms-core-lib",
+    "description": "Horisen CMS core library",
+    "type": "horisen-cms_lib",
+    "require": {
+        "zendframework/zendframework1": ">=1.12"
+    },
+    "extra": {
+        "installer-name": "HCMS"
+    },
+    "autoload": {
+        "psr-0": {
+            "HCMS_": "library/"
+        }
+    }
+}
