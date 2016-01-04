@@ -1,0 +1,49 @@
+<h1>
+    <?php
+    if (isset($this->data['id']) && $this->data['id'] != '') {
+        echo $this->translate('Edit Language');
+    } else {
+        echo $this->translate('Add new Language');
+    }
+    ?> 
+</h1>
+<form method="post" class="hcms_form" title="<?php
+if (isset($this->data['id']) && $this->data['id'] != '') {
+    echo $this->translate('Edit Language');
+} else {
+    echo $this->translate('Add new Language');
+}
+?>" action="<?php echo $this->url(array('controller' => 'admin', 'action' => 'edit')) ?>" enctype="application/x-www-form-urlencoded">
+    
+    <input type="hidden" value="<?php echo $this->escape($this->data['id']); ?>" name="data[id]"/>
+    <div>
+        <div class="btn-block">
+            <label><?php echo $this->translate('Key'); ?>:</label>
+            <input type="text" class="_input"  name="data[key]" 
+            <?php if (isset($this->data['id']) && $this->data['id'] != '') { ?> readonly="readonly" <?php } else {?> id="data[key]" <?php } ?>
+            value="<?php echo htmlspecialchars_decode($this->escape($this->data['id'])); ?>" maxlength="100" required/>
+            <?php echo $this->errorMessages($this->errors['key']);?>
+        </div>
+    </div>
+    <div>
+        <div class="btn-block">
+            <label><?php echo $this->translate('Section'); ?>:</label>
+            <input type="text" name="data[section]" id="section" class="_input" value="<?php echo $this->escape($this->data['cell'][2]); ?>"/>
+        </div>
+    </div>
+    <?php
+    $i = 3;
+    foreach ($this->availableLang as $lang) {
+        ?>
+        <div>
+            <div class="btn-block">
+                <label><?php echo $lang['name']; ?></label>
+                <textarea class="_input" name='data[lang][<?php echo $lang['id']; ?>]'><?php echo $this->escape($this->data['cell'][$i]); ?></textarea>
+            </div>
+        </div>
+
+    <?php
+    $i++;
+    }
+    ?>
+</form>

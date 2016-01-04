@@ -1,0 +1,29 @@
+<?php
+$routeName = isset ($this->route)? $this->route : 'default';
+$urlParams = $this->listingParams;
+if ($this->pageCount > 1): ?>
+<div class="hcms_pagination">
+    <!-- Previous page link -->
+        <?php if (isset($this->previous)): ?>
+    <a class="paginatorArrows" href="<?php echo $this->url($urlParams,$routeName) . "?page=" . $this->previous; ?>">&lt;</a> 
+        <?php else: ?>
+    <span class="paginatorArrows">&lt;</span> 
+        <?php endif; ?>
+
+    <!-- Numbered page links -->
+        <?php foreach ($this->pagesInRange as $page): ?>
+            <?php if ($page != $this->current): ?>
+    <a href="<?php echo $this->url($urlParams,$routeName) . "?page=$page"; ?>"><?php echo $page; ?></a> 
+            <?php else: ?>
+                <span class="paginatorCurrentPage"><?php echo $page; ?> </span>
+            <?php endif; ?>
+        <?php endforeach; ?>
+
+    <!-- Next page link -->
+        <?php if (isset($this->next)): ?>
+    <a class="paginatorArrows" href="<?php echo $this->url($urlParams,$routeName). "?page=" . $this->next; ?>">&gt;</a>
+        <?php else: ?>
+    <span class="paginatorArrows">&gt;</span>
+        <?php endif; ?>
+</div>
+<?php endif; ?>

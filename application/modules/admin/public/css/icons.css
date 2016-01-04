@@ -1,0 +1,46 @@
+/* 
+    Document   : icons
+    Created on : Mar 13, 2014, 9:44:51 AM
+    Author     : boris
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.dash{
+    margin-left: 10px;
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+    font: normal 20px/1 'dashicons';
+    vertical-align: top;
+}
+
+.-translation:before{content: "\f326";}
+.-contact:before{content: "\f466";}
+
+.-stats:before {content: "\f226";}
+.-prices:before {content: "\f323";}
+.-setup:before {content: "\f111";}
+.-account:before {content: "\f112";}
+.-users:before {content: "\f307";}
+.-user:before {content: "\f338";}
+.-home:before {content: "\f102";}
+.-products:before {content: "\f312";}
+.-ordering:before {content: "\f174";}
+.-pages:before {content: "\f105";}
+.-gallery:before {content: "\f161";}
+.-filemanager:before {content: "\f322";}
+.-categories:before {content: "\f325";}
+.-blog:before {content: "\f212";}
+.-news:before {content: "\f116";}
+.-menu:before {content: "\f163";}
+.-configuration:before {content: "\f108";}
+.-backgrounds:before {content: "\f232";}
+.-teasers:before {content: "\f479";}
+.-slides:before {content: "\f479";}
+.-comments:before{content: "\f125";}
+.-newsletter:before{content: "\f465";}
+.-tariff:before{content: "\f180";}
+.-music:before{content: "\f127";}
+.-ytchannel:before{content: "\f126";}
+.-logout:before{content: "\f310";}
+.-submenu_bullet:before{content: "\f139";}

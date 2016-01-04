@@ -1,0 +1,39 @@
+
+/* Collapsible List */
+.collapslist {display:block; clear:both; margin:0; padding:0; top:1px;}
+.collapslist .tpl {display:none;}
+
+.collapslist > .article {position:relative; display:block; min-height:3.6rem; padding:0; margin:1.2rem 0; border:solid #ddd; border-width:1px 0 1px 0; background-color:#fff; background-repeat:no-repeat; overflow:hidden;}
+.collapslist > .article > .heading {display:block; cursor:pointer; margin:0; padding:1.2rem 1rem;}
+.collapslist > .article > .heading > .title {color:#555; font-weight:bold; display:block; margin:0; padding:0 0 1.2rem 0;}
+.collapslist > .article > .heading > .headline {color:#333; height:1.6rem; display:block; margin:0; padding:0;}
+.collapslist > .article > .heading:hover > .title {color:#0094D0;}
+.collapslist > .article > .heading > .actions {display:none; top:0; right:0; margin:1rem; position:absolute; z-index:1;}
+.collapslist > .article > .content-holder {display:block; height:auto; margin:0; padding:0 1rem 1rem 1rem;}
+.collapslist > .article > .content-holder > .content {display:block; height:auto; padding:1rem; background-color:#fff;}
+.collapslist > .article.no-heading > .content-holder {padding:.2rem 0;}
+.collapsible > .article.expanded > .content-holder {display:block !important;}
+.collapslist > .article.collapsed > .content-holder,
+.collapslist > .article.collapsed > .options {display:none;}
+
+.collapslist > .article[aria-expanded="true"] > .heading > .title {color:rgb(255,73,0);}
+.collapslist > .article[aria-expanded="true"] > .heading > .actions {display:block;}
+
+.collapslist > .article.in,
+.collapslist > .article.out {border:none;}
+.collapslist > .article.out {padding-left:96px; background-image: url(../images/icon_dialogue_out.svg); background-position:26px 8px;}
+.collapslist > .article.in > .heading {background-color:rgba(0,148,208,0.08);}
+.collapslist > .article.out > .heading {background-color:rgba(0,148,208,0.32);}
+.collapslist > .article.in > .content-holder {background-color:rgba(0,148,208,0.1);}
+.collapslist > .article.out > .content-holder {background-color:rgba(0,148,208,0.3);}
+
+.collapslist > .article.more {position:relative; cursor:pointer; background-color:#aaa;}
+.collapslist > .article.more > .container {margin:1rem auto; height:1rem; color:#fff; text-align:center;}
+.collapslist > .article.more > .container span {padding:0 20px; position:relative; bottom:0;}
+.collapslist.ri > .article > .heading > .title i:before {
+    color: #fff;
+    margin-right: 10px;
+    background: none repeat scroll 0 0 rgb(255,73,0);
+}
+
+

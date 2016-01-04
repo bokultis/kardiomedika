@@ -1,0 +1,73 @@
+<?php
+$this->headScript()->appendFile('/plugins/hDashboard/Manager.js');
+$this->headScript()->appendFile('/plugins/hDashboard/Widget/Base.js');
+
+foreach ($this->widgetJsFiles as $jsFile) {
+    $this->headScript()->appendFile($jsFile);
+}
+
+$this->headLink()->appendStylesheet( '/plugins/hDashboard/css/style.css');
+foreach ($this->widgetCssFiles as $cssFile) {
+    $this->headLink()->appendStylesheet($cssFile);
+}
+?>
+<style type="text/css">
+    #preview{
+        width: 900px;
+        height: 500px;
+    }
+</style>
+
+<script type='text/javascript'>
+    /*google dashboard*/
+    (function(w,d,s,g,js,fjs){
+        g=w.gapi||(w.gapi={});g.analytics={q:[],ready:function(cb){this.q.push(cb)}};
+        js=d.createElement(s);fjs=d.getElementsByTagName(s)[0];
+        js.src='https://apis.google.com/js/platform.js';
+        fjs.parentNode.insertBefore(js,fjs);js.onload=function(){g.load('analytics')};
+    }(window,document,'script'));
+</script>    
+<?php echo $this->googleDashboard()->init($this->clientId); ?>
+<script type="text/javascript">   
+    var translations_widgets = {
+        "adminWidgetFreeDisk" : "<?php echo $this->translate("Free")?>",
+        "adminWidgetInUse" : "<?php echo $this->translate("In Use")?>",
+        "adminWidgetTitle" : "<?php echo $this->translate("Misc")?>",
+        "statisticsWidgetTitle" : "<?php echo $this->translate("Statistics")?>",
+        "cmsWidgetTitle" : "<?php echo $this->translate("Cms")?>",
+        "widgetAuthTitle" : "<?php echo $this->translate("Permissions")?>",
+        "widgetGoogleTitle" : "<?php echo $this->translate("Google")?>"
+    }
+    
+    $(document).ready(function(){
+        hDashboard.Manager.init({
+            onUpdate: function(){
+                hDashboard.Manager.updateData();
+                var data = {'dashboard':hDashboard.Manager.getData()};
+                $.post('/' + CURR_LANG + '/admin/index/index', data, function(result) {
+                    console.log(result);
+                });
+            },
+            components:<?php echo json_encode($this->widgetClasses);?>,
+            data:{
+                "regions": <?php echo json_encode($this->userDashboard);?>
+            }
+        });
+    });
+</script>
+
+<div id="hd-toolbox">
+    <ul class="hd-toolbox-widgets"></ul>
+</div>
+<div id="dashboard" class="clearfix hcms_dashboard">
+    
+    <div id="ga-params" data-clientId="" data-ids=""></div>
+    <div id="view-selector" ></div>
+    
+    
+    
+    <div id="region1" class="hd-region">
+    </div>
+    <div id="region2" class="hd-region">
+    </div>
+</div>

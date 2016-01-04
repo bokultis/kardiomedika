@@ -1,0 +1,139 @@
+<form method="post" class="hcms_form" title="<?php
+    if (isset($this->data['id']) && $this->data['id'] != '') {
+        echo $this->escape($this->data['title']);
+    } else {
+        echo $this->translate('Add new Page');
+    }
+    ?>" action="<?php echo $this->url(array('controller' => 'admin', 'action' => 'page-edit')) ?>" enctype="application/x-www-form-urlencoded">
+    <input type="hidden" id="data[id]" value="<?php echo $this->escape($this->data['id']); ?>" name="data[id]"/>
+    <input type="hidden" id="data[type_id]" value="<?php echo $this->escape(isset($this->typeId) ? $this->typeId : $this->data['type_id']); ?>" name="data[type_id]"/>
+    <div class="editContentContainer">
+        <label for="data[content]"><?php echo $this->translate('Content');?>:</label> <br />
+        <textarea id="data[content]" class="tinyTextareaInit" name="data[content]" cols="" rows="30" ><?php echo $this->escape($this->data['content']); ?></textarea>
+        <?php echo $this->errorMessages($this->errors['content']);?>
+    </div>
+    <div class="collapslistHolder ">
+        <div class="collapslist ri h-tabs">
+            <div class="article expanded">
+                <div class="heading">
+                    <h2 class="title"><i class="icon-minus-small"></i><?php echo $this->translate('General'); ?></h2>
+                </div>
+                <div class="content-holder">
+                    <div class="content">
+                    <?php echo $this->errorMessages($this->errors['type_id']); ?>
+                        <div>
+                            <label for="data[title]"><?php echo $this->translate('Title'); ?>*:</label> <br />
+                            <input type="text" name="data[title]" id="data[title]" value="<?php echo $this->escape($this->data['title']); ?>" maxlength="100" />
+                            <?php echo $this->errorMessages($this->errors['title']); ?>
+                        </div>
+                        <div>
+                            <div>
+                                <label for="data[format]"><?php echo $this->translate('Format'); ?>*:</label> <br />
+                                <select id="data[format]" name="data[format]" class="formatField">
+                                    <option value="html" <?php echo $this->formSelected($this->data, 'format', 'html'); ?>><?php echo $this->translate("HTML"); ?></option>
+                                    <option value="php" <?php echo $this->formSelected($this->data, 'format', 'php'); ?>><?php echo $this->translate("PHP"); ?></option>
+                                    <option value="path" <?php echo $this->formSelected($this->data, 'format', 'path'); ?>><?php echo $this->translate("Template Path"); ?></option>
+                                </select>
+                                <?php echo $this->errorMessages($this->errors['format']); ?>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="data[url_id]"><?php echo $this->translate('URL ID'); ?>*:</label> <br />
+                            <input type="text" name="data[url_id]" id="data[url_id]" value="<?php if (isset($this->data['url_id'])) {
+                                echo $this->escape($this->data['url_id']);
+                            } ?>" maxlength="100"  />
+                            <?php echo $this->errorMessages($this->errors['url_id']); ?>
+                        </div>
+                        <div>
+                            <label for="data[status]"><?php echo $this->translate('Status'); ?>*:</label> <br />
+                            <select id="data[status]" name="data[status]">
+                                <option value="published" <?php echo $this->formSelected($this->data, 'status', 'published'); ?>><?php echo $this->translate("Published"); ?></option>
+                                <option value="draft" <?php echo $this->formSelected($this->data, 'status', 'draft'); ?>><?php echo $this->translate("Draft"); ?></option>
+                            </select>
+                        <?php echo $this->errorMessages($this->errors['status']); ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="colist-2" class="collapslist ri h-tabs">
+            <div class="article">
+                <div class="heading">
+                    <h2 class="title"><i class="icon-plus-small"></i><?php echo $this->translate('Advanced'); ?></h2>
+                </div>
+                <div class="content-holder">
+                    <div class="content">
+                        <div>
+                            <label for="data[teaser]"><?php echo $this->translate('Teaser'); ?>:</label> <br />
+                            <textarea name="data[teaser]" lang="en" id="data[teaser]" cols="30" rows="5" maxlength="1000">
+                                <?php if (isset($this->data['teaser'])) {
+                                echo $this->escape($this->data['teaser']);
+                                } ?>
+                            </textarea>
+                            <?php echo $this->errorMessages($this->errors['teaser']); ?>
+                        </div>
+                        <div>
+                            <label for="data[data][teaser_image]"><?php echo $this->translate('Teaser Image');?>:</label>
+                            <div class="input-group">
+                                <input type="text"  name="data[data][teaser_image]"  id="data[data][teaser_image]" value="<?php if(isset ($this->data['data']['teaser_image'])){echo $this->escape($this->data['data']['teaser_image']);}?>" maxlength="255"  />
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default btn-small browse" type="button" title="<?php echo $this->translate('Browse');?>">...</button>
+                                    <button class="btn btn-default btn-small clear" type="button" title="<?php echo $this->translate('Clear');?>">&times;</button>
+                                </div>
+                            </div>
+                            <?php echo $this->errorMessages($this->errors['data']['teaser_image']);?>
+                        </div>
+                        <div>
+                            <label for="data[code]"><?php echo $this->translate('Code'); ?>:</label> <br />
+                            <input type="text" name="data[code]" id="data[code]" value="<?php echo $this->escape($this->data['code']); ?>" maxlength="100" />
+                            <?php echo $this->errorMessages($this->errors['code']); ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="colist-3" class="collapslist ri h-tabs">
+            <div class="article">
+                <div class="heading">
+                    <h2 class="title"><i class="icon-plus-small"></i><?php echo $this->translate('Meta'); ?></h2>
+                </div>
+                <div class="content-holder">
+                    <div class="content">
+                        <div>
+                            <label for="data[meta][keywords]"><?php echo $this->translate('Keywords'); ?>:</label> <br />
+                            <input type="text" name="data[meta][keywords]" id="data[meta][keywords]" value="<?php if (isset($this->data['meta']['keywords'])) {
+                            echo $this->escape($this->data['meta']['keywords']);
+                            } ?>" maxlength="100" style="width:450px;" />
+                            <?php echo $this->errorMessages($this->errors['meta']['keywords']); ?>
+                            
+                        </div>
+                        <div>
+                            <label for="data[meta][description]"><?php echo $this->translate('Description'); ?>:</label> <br />
+                            <textarea name="data[meta][description]" id="data[meta][description]" cols="30" rows="5" maxlength="500"><?php if (isset($this->data['meta']['description'])) {
+                            echo $this->escape($this->data['meta']['description']);
+                            } ?></textarea>
+                            <?php echo $this->errorMessages($this->errors['meta']['description']); ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="colist-4" class="collapslist ri h-tabs">
+            <div class="article">
+                <div class="heading">
+                    <h2 class="title"><i class="icon-plus-small"></i><?php echo $this->translate('Categories'); ?></h2>
+                </div>
+                <div class="content-holder">
+                    <div class="content">
+                        <div id="categoriesPanel">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="submit" value="<?php echo $this->translate('Save'); ?>" name="submit[save]" />
+    <input type="submit" value="<?php echo $this->translate('Cancel'); ?>" name="submit[cancel]" />
+    
+</form>
+

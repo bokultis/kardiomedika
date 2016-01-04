@@ -1,0 +1,13 @@
+<?php $classes = isset($this->field['css_class'])? $this->field['css_class']: 'form-group col-sm-6 col-xs-12'; ?>
+    <div id="field-<?php echo $this->fieldId; ?>" class="<?php echo $classes;?>">
+        <label><?php echo $this->translate($this->field['name']);?> <?php if(isset($this->field['required']) && $this->field['required']){echo '*';}?></label>
+        <input type="hidden" name="data[<?php echo $this->fieldId; ?>]" id="data[<?php echo $this->fieldId; ?>]" value="" />
+<?php
+foreach ($this->field['values'] as $valueKey => $valueName) {
+    $optionId =  $this->fieldId . '_' . $valueKey;
+?>        
+        <label for="data[<?php echo $optionId; ?>]"><?php echo $this->translate($valueName);?></label>
+        <input type="radio" name="data[<?php echo $this->fieldId; ?>]" id="data[<?php echo $optionId; ?>]" value="<?php echo $valueKey; ?>" <?php echo $this->formSelected($this->data, $this->fieldId, $valueKey,'checked');  ?> />
+<?php } ?>
+        <span class="required <?php echo $this->errorMessages($this->errors, 'error', $this->fieldId, true);?>"><?php echo $this->errorMessages($this->errors, 'error', $this->fieldId);?></span>
+    </div>

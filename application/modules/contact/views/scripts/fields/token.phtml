@@ -1,0 +1,5 @@
+<?php 
+$token= new HCMS_Captcha_Token();
+$tokenId =$token->generateNewToken();
+?>
+<label for="data[<?php echo $this->fieldId; ?>]" style="display: none">Token <input type="text" id="data[<?php echo $this->fieldId; ?>]" name="data[<?php echo $this->fieldId; ?>]" value="<?php echo $this->escape($tokenId);?>"></label>

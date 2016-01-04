@@ -1,0 +1,90 @@
+<?php
+    $this->headScript()->appendFile('/plugins/hfb/js/jquery.hfbSelect.js');
+    $this->headScript()->appendFile('/plugins/hfb/js/jquery.hfbSearch.js');
+    $this->headScript()->appendFile('/plugins/hfb/js/jquery.hfbList.js');
+    $this->headScript()->appendFile('/modules/admin/js/list.js');
+?>
+<script type="text/javascript">
+    function getEditUrl(id){
+        return sprintf('/%s/admin/application/edit/id/%d',CURR_LANG,id);
+    }
+
+    function editDialog(id){
+            ajaxForm.dialog(getEditUrl(id),{
+                onContent: function(dialog){
+                },
+                onClose: function(success){
+                    if(success){
+                        updateList();
+                    }
+                },
+                width: 'auto',
+                height: 'auto'
+            });
+    }
+
+    initList('/' + CURR_LANG + '/admin/application/list/',{},function(me,data){
+        $("#listContainer").find("a.edit").click(function(){
+            editDialog($(this).data('id'));
+            return false;
+        })
+    });
+    //init select filter
+    $(document).ready(function(){
+        $("#statusFilter").change(function(){
+            updateList('statusFilter',$(this).val());
+        });
+        $(".add").click(function(){
+            editDialog(null);
+            return false;
+        });
+    });
+</script>
+<div class="hcms_content_top">
+    <h1><?php echo $this->translate('Configuration'); ?> <span class="hcms_button"><a href="#" style="margin:6px 0 0 0;" class="add button"><?php echo $this->translate('Add new'); ?></a></span></h1>
+    <span class="hcms_search">
+        <input name="searchFilter" id="searchFilter" type="text" value="" />
+        <span class="hcms_button"><a href="#" id="searchExecute"><?php echo $this->translate("Search"); ?></a></span>
+    </span>
+</div>
+<div class="hcms_content">
+    <div class="language">
+        <!--<span class="hcms_button"><a href="#">Filter</a></span>-->
+    </div>
+    <table class="hcms_table adminList" width="100%">
+        <thead>
+            <tr>
+                <th><a href="#" class="sort" data-column="title"><?php echo $this->translate('Name');?><b></b></a></th>
+                <th><a href="#" class="sort" data-column="code"><?php echo $this->translate('Status');?><b></b></a></th>
+                <th><a href="#" class="sort" data-column="status_dt"><?php echo $this->translate('Status Date');?><b></b></a></th>
+            </tr>
+        </thead>
+        <tbody id="listContainer">
+        </tbody>
+    </table>
+    <div id="pager" class="pager"></div>
+</div>
+<script type="text/html" id="records_tpl">
+<% if (rows.length > 0){
+    var rowClass = 'odd';
+    %>
+    <% for ( var i = 0; i < rows.length; i++ ){
+        rowClass = (i % 2 == 0)? 'even':'odd';
+    %>
+        <tr class="<%=rowClass%>">
+            <td>
+                <%=rows[i].name%>
+                <ul class="hcms_menu_actions">
+                    <li><a href="#" class="edit" data-id="<%=rows[i].id%>"><?php echo $this->translate('Edit');?></a></li>
+                </ul>
+            </td>
+            <td>
+                <%=rows[i].status%>
+            </td>
+            <td>
+                <%=rows[i].status_dt%>
+            </td>
+        </tr>
+    <% } %>
+<% } %>
+</script>

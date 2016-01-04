@@ -1,0 +1,67 @@
+/* File Menager */
+@font-face {
+  font-family: 'Glyphicons Halflings';
+  src: url('/plugins/bootstrap/fonts/glyphicons-halflings-regular.eot');
+  src: url('/plugins/bootstrap/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'),
+       url('/plugins/bootstrap/fonts/glyphicons-halflings-regular.woff') format('woff'),
+       url('/plugins/bootstrap/fonts/glyphicons-halflings-regular.ttf') format('truetype'), 
+       url('/plugins/bootstrap/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+}
+.file-menager h4 { color: rgb(255,73,0); }
+.file-menager { font-size: 14px; }
+.file-menager.modal.fade.container.in { margin-top: -300px; }
+.file-menager.modal.container {
+    font-family: "MyriadWebPro","Segoe UI","Open Sans" !important;
+    width: 1100px !important;
+    left: 50% !important;
+    margin-left: -550px !important;
+}
+.file-menager .btn { font-size: 16px; line-height: 1; border-radius: 0; }
+.file-menager .glyphicon {
+    position: relative;
+    top: 3px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings', 'Roboto';
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    word-spacing: -10px;
+    margin-left: 10px;
+}
+.file-menager .crop .glyphicon,
+.file-menager .resize .glyphicon,
+.file-menager .preview .glyphicon { margin-left: 0; }
+.glyphicon-upload:before { content: "\e027"; }
+.glyphicon-folder-open:before { content: "\e118";}
+.glyphicon-edit:before { content: "\e065"; }
+.glyphicon-remove:before { content: "\e014"; }
+.glyphicon-picture:before { content: "\e060"; }
+.glyphicon-screenshot:before { content: "\e087"; }
+.glyphicon-resize-full:before { content: "\e096"; }
+
+
+.file-menager .sbContainer span~abbr { margin-left: 5px; }
+.file-menager .sbContainer ul { margin: 0; list-style: none; padding-left: 0;}
+.file-menager .sbContainer ol { margin-bottom: 0; list-style: none; }
+.file-menager .sbContainer .sbList li {border-bottom: 1px solid #dadada; border-left: 0; border-right: 0;padding: 10px; }
+.file-menager .sbContainer .sbList li:last-child { border-bottom: 0; }
+.file-menager .sbContainer .sbList .active,
+.file-menager .sbContainer .sbList li:hover,
+.file-menager .sbContainer .sbList li > *:hover { background-color: #ecf7fb; cursor: pointer; }
+.file-menager .sbContainer .sbBreadcrumb .breadcrumb { border: none; background-color: #b7b7b7;padding: 10px; margin-left: 0; margin-right: 0; }
+.file-menager .sbContainer .sbBreadcrumb .breadcrumb li { display: inline-block; padding-right: 5px; }
+.file-menager .sbContainer .sbBreadcrumb .breadcrumb li:after { content: "/"; margin-left: 5px; color: #fff; }
+.file-menager .sbContainer .sbBreadcrumb .breadcrumb a { color: #fff; }
+.file-menager .sbContainer .statusPanel {
+    padding: 10px;
+    border: 1px solid #dadada;
+    background-color: #e7e7e7;
+}
+.file-menager .sbToolbar { margin-bottom: 10px; }
+.file-menager .sbToolbar .btn { position: relative;  cursor: pointer; }
+
+/*---File Menager - Modal styles----------------------------------------------------*/
+.file-menager.modal .modal-footer { text-align: right; }
+/*.modal .btn { font-size: 16px; line-height: 1; border-radius: 0; }*/

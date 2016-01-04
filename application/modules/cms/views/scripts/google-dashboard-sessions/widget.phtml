@@ -1,0 +1,40 @@
+<div id="chart-container"></div>
+<script>
+    gapi.analytics.ready(function () {
+        
+        gapi.analytics.auth.on('success', function(response) {
+            if (response.status.google_logged_in === true) {
+                if (viewId !== '') {
+                    var dataChart = new gapi.analytics.googleCharts.DataChart({
+                        query: {
+                            ids: viewId,
+                            metrics: 'ga:sessions',
+                            dimensions: 'ga:date',
+                            'start-date': '30daysAgo',
+                            'end-date': 'yesterday'
+                        },
+                        chart: {
+                            container: 'chart-container',
+                            type: 'LINE',
+                            options: {
+                                width: '100%'
+                            }
+                        }
+                    });
+                    dataChart.execute(); 
+
+                    $(window).resize(function () {
+                        dataChart.execute();
+                    });
+                } else {
+                    $("#chart-container").text("<?php echo $this->translate('Please setup analytics.'); ?>");
+                }
+            }
+        });
+
+        gapi.analytics.auth.on('error', function(response) {
+            $("#chart-container").text("<?php echo $this->translate('Please login with your Google account.'); ?>");
+        });
+
+    });
+</script>

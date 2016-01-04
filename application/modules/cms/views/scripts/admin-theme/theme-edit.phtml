@@ -1,0 +1,93 @@
+
+<?php
+    
+    //css
+    $this->headLink()->prependStylesheet( '/plugins/live-css-editor/source/livecsseditor/livecsseditor-2.0.css');
+    $this->headLink()->prependStylesheet( '/plugins/chosen/chosen.min.css');
+    $this->headLink()->prependStylesheet( 'http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css');
+    $this->headLink()->prependStylesheet( 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/ui-lightness/jquery-ui.min.css');
+    
+    //dependencies
+    $this->headScript()->appendFile('http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js');
+    $this->headScript()->appendFile('/plugins/microtpl/microtpl.js');
+    $this->headScript()->appendFile('/plugins/jscolor/jscolor.js');
+    $this->headScript()->appendFile('/plugins/chosen/chosen.jquery.min.js');
+    //Editor
+    $this->headScript()->appendFile('/plugins/live-css-editor/source/livecsseditor/livecsseditor-2.0.js');
+    $this->headScript()->appendFile('/plugins/live-css-editor/source/livecsseditor/editors/lceColor.js');
+    $this->headScript()->appendFile('/plugins/live-css-editor/source/livecsseditor/editors/lceFont.js');
+    $this->headScript()->appendFile('/plugins/live-css-editor/source/livecsseditor/editors/lceBackground.js');
+    
+    $this->headScript()->appendFile('/plugins/live-css-editor/source/livecsseditor/editors/lceSize.js');
+    $this->headScript()->appendFile('/plugins/live-css-editor/source/livecsseditor/editors/lcePosition.js');
+?>
+<meta http-equiv=’cache-control’ content=’no-cache’>
+<meta http-equiv=’expires’ content=’0′>
+<meta http-equiv=’pragma’ content=’no-cache’>
+<script>
+$(document).ready(function(){
+    $("body").on("click", ".accordion-toggle", function(e){
+        e.preventDefault();
+    });
+});
+</script>
+<div class="hcms_content_top">
+    <a href="<?php echo $this->url(array('module' => 'cms', 'controller' => 'admin-theme', 'action' => 'theme'), null, true) ?>">
+        <?php echo $this->translate("Back"); ?>
+    </a>  
+    <h1>
+        <?php echo $this->translate('Theme Editor'); ?> 
+    </h1>
+</div>
+<div class="hcms_content">
+    <button class="btn btn-primary " id="cssBtn"><?php echo $this->translate('Save'); ?> </button>
+    <button class="btn btn-primary " id="cssBtnDefault"><?php echo $this->translate('Revert to default'); ?> </button>
+    
+    <div id="livecsseditor"></div>     
+
+    <script>
+        var properties = <?php echo $this->editorProperties; ?>;
+            
+        $(document).ready(function(){
+            $("#livecsseditor").livecsseditor(properties);
+            $("#livecsseditor").livecsseditor('setJson', <?php echo ($this->customCssJson); ?>);
+            //css button
+            $('#cssBtn').click(function(){
+                var css = $('#livecsseditor').livecsseditor('getCss','/themes/<?php echo ($this->theme); ?>/theme_edit/preview/complex.html');
+                var cssJson = $("#livecsseditor").livecsseditor('getJson', '/themes/<?php echo ($this->theme); ?>/theme_edit/preview/complex.html');
+                var theme = "<?php echo $this->theme; ?>";
+                $.ajax({
+                    url: "<?php echo $this->url(array('module' => 'cms', 'controller' => 'admin-theme', 'action' => 'submit-edit')) ?>",
+                    type: "POST",
+                    async: false,
+                    cache: false,
+                    data: {css:css, theme:theme, cssJson:cssJson},
+                    success: function(res){
+                         $.flashMessenger(res,{clsName:"ok"});
+                    }
+                });                
+            });
+            $('#cssBtnDefault').click(function(){
+                var theme = "<?php echo $this->theme; ?>";
+                $.ajax({
+                    url: "<?php echo $this->url(array('module' => 'cms', 'controller' => 'admin-theme', 'action' => 'revert-default')) ?>",
+                    type: "POST",
+                    data: {theme:theme},
+                    success: function(res){     
+                        $("#livecsseditor").livecsseditor('reset'); 
+                        //$('#lcePreview').attr("src", $('#lcePreview').attr("src"));                                       
+                        $.flashMessenger(res,{clsName:"ok"});
+                    }
+                    
+                });                
+            });
+            
+        });
+        
+    </script>
+</div>
+
+
+
+
+    

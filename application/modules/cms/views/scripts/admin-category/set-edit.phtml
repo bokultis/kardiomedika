@@ -1,0 +1,27 @@
+<form method="post"  id="categoryForm" action="<?php echo $this->url(array('controller' => 'admin-category', 'action' => 'set-edit')) ?>" 
+      title="<?php echo $this->translate("Add New Set"); ?>"
+      enctype="application/x-www-form-urlencoded">
+    <h1>
+        <?php echo $this->translate("Add New Set"); ?>
+    </h1>
+    <?php print_r($this->errorMessages($this->errors)); ?>
+    <label><?php echo $this->translate('Name'); ?>:</label>
+    <input name="data[name]" id="data[name]" type="text" value="" />
+    <?php echo $this->errorMessages($this->errors['name']);?>
+    <label><?php echo $this->translate('Description'); ?>:</label>
+    <input name="data[description]" id="data[description]" type="text" value="" />
+    <?php echo $this->errorMessages($this->errors['description']);?>
+    <label><?php echo $this->translate('Module'); ?>:</label>
+    <select id="data[module]" name="data[module]">
+            <option value="">select</option>
+        <?php foreach ($this->modules as $module) { ?>
+            <option value="<?php echo $module->get_code(); ?>" ><?php echo $this->escape($module->get_name()); ?></option>
+        <?php } ?>
+    </select>
+    <?php echo $this->errorMessages($this->errors['module']);?>
+    <label><?php echo $this->translate('Page type'); ?>:</label>
+    <select id="data[page_type_id]" name="data[page_type_id]">
+        <option value=""><?php echo $this->translate('select module first'); ?></option>                            
+    </select>
+    <?php echo $this->errorMessages($this->errors['page_type_id']);?>
+</form>

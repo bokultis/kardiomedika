@@ -1,0 +1,57 @@
+<?php
+$box = Teaser_Model_TeaserMapper::getInstance()->getBox($this->data['box_code']);
+$boxElements = isset($box['elements']) && is_array($box['elements']) ? $box['elements']: array();
+?>
+<script type="text/javascript">
+    var teaserData = <?php echo json_encode($this->data);?>;
+</script>
+
+<form id="" class="hcms_form" method="post" title="<?php if(isset($this->data['id']) && $this->data['id'] != '') {
+    echo $this->translate('Edit slider');
+}else {
+    echo $this->translate('Add new slider');
+      }?>" action="<?php echo $this->url(array('controller' => 'admin-teaser', 'action' => 'edit')) ?>" enctype="application/x-www-form-urlencoded">
+    <input type="hidden" id="data[id]" value="<?php echo $this->formInputValue($this->data,'id');?>" name="data[id]"/>
+    <input type="hidden" id="data[box_code]" value="<?php echo $this->formInputValue($this->data,'box_code');?>" name="data[box_code]"/>
+    
+    <div id="data" style="width: 500px; height: 300px">
+        <div>
+	    <label><?php echo $this->translate('Name');?></label>
+            <input type="text" class="_input" name="data[name]" id="data[name]" value="<?php echo $this->formInputValue($this->data,'name');?>" maxlength="100"/>
+            <?php echo $this->errorMessages($this->errors['name']);?>
+        </div>
+        <div>         
+	    <label><?php echo $this->translate('Menu items');?></label>        
+            <div id="menu_items">
+                <?php echo $this->cmsMenuSelect(array(
+                    'id'        => 'data[menu_item_ids][]',
+                    'name'      => 'data[menu_item_ids][]',
+                    'attr'      => array(
+                        'multiple'          => 'multiple',
+                        'data-placeholder'  => $this->translate("Choose menu items"),
+                        'style'             => 'width: 500px'
+                    ),
+                    'selected'  => $this->data['menu_item_ids']
+                ));?> 
+                <?php echo $this->errorMessages($this->errors['menu_item_ids']);?>
+            </div>
+            <div class="hcms_checkbox">
+		<input type="hidden" name="data[all_menu_items]" value="no" />  
+		<input type="checkbox" class="_input" name="data[all_menu_items]" id="data[all_menu_items]" <?php echo $this->formSelected($this->data, 'all_menu_items', 'yes', 'checked');?> value="yes" /> 
+		<label><?php echo $this->translate('All');?></label>
+		<?php echo $this->errorMessages($this->errors['all_menu_items']);?> 
+	    </div>
+        </div>
+        <div>
+	    <?php if(in_array('speed', $boxElements)){ ?>
+	    <label><?php echo $this->translate('Slide duration (ms)');?></label>
+            <input type="number" step="1" class="_input" name="data[content][speed]" id="data[content][speed]" value="<?php if(isset($this->data['content'])){ echo $this->formInputValue($this->data['content'],'speed'); };?>" maxlength="255" />
+            <?php echo $this->errorMessages($this->errors['content']['speed']);?>
+        </div>
+        <?php } ?>        
+    </div>
+    <div style="margin-top: 20px;">
+        <button id="teaser-edit-button" type="submit" class="hcms_button submit" value="<?php echo $this->translate('Save');?>" name="submit[save]" ><?php echo $this->translate('Save');?></button>
+        <button type="submit" class="hcms_button submit" value="<?php echo $this->translate('Cancel');?>" name="submit[cancel]" ><?php echo $this->translate('Cancel');?></button>
+    </div>
+</form>

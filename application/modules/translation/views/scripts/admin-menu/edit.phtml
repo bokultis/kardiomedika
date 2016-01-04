@@ -1,0 +1,17 @@
+<form method="post"  class="hcms_form" title="<?php if(isset($this->data['id']) && $this->data['id'] != '') {
+    echo $this->translate('Edit Menu');
+}else {
+    echo $this->translate('Add new Menu');
+      }?>" action="<?php echo $this->url(array('controller' => 'admin-menu', 'action' => 'edit')) ?>" enctype="application/x-www-form-urlencoded">
+    <input type="hidden" id="data[id]" value="<?php echo $this->escape($this->data['id']);?>" name="data[id]"/>
+    <div>
+        <div>
+             <label for="data[name]"><?php echo $this->translate('Name');?>:</label>
+            <input type="text" class="_input" name="data[name]" id="data[name]" value="<?php echo $this->escape($this->data['name']);?>" maxlength="100" style="width:250px;" />
+            <?php echo $this->errorMessages($this->errors['name']);?>
+        </div>
+    </div>
+    <div>
+        <input type="submit" value="<?php echo $this->translate('Save');?>" name="submit[save]" />
+    </div>
+</form>

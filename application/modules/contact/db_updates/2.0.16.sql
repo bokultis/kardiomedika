@@ -1,0 +1,1 @@
+ALTER TABLE `contact` CHANGE `zip` `zip` VARCHAR( 15 ) NOT NULL ;

@@ -1,0 +1,403 @@
+<?php
+
+$this->headScript()->appendFile('/plugins/hfb/js/jquery.hfbSelect.js');
+$this->headScript()->appendFile('/plugins/hfb/js/jquery.hfbSearch.js');
+$this->headScript()->appendFile('/plugins/hfb/js/jquery.hfbList.js');
+$this->headScript()->appendFile('/plugins/hfb/js/jquery.hfbImagePath.js');
+$this->headScript()->appendFile('/plugins/hcmsCrud/jquery.hcmsCrud.js');
+$this->headScript()->appendFile('/plugins/imagebrowser/bs/jquery.imagebrowserdialog.js');
+$this->headScript()->appendFile('/plugins/serverbrowser/bs/jquery.filebrowserdialog.js');
+$this->headScript()->appendFile('/plugins/tinymce/jquery.tinymce.min.js');
+$this->headScript()->appendFile('/js/tinyCommon.js');
+$this->headScript()->appendFile('/plugins/jquery-ui-timepicker-addon/jquery-ui-timepicker-addon.js'); 
+
+
+$typeEditData = array();
+$typeDeleteData = array();
+/*@var $type Cms_Model_PageType */
+foreach ($this->types as $type) {
+    $editData = $type->get_data('edit');
+    if(isset ($editData)){
+        $typeEditData[$type->get_id()] = $editData;
+    }
+    $deleteData = $type->get_data('delete');
+    if(isset ($deleteData)){
+        $typeDeleteData[$type->get_id()] = $deleteData;
+    }
+}
+/*@var $pageType Cms_Model_PageType */
+$pageType = $this->pageType;
+$singleType = isset ($pageType);
+?>
+<script type="text/javascript">
+    var cmsSettings = <?php echo json_encode($this->moduleSettings); ?>;
+    var typeEditData = <?php echo json_encode($typeEditData); ?>;
+    var typeDeleteData = <?php echo json_encode($typeDeleteData); ?>;
+    var typeEditFunctions = {};
+    var pageType = <?php echo isset ($pageType)?json_encode($pageType->toArray()):'{}'; ?>;
+    var singleType = <?php echo json_encode($singleType); ?>;
+    var picker = "<?php echo $this->picker; ?>";
+    var theme = "<?php echo $this->theme; ?>";
+            </script> 
+    <?php
+    $file = "themes/". $this->theme ."/js/tiny-back-extension.js";
+    if(file_exists($file)){
+        
+        $this->inlineScript()->appendFile("/themes/". $this->theme ."/js/tiny-back-extension.js");
+        echo $this->inlineScript();
+    }
+    ?>
+<script type="text/javascript">   
+    
+    /**
+     * Load and render categories
+     */
+    function loadCategories(typeId, pageId, container){
+        var pageId = (typeof pageId === 'undefined' || pageId === null)? '': pageId;
+        var typeId = (typeof typeId === 'undefined' || typeId === null)? '': typeId;
+        $.get(sprintf('/%s/cms/admin/categories/type_id/%s/page_id/%s', CURR_LANG, typeId, pageId), function(data){
+            container.html(renderCategories(data.categories,data.checked));
+        });
+    }
+
+
+    /**
+     * recursive render categories based on loaded array
+     */
+    function renderCategories(categories,checkedCategories){
+        var length = categories.length, result = '', category = null, i = 0, j = 0, checked='';
+
+        if(!length){
+            return result;
+        }
+
+        for(i = 0; i < length; i++){
+            category = categories[i];
+            for(j = 0; j < category.level; j++){
+                result += '&nbsp;&nbsp;&nbsp;&nbsp;';
+            }
+            if($.inArray(category.id, checkedCategories) >= 0){
+                checked = 'checked="checked"';
+            }
+            else{
+                checked = '';
+            }
+            result += '<input id="category_' + category.id + '" name="data[categories][]" type="checkbox" ' + checked + ' value="' + category.id  + '" /> \n\
+                       <label style="display:inline;margin-top:5px;" for="category_' + category.id + '">' + category.name + '</label><br />';
+            if(category.pages){
+                result += renderCategories(category.pages,checkedCategories);
+            }
+        }
+
+        return result;
+    }
+    
+    /**
+     * recursive render categories based on loaded array
+     */
+    function renderCategoriesFilter(categories){
+        var length = categories.length, result = '', category = null, i = 0, j = 0, checked='';
+
+        if(!length){
+            return result;
+        }
+        for(i = 0; i < length; i++){
+            category = categories[i];
+            result += '<option value="' + category.id + '" style="padding-left:'+category.level * 10 +'px;"  >'+category.name+'</option>';
+            if(category.pages){
+                result += renderCategoriesFilter(category.pages);
+            }
+        }
+
+        return result;
+    }    
+
+    function getCategoriesFilter(typeId){
+        $.get(sprintf('/%s/cms/admin/categories/type_id/%s',CURR_LANG,typeId), function(data){
+            $('#categoryFilter').empty();
+            var renderedCategories = renderCategoriesFilter(data.categories);
+            if(renderedCategories){
+                $("#categoryFilter").append('<option value="" selected="selected"><?php echo $this->translate('Select Category');?></option>' + renderedCategories);
+                $('#category').show();
+            }else
+                $('#category').hide();
+        });
+    }
+    
+    function getEditLink(typeId){
+        var typeEditLink = 'cms/admin/page-edit';
+        if(typeId && typeEditData[typeId] && typeEditData[typeId].link){
+            typeEditLink = typeEditData[typeId].link;
+        } else {
+            typeId = null;
+        }
+        return '/' + CURR_LANG + '/' + typeEditLink + '/id/{id}/langFilter/{lang}/type_id/{type_id}';    
+    }
+    
+    function removeTiny(crud, tabId){
+        if (typeof tinymce !== 'undefined') {
+            tinymce.remove(jqId(crud.find("#data\\[content\\]", tabId).attr('id')));
+        }        
+    }
+    //init select filter
+    $(document).ready(function(){
+        var listUrl = '/' + CURR_LANG + '/cms/admin/page-list/?langFilter=<?php echo $this->defaultLang;?>';
+        if(singleType){
+            listUrl += '&typeFilter=' + pageType.id ;
+        }    
+        var crud = $('.res-tabs').hcmsCrud({
+            'listUrl': listUrl,
+            addUrl: function(id, $el){
+                return getEditLink(pageType.id);
+            },            
+            editUrl: function(id, $el){
+                return getEditLink($el.data('type_id'));
+            },
+            deleteUrl: function(id, $el){
+                return '/' + CURR_LANG + '/' + typeDeleteData[$el.data('type_id')]['link'];
+            },
+            getUrlVariables: function(url, id, $el){
+                return {
+                    'id': id,
+                    'lang': this.$el.find(this.options.langSel).val(),
+                    'type_id': ($el.data('type_id'))? $el.data('type_id'): pageType.id
+                };            
+            },            
+            onEditContent: function(id, content, tabId){
+                var localTinyOpts = {
+                    width:"520",
+                    height:"300"
+                };
+                console.log(tinyOptionsBackExtension);
+                if(tinyOptionsBackExtension !== 'undefined'){
+                    localTinyOpts = $.extend({}, localTinyOpts, tinyOptionsBackExtension);
+                }
+                
+                var typeId = crud.find("#data\\[type_id\\]", tabId).val();
+                //enable tiny
+                if((!cmsSettings['tiny'] || !cmsSettings['tiny']['disabled']) && content.find(".formatField").val() === 'html' ){                  
+                    tiny.init(content.find(".tinyTextareaInit"), fileWebRoot, "",localTinyOpts);
+                }
+                //change page format
+                content.find(".formatField").on("change", function(){
+                    if($(this).val() === 'html'){
+                        tiny.init(content.find(".tinyTextareaInit"), fileWebRoot, "", localTinyOpts);
+                    }
+                    //remove tiny
+                    else{
+                        removeTiny(crud, tabId);
+                    }                    
+                });
+                //slug
+                crud.find("#data\\[title\\]", tabId).blur(function(){
+                    if($(this).val() !== '' && crud.find("#data\\[url_id\\]", tabId).val() === ''){
+                        $.post("/" + CURR_LANG + "/cms/admin/url-id",{"title": $(this).val(),"lang": $("#langFilter").val()},
+                        function(data){
+                            crud.find("#data\\[url_id\\]", tabId).val(data.url_id);
+                        });
+                    }
+                });
+                //load and render categories
+                loadCategories(crud.find("#data\\[type_id\\]", tabId).val(), crud.find("#data\\[id\\]", tabId).val(), content.find("#categoriesPanel"));
+                crud.find("#data\\[type_id\\]", tabId).change(function(){
+                    loadCategories($(this).val(), crud.find("#data\\[id\\]", tabId).val(), content.find("#categoriesPanel"));
+                });
+                //teaser image dialog
+                var teaserImageDims = {
+                    maxwidth: 150,
+                    minwidth: 150,
+                    maxheight: 150,
+                    minheight: 150
+                };
+                //read dims from type definition
+                if(typeId && typeEditData[typeId] && typeEditData[typeId].teaserImageDims){
+                    teaserImageDims = typeEditData[typeId].link;
+                }
+                var $teaser = crud.find("#data\\[data\\]\\[teaser_image\\]", tabId);
+                var opts = {
+                    fileWebRoot: fileWebRoot,
+                    initPath: $teaser.val(),
+                    extensions: "gif,png,jpg,jpeg"
+                };
+                jQuery.extend(opts,teaserImageDims);
+                $teaser.imagebrowserdialog(opts).hfbImagePath();
+                //run custom type processing function
+                if(typeId && typeEditData[typeId] && typeEditData[typeId].fn && typeof typeEditFunctions[typeEditData[typeId].fn] === 'function'){
+                    typeEditFunctions[typeEditData[typeId].fn](tabId);
+                }
+                //collapse
+                content.find(".collapslist").collapsList({});
+                content.find(".collapslist .heading").click(function () {
+                    $(this).find(".title i").toggleClass("icon-plus-small icon-minus-small");
+                });                
+            },
+            onTabClosed: function(tabId, article){
+                removeTiny(crud, tabId);
+            }
+        });
+        
+        if(singleType){
+            getCategoriesFilter(pageType.id);
+        }        
+        
+        //custom list filters
+        $("#typeFilter").change(function(){
+            if($(this).val()){
+                getCategoriesFilter($(this).val());
+            }else{
+                 $('#category').hide();
+            }
+            crud.updateList('typeFilter',$(this).val());
+        });
+        $('#categoryFilter').change(function(){
+            crud.updateList('categoryFilter',$(this).val());
+        });
+        $("#statusFilter").change(function(){
+            crud.updateList('statusFilter',$(this).val());
+        });
+        $("#menuFilter").change(function(){
+            crud.updateList('menuFilter',$(this).val());
+        });
+        
+
+        //include special javascript for each type
+        for (var typeId in typeEditData) {
+            var typeObject = typeEditData[typeId];
+            if(typeObject.file){
+                include(typeObject.file);
+            }
+        }
+    });
+    
+</script>
+<div class="hcms_content_top">
+    <h1>
+        <?php echo $this->translate($singleType?$pageType->get_name():'Content'); ?> 
+    </h1>
+</div>
+<div class="hcms_content">
+    <div class="res-tabs">
+        <ul class="tab-list">
+            <li class="styled-apps"><?php echo $this->translate('List');?></li>
+        </ul>
+        <div class="articles">
+	    <div>
+		<div class="hcms_btn_actions content_page">
+		    <div class="btn-block">
+			<a href="#" class="add btn btn-small btn-primary"><i class="icon-plus-med"></i><?php echo $this->translate('Add new'); ?></a>
+			<div class="hcms_input_block hcms_search">
+			    <div class="input-group">
+				<input name="searchFilter" id="searchFilter" type="text" value="" />
+				<div class="input-group-btn">
+				    <a class="btn btn-small btn-primary" href="#" id="searchExecute"><?php echo $this->translate("Search"); ?></a>
+				</div>
+			    </div>
+			</div>
+		    </div>
+		    <div class="btn-block">
+			<?php if($this->singleLang === false) {?>
+			<select id="langFilter" name="langFilter">
+			    <?php echo $this->langOptions($this->languages,$this->defaultLang,true);?>
+			</select>
+			<?php
+			}
+			if(!$singleType) {?>
+			<select id="typeFilter" name="typeFilter" style="width: 180px;">
+			    <option value="" selected="selected"><?php echo $this->translate('Select Content Type');?></option>
+			    <?php foreach ($this->types as $type) { ?>
+			    <option value="<?php echo $type->get_id();?>"><?php echo $this->translate($type->get_name());?></option>
+				<?php }?>
+			</select>
+			<?php }?>
+			<select id="statusFilter" name="statusFilter">
+			    <option value="" selected="selected"><?php echo $this->translate('Select Status');?></option>
+			    <option value="published"><?php echo $this->translate("Published");?></option>
+			    <option value="draft"><?php echo $this->translate("Draft");?></option>
+			</select>
+			<span id="category" style="display:none">
+			    <select id="categoryFilter" name="categoryFilter">
+				<option value="" selected="selected"><?php echo $this->translate('Select Category');?></option>
+			    </select>
+			</span>
+			<?php echo $this->cmsMenuSelect(array(
+			    'id'    => 'menuFilter',
+			    'name'  => 'menuFilter',
+			    'default_text'  => 'Select menu item'
+			));?>         
+			<!--<span class="hcms_button"><a href="#">Filter</a></span>-->
+		    </div>
+		</div>
+		<div class="hcms_scroll_table">
+		    <table class="hcms_table adminList" width="100%">
+			<thead>
+			    <tr>
+				<th><a href="#" class="sort" data-column="id"><?php echo $this->translate('ID');?><b></b></a></th>
+				<th><a href="#" class="sort" data-column="title"><?php echo $this->translate('Title');?><b></b></a></th>
+				<th><a href="#" class="sort" data-column="code"><?php echo $this->translate('Code');?><b></b></a></th>
+				<th><a href="#" class="sort" data-column="url_id"><?php echo $this->translate('URL ID');?><b></b></a></th>
+				<th><a href="#" class="sort" data-column="type_name"><?php echo $this->translate('Type');?><b></b></a></th>
+				<th><a href="#" class="sort" data-column="user_name"><?php echo $this->translate('User');?><b></b></a></th>
+				<th><a href="#" class="sort" data-column="status"><?php echo $this->translate('Status');?><b></b></a></th>
+				<th><a href="#" class="sort" data-column="posted"><?php echo $this->translate('Posted');?><b></b></a></th>
+			    </tr>
+			</thead>
+			<tbody id="listContainer">
+			</tbody>
+		    </table>
+		</div>
+                <div id="pager" class="pager"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="records_tpl">
+<% if (rows.length > 0){
+    var rowClass = 'odd';
+        %>
+    <% for ( var i = 0; i < rows.length; i++ ){
+        rowClass = (i % 2 == 0)? 'even':'odd';
+            %>
+        <tr class="<%=rowClass%>">
+            <td><%=rows[i].id%></td>
+            <td class="fixed-width">
+                <span><%=rows[i].title%></span>
+		<ul class="hcms_menu_actions">
+		    <li><a href="#" class="edit" data-id="<%=rows[i].id%>" data-type_id="<%=rows[i].type_id%>"><span><?php echo $this->translate('Edit');?></span></a></li>                     
+
+		    <% if (rows[i].type_name != "Content Block" && rows[i].type_name != "Image Slider") { %>
+			<li><a href="<%=rows[i].url%>" target="_blank" class="view" data-id="<%=rows[i].id%>"><span><?php echo $this->translate('View Page');?></span></a></li>
+		    <% } %>
+
+		    <% if (typeDeleteData[rows[i].type_id] && typeDeleteData[rows[i].type_id]['link']){ %><li> <a href="#" class="delete" data-id="<%=rows[i].id%>" data-type_id="<%=rows[i].type_id%>" data-id_field="page_id"><span><?php echo $this->translate('Delete');?></span></a></li><% } %>
+		</ul>
+	    </td>
+            <td>
+                <%=rows[i].code%>
+                        </td>
+            <td>
+                <%=rows[i].url_id%>
+                        </td>
+            <td>
+                <%=rows[i].type_name%>
+                        </td>
+            <td>
+                <%=rows[i].user_name%>
+                        </td>
+            <td>
+                <%=rows[i].status%>
+                        </td>
+            <td>
+                <%=rows[i].posted%>
+                        </td>
+                        </tr>
+    <% } %>
+<% } %>
+</script>
+<div title="<?php echo $this->translate('Choose Content Type');?>" id="typeDialog" style="display: none">
+    <select id="typeDialogSelect" name="typeDialogSelect">
+        <?php foreach ($this->types as $type) { ?>
+        <option value="<?php echo $type->get_id();?>"><?php echo $this->translate($type->get_name());?></option>
+            <?php }?>
+    </select>
+
+</div>

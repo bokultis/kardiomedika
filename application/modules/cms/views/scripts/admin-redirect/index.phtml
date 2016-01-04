@@ -1,0 +1,78 @@
+<?php
+    $this->headScript()->appendFile('/plugins/hfb/js/jquery.hfbSelect.js');
+    $this->headScript()->appendFile('/plugins/hfb/js/jquery.hfbSearch.js');
+    $this->headScript()->appendFile('/plugins/hfb/js/jquery.hfbList.js');
+    $this->headScript()->appendFile('/js/ajaxDialogForm.js');
+    $this->headScript()->appendFile('/modules/admin/js/list.js');
+    $this->headScript()->appendFile('/modules/cms/js/routeList.js');
+?>
+<script type="text/javascript">
+    var menuItemData = null;
+    var listUrl = '/' + CURR_LANG + '/cms/admin-redirect/list/?langFilter=';
+    var module = "admin-redirect";
+
+</script>
+<div class="hcms_content_top">
+    <h1><?php echo $this->translate('Redirection List'); ?>  </h1>
+    <span class="hcms_search">
+    </span>
+</div>
+<div class="hcms_content">
+    <div class="hcms_btn_actions">
+        <div class="btn-block">
+            <a href="#" class="add btn btn-small btn-primary"><i class="icon-plus-med"></i><?php echo $this->translate('Add redirection'); ?></a>
+            <div class="filterContainer">
+                <?php if($this->singleLang === false){?>
+                <select id="langFilter" name="langFilter">
+                    <option selected value=""><?php echo $this->translate('No Language');?></option>
+                    <?php echo $this->langOptions($this->languages,'');?>
+                </select>
+                <?php }?>  
+            </div>
+        </div>
+    </div>
+    <div class="hcms_scroll_table">
+	<table class="hcms_table adminList" width="100%" >
+	    <thead>
+		<tr>
+		    <th><a href="#" class="sort" data-column="name"><?php echo $this->translate('Name');?><b></b></a></th>
+		    <th><a href="#" class="sort" data-column="uri"><?php echo $this->translate('URL');?><b></b></a></th>
+		    <th><a href="#" class="sort" data-column="uri"><?php echo $this->translate('Redirect');?><b></b></a></th>
+		    <th><a href="#" class="sort" data-column="lang"><?php echo $this->translate('Language');?><b></b></a></th>
+		</tr>
+	    </thead>
+	    <tbody id="listContainer">
+	    </tbody>
+	</table>
+    </div>
+    <div id="pager" class="pager"></div>
+</div>
+<script type="text/html" id="records_tpl">
+<% 
+    if (rows.length > 0){
+    var rowClass = 'odd';
+    %>
+    <% for ( var i = 0; i < rows.length; i++ ){
+        rowClass = (i % 2 == 0)? 'even':'odd';
+    %>
+    <tr class="<%=rowClass%>" >            
+            <td class="fixed-width">                
+                <%=rows[i].name%>
+                <ul  class="hcms_menu_actions">
+                    <li><a href="#" class="edit" data-id="<%=rows[i].id%>"><span><?php echo $this->translate('Edit');?></span></a></li>
+                    <li><a href="#" class="delete" data-id="<%=rows[i].id%>"><span><?php echo $this->translate('Delete');?></span></a></li>
+                </ul>
+            </td>
+            <td>
+                <a target="_blank" href="<?php echo $this->serverUrl()?><% if(rows[i].lang) { %><%='/'+rows[i].lang+'/'%><% } else { %><%='/'%><% } %><%=rows[i].uri%>"><?php echo $this->serverUrl()?><% if(rows[i].lang) { %><%='/'+rows[i].lang+'/'%><% } else { %><%='/'%><% } %><%=rows[i].uri%></a>
+            </td>
+             <td>
+                <a target="_blank" href="<%=rows[i].params%>"><%=rows[i].params%></a>
+            </td>  
+            <td>
+                <% if(rows[i].lang){%> <%=rows[i].lang%> <% }else{%> <%="---"%> <%}%>
+            </td>
+        </tr>
+    <% } %>
+<% } %>
+</script>

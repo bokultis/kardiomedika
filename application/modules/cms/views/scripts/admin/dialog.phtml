@@ -1,0 +1,201 @@
+<?php
+$typeEditData = array();
+/*@var $type Cms_Model_PageType */
+foreach ($this->types as $type) {
+    $editData = $type->get_data('edit');
+    if(isset ($editData)){
+        $typeEditData[$type->get_id()] = $editData;
+    }
+}
+?>
+<script type="text/javascript">
+    var cmsSettings = <?php echo json_encode($this->moduleSettings); ?>;
+    var typeEditData = <?php echo json_encode($typeEditData); ?>;
+    var typeEditFunctions = {};
+    var selectedPageId = '<?php echo $this->page_id;?>';
+    
+    //init select filter
+    $(document).ready(function(){
+        initDialogList('/' + CURR_LANG + '/cms/admin/page-list/',{'langFilter':'<?php echo $this->langFilter ;?>', 'typeFilter':'1'},function(me,data){});
+        $("#dialogLangFilter").change(function(){
+            updateDialogList('langFilter',$(this).val());
+        });
+        $("#dialogTypeFilter").change(function(){
+            updateDialogList('typeFilter',$(this).val());
+        });
+        $("#dialogStatusFilter").change(function(){
+            updateDialogList('statusFilter',$(this).val());
+        });
+       
+        //include special javascript for each type
+        for (var typeId in typeEditData) {
+            var typeObject = typeEditData[typeId];
+            if(typeObject.file && typeObject.file != ''){
+                include(typeObject.file);
+            }
+        }
+    });
+function initDialogList(url,params,processFunc){
+    if(!processFunc){
+        var processFunc = function(me,data){
+        }
+    }
+    $(document).ready(function(){
+        //init list view
+        var order = '';
+        //find default order
+        var ordering = $(".asc,.desc");
+        if(ordering.length > 0){
+            order = 'desc';
+            if($(ordering).hasClass('asc')){
+                order = 'asc';
+            }
+            order = $(ordering).data("column") + " " + order;
+        }
+        params = $.extend({}, params, {'order':order});
+
+        //default callback function when table body is obtained
+        var tableProcessFunc  = function(me,data){
+            me.find('tr').hover(
+            function(){
+                $(this).find('ul.hcms_menu_actions').show();
+            },
+            function(){
+                $(this).find('ul.hcms_menu_actions').hide();
+            })
+            processFunc(me,data);
+        }
+
+        $("#dialogListContainer").hfbList({
+            'tpl': $('#dialogRecords_tpl'),
+            'url': url,
+            'params': params,
+            'process': tableProcessFunc,
+            'pager': $('#dialogPager')
+        });
+        //init search box
+        $('#dialogSearchFilter').keypress(function(e) {
+            if (e.keyCode == '13') {
+                e.preventDefault();
+                updateDialogList("searchFilter",$(this).val());
+            }
+        });
+        //search button
+        $("#dialogSearchExecute").click(function(){
+            updateDialogList("searchFilter",$('#dialogSearchFilter').val());
+            return false;
+        });
+        $('.sort').click(function(){
+            var order = 'asc';
+            if($(this).hasClass('asc')){
+                order = 'desc';
+            }
+            $('.sort').removeClass('asc').removeClass('desc');
+            $(this).addClass(order);
+            updateDialogList("order",$(this).data("column") + " " + order);
+            return false;
+        });
+    });
+
+}
+//update list view when one param is changed
+function updateDialogList(paramName,paramValue){
+    var params = $("#dialogListContainer").data('params');
+    params[paramName] = paramValue;
+    $("#dialogListContainer").hfbList({
+        'params': params
+    });
+}
+</script>
+<div class="hcms_btn_actions">
+    <!--<h1><?php echo $this->translate('Content'); ?> </h1>-->
+    <div class="btn-block">
+        <?php if($this->singleLang === false) {?>
+        <select id="dialogLangFilter" name="langFilter">
+             <?php echo $this->langOptions($this->languages,$this->langFilter,true);?>
+        </select>
+            <?php }?>
+        <select id="dialogTypeFilter" name="typeFilter" style="width: 180px;">
+            <option value=""><?php echo $this->translate('Select Content Type');?></option>
+            <?php foreach ($this->types as $type) { ?>
+            <option value="<?php echo $type->get_id();?>" <?php if($type->get_id() == 1){ ?>selected="selected" <?php } ?>><?php echo $this->translate($type->get_name());?></option>
+                <?php }?>
+        </select>
+        <select id="dialogStatusFilter" name="statusFilter">
+            <option value="" selected="selected"><?php echo $this->translate('Select Status');?></option>
+            <option value="published"><?php echo $this->translate("Published");?></option>
+            <option value="draft"><?php echo $this->translate("Draft");?></option>
+        </select>
+	<div class="hcms_input_block hcms_search">
+	    <div class="input-group">
+		<input name="searchFilter" id="dialogSearchFilter" type="text" value="" />
+		<div class="input-group-btn">
+		    <a class="btn btn-small btn-primary" href="#" id="dialogSearchExecute"><?php echo $this->translate("Search"); ?></a>
+		</div>
+	    </div>
+	</div>
+    </div>
+</div>
+<div class="hcms_content">
+    <form method="post" class="hcms_form" title="<?php echo $this->translate('Content List');?>" action="<?php echo $this->url(array('controller' => 'admin', 'action' => 'dialog')) ?>" enctype="application/x-www-form-urlencoded">
+	<table class="hcms_table adminList" width="100%">
+	    <thead>
+		<tr>
+		    <th><a href="#" class="sort" data-column="id"><?php echo $this->translate('ID');?><b></b></a></th>
+		    <th><a href="#" class="sort" data-column="title"><?php echo $this->translate('Title');?><b></b></a></th>
+		    <th><a href="#" class="sort" data-column="code"><?php echo $this->translate('Code');?><b></b></a></th>
+		    <th><a href="#" class="sort" data-column="url_id"><?php echo $this->translate('URL ID');?><b></b></a></th>
+		    <th><a href="#" class="sort" data-column="type_name"><?php echo $this->translate('Type');?><b></b></a></th>
+		    <th><a href="#" class="sort" data-column="user_name"><?php echo $this->translate('User');?><b></b></a></th>
+		    <th><a href="#" class="sort" data-column="status"><?php echo $this->translate('Status');?><b></b></a></th>
+		    <th><a href="#" class="sort" data-column="posted"><?php echo $this->translate('Posted');?><b></b></a></th>
+		</tr>
+	    </thead>
+	    <tbody id="dialogListContainer">
+	    </tbody>
+	</table>
+	<div id="dialogPager" class="pager"></div>
+    </form>
+</div>
+<script type="text/html" id="dialogRecords_tpl">
+<% if (rows.length > 0){
+    var rowClass = 'odd';
+        %>
+    <% for ( var i = 0; i < rows.length; i++ ){
+        rowClass = (i % 2 == 0)? 'even':'odd';
+            %>
+        <tr class="<%=rowClass%>">
+            <td><span><%=rows[i].id%></span><input type="radio"  name="data[page_id]" id="data[page_id]" value="<%=rows[i].id%>" <% if(rows[i].id == selectedPageId){ %>checked="checked" <% } %> /></td>
+            <td>
+                <input type="hidden" name="data[<%=rows[i].id%>][title]"  value="<%=rows[i].title%>" />
+                <%=rows[i].title%>
+            </td>
+            <td>
+                <%=rows[i].code%>
+                        </td>
+            <td>
+                <%=rows[i].url_id%>
+                        </td>
+            <td>
+                <%=rows[i].type_name%>
+                        </td>
+            <td>
+                <%=rows[i].user_name%>
+                        </td>
+            <td>
+                <%=rows[i].status%>
+                        </td>
+            <td>
+                <%=rows[i].posted%>
+                        </td>
+                        </tr>
+    <% } %>
+<% } %>
+</script>
+<div title="<?php echo $this->translate('Choose Content Type');?>" id="typeDialog" style="display: none">
+    <select id="typeDialogSelect" name="typeDialogSelect">
+        <?php foreach ($this->types as $type) { ?>
+        <option value="<?php echo $type->get_id();?>"><?php echo $this->translate($type->get_name());?></option>
+            <?php }?>
+    </select>
+</div>

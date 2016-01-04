@@ -1,0 +1,29 @@
+<?php
+    $this->doctype('XHTML1_TRANSITIONAL');
+    echo $this->doctype();
+?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title><?php echo $this->translate("Administration");?></title>
+    <base href="<?php echo $this->serverUrl() . $this->fileWebRoot; ?>" />
+    <?php
+        $favicon =  '/modules/admin/images/favicon.ico';
+        $this   ->headLink(array('rel' => 'icon', 'href' => $favicon, 'type' => 'image/x-icon'),'PREPEND')
+                ->headLink(array('rel' => 'shortcut icon', 'href' => $favicon, 'type' => 'image/x-icon'),'PREPEND'); 
+        $this->headLink()->prependStylesheet( '/modules/admin/css/login.css');
+        $this->headLink()->prependStylesheet( '/modules/admin/css/fonts.css');
+        $this->headLink()->prependStylesheet( '/modules/admin/css/bootstrap-btns.css');
+        $this->headScript()->prependFile('/plugins/jQuery/jquery-1.11.1.min.js');
+
+        echo $this->headScript();
+        echo $this->headLink();        
+        echo $this->headStyle();
+    ?>
+</head>
+<body>
+    <div class="wrapper">
+	<?php echo $this->layout()->content ?>
+    </div>
+</body>
+</html>

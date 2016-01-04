@@ -1,0 +1,5 @@
+<?php $classes = isset($this->field['css_class'])? $this->field['css_class']: 'form-group col-sm-6 col-xs-12'; ?>
+    <div id="field-<?php echo $this->fieldId; ?>" class="<?php echo $classes;?>">
+        <label for="data[<?php echo $this->fieldId; ?>]"><?php echo $this->translate($this->field['name']);?> <?php if(isset($this->field['required']) && $this->field['required']){echo '*';}?></label>
+        <textarea name="data[<?php echo $this->fieldId; ?>]" id="data[<?php echo $this->fieldId; ?>]" <?php if(isset($this->field['maxlength'])){echo 'maxlength="' . $this->field['maxlength'] . '"';}?> class="form-control <?php echo $this->errorMessages($this->errors, 'error', $this->fieldId, true);?>" <?php if(isset($this->field['placeholder'])){echo 'placeholder="' . $this->translate($this->field['placeholder']) . '"';}?>><?php echo $this->formInputValue($this->data, $this->fieldId); ?></textarea>
+    </div>

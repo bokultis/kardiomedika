@@ -1,0 +1,30 @@
+<?php
+    //Zend_Debug::dump($this->paging);
+    //Zend_Debug::dump($this->categories);
+    if(count($this->categories) > 0){
+?>
+<ul>
+<?php
+/* @var $category Cms_Model_Category */
+foreach ($this->categories as $category) {
+?>
+    <li>        
+        <?php 
+            $picture = $category->get_data('picture');
+            if (isset($picture) && $picture !== '') {
+        ?>
+        <img src="<?php echo $this->fileWebRoot.$picture; ?>" alt="Category Picture" width="100" height="50" />
+        <?php }?>
+        <h2><?php echo $this->escape($category->get_name());?></h2>
+        <p><?php echo nl2br($this->escape($category->get_description()));?></p>
+        <a href="<?php echo $this->url(array('module'=>'cms','controller'=>'category','action'=>'index','url_id'=>$category->get_url_id()),$this->route,true);?>"><?php echo $this->translate('Read more');?></a>
+    </li>
+<?php
+}
+?>
+</ul>
+<?php
+}
+else{
+    echo $this->translate('No categories found');
+}

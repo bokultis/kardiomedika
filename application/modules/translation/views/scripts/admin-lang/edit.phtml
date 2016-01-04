@@ -1,0 +1,46 @@
+<form method="post" class="hcms_form" title="<?php if(isset($this->data['id']) && $this->data['id'] != '') {
+    echo $this->translate('Edit Language');
+}else {
+    echo $this->translate('Add new Language');
+      }?>" action="<?php echo $this->url(array('controller' => 'admin-lang', 'action' => 'edit')) ?>" enctype="application/x-www-form-urlencoded">
+    <input type="hidden" id="data[id]" value="<?php echo $this->escape($this->data['id']);?>" name="data[id]"/>
+    <div>
+        <div class="btn-block">
+             <label for="data[name]"><?php echo $this->translate('Code');?>:</label>
+            <input type="text" class="_input" name="data[code]" id="data[code]" 
+                   <?php if(isset($this->data['id']) && $this->data['id'] != '') { ?> readonly="readonly" <?php } ?>
+                   value="<?php echo $this->escape($this->data['code']);?>" maxlength="100"/>
+            <?php echo $this->errorMessages($this->errors['code']);?>
+        </div>
+    </div>
+    <div>
+        <div class="btn-block">
+             <label for="data[name]"><?php echo $this->translate('Name');?>:</label>
+            <input type="text" class="_input" name="data[name]" id="data[name]" value="<?php echo $this->escape($this->data['name']);?>" maxlength="100"/>
+            <?php echo $this->errorMessages($this->errors['name']);?>
+        </div>
+    </div>
+    <div>
+        <div class="btn-block">
+            <label for="data[default]"><?php echo $this->translate('Default Language');?>:</label>
+            <select  id="data[default]" name="data[default]">
+                <option <?php if (isset($this->data['default']) && $this->data['default'] == 'no') { ?>selected="selected"<?php } ?> value="no"><?php echo $this->translate('No');?> </option>
+                <option <?php if (isset($this->data['default'] ) && $this->data['default'] == 'yes') { ?>selected="selected" <?php } ?> value="yes"><?php echo $this->translate('Yes');?></option>
+            </select>
+            <?php echo $this->errorMessages($this->errors['default']);?>
+        </div>
+    </div>
+    <div>
+        <div class="btn-block">
+            <label for="data[front_enabled]"><?php echo $this->translate('Front Enabled');?>:</label>
+            <select  id="data[front_enabled]" name="data[front_enabled]">
+                <option <?php if (isset($this->data['front_enabled'] ) && $this->data['front_enabled'] == 'yes') { ?>selected="selected" <?php } ?> value="yes"><?php echo $this->translate('Yes');?></option>
+                <option <?php if (isset($this->data['front_enabled']) && $this->data['front_enabled'] == 'no') { ?>selected="selected"<?php } ?> value="no"><?php echo $this->translate('No');?> </option>
+            </select>
+            <?php echo $this->errorMessages($this->errors['front_enabled']);?>
+        </div>
+    </div>
+    <div>
+        <input type="submit" value="<?php echo $this->translate('Save');?>" name="submit[save]" />
+    </div>
+</form>

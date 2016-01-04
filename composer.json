@@ -2,16 +2,11 @@
     "name": "horisen/cms-skeleton",
     "description": "Horisen CMS Skeleton app",
     "require": {
-        "horisen/installers": "*",
-        "horisen/cms-core-mod": "2.*",
-        "horisen/cms-teaser-mod": "2.*",
-        "horisen/cms-contact-mod": "2.*",
-        "horisen/cms-cli-lib": "2.*"
+
     },
     "minimum-stability": "dev",
     "repositories": [{
-        "type": "composer",
-        "url": "http://composer.horisen.biz/"
+        
     }],
     "autoload": {
         "psr-0": {

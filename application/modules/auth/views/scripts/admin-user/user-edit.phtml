@@ -1,0 +1,193 @@
+<script>
+    $(document).ready(function(){
+        $("#change_pass").click(function() {
+            $("#password_<?php if(isset($this->data['id']) && $this->data['id'] != '') { echo $this->data['id']; }?>").show();
+            $("#new_password_<?php if(isset($this->data['id']) && $this->data['id'] != '') { echo $this->data['id']; }?>").hide();
+            return false;
+        });
+        <?php 
+        if(isset($this->errors['password'])){?>
+             $("#change_pass").click();
+       <?php
+        }
+        ?>
+                
+        
+        //---trigger save-------------------------------------
+        var activeTab = $(".res-tabs").restabs("getActiveId");
+        var activeTabContent = activeTab.replace("-tab-", "-article-");
+        $("#" + activeTabContent).on("click", "#saveButton", function(){
+            $(this).trigger("save");
+            //$(".res-tabs").restabs("removeTab", activeTab);
+        });
+        
+        //---trigger cancel------------------------------------
+        $("#" + activeTabContent).on("click", "#cancelButton", function(){
+            
+            $(".res-tabs").restabs("removeTab", activeTab);
+        });
+   
+                
+                
+                
+    });
+</script>
+<div class="articles"> 
+    <div>
+        <div class="hcms_btn_actions edit user_edit">
+            <form method="post" title="<?php if(isset($this->data['id']) && $this->data['id'] != '') {
+                echo $this->translate('Edit User');
+            }else {
+                echo $this->translate('Add new User');
+                  }?>" action="<?php echo $this->url(array('controller' => 'admin-user', 'action' => 'user-edit')) ?>" enctype="application/x-www-form-urlencoded">
+                <input type="hidden" id="data[id]" value="<?php echo (isset($this->data['id']) && $this->data['id'] != '') ? $this->escape($this->data['id']):'';?>" name="data[id]"/>
+                <div id="data"> 
+                    <div class="btn-block">
+                        <label><?php echo $this->translate('Image');?></label>
+			<div class="input-group">
+			    <?php if($this->isAdminLogged) {?><input type="text" class="_input userImage" data-var_id="image_path" name="data[image_path]"  id="data[image_path]" value="<?php if(isset($this->data['image_path'])) echo $this->escape($this->data['image_path']);?>" maxlength="100" />
+			    <?php if(isset($this->errors['image_path'])) echo $this->errorMessages($this->errors['image_path']);?>
+			    <?php } else { ?>
+				 <?php if(isset($this->data['image_path'])) echo $this->escape($this->data['image_path']);?>
+			    <?php } ?>
+			    <div class="input-group-btn">
+				<button class="btn btn-small btn-default browse" type="button" title="<?php echo $this->translate('Browse');?>">...</button>
+				<button class="btn btn-small btn-default clear" type="button" title="<?php echo $this->translate('Clear');?>">&times;</button>
+			    </div>
+			</div>
+                    </div>
+                    <div class="btn-block">
+                        <label><?php echo $this->translate('Username');?></label>
+                        <?php if($this->isAdminLogged) {?><input type="text" class="_input" name="data[username]" id="data[username]" value="<?php if(isset($this->data['username'])) echo $this->escape($this->data['username']);?>" maxlength="100" />
+                            <?php if(isset($this->errors['username'])) echo $this->errorMessages($this->errors['username']);?>
+                        <?php } else { ?>    
+                            <?php if(isset($this->data['username'])) echo $this->escape($this->data['username']);?>
+                        <?php } ?>
+                    </div>
+                    <div class="btn-block">
+                        <label><?php echo $this->translate('First Name');?></label>
+                        <?php if($this->isAdminLogged) {?><input type="text" class="_input" name="data[first_name]" id="data[first_name]" value="<?php if(isset($this->data['first_name'])) echo $this->escape($this->data['first_name']);?>" maxlength="100" />
+                            <?php if(isset($this->errors['first_name'])) echo $this->errorMessages($this->errors['first_name']);?>
+                        <?php } else { ?> 
+                             <?php if(isset($this->data['first_name'])) echo $this->escape($this->data['first_name']);?>
+                        <?php } ?>
+                    </div>
+                    <div class="btn-block">
+                        <label><?php echo $this->translate('Last Name');?></label>
+                        <?php if($this->isAdminLogged) {?><input type="text" class="_input" name="data[last_name]" id="data[last_name]" value="<?php if(isset($this->data['last_name'])) echo $this->escape($this->data['last_name']);?>" maxlength="100" />
+                            <?php if(isset($this->errors['last_name'])) echo $this->errorMessages($this->errors['last_name']);?>
+                        <?php } else { ?> 
+                             <?php if(isset($this->data['last_name'])) echo $this->escape($this->data['last_name']);?>
+                        <?php } ?>
+                    </div>
+                    <div class="btn-block">
+                        <label><?php echo $this->translate('Email');?></label>
+                        <?php if($this->isAdminLogged) {?><input type="text" class="_input" name="data[email]" id="data[email]" value="<?php if(isset($this->data['email'])) echo $this->escape($this->data['email']);?>" maxlength="100" />
+                            <?php if(isset($this->errors['email'])) echo $this->errorMessages($this->errors['email']);?>
+                        <?php } else { ?> 
+                            <?php if(isset($this->data['email'])) echo $this->escape($this->data['email']);?>
+                        <?php } ?>
+                    </div>
+                    <div class="btn-block block-in-3">
+                        <div>
+                            <label><?php echo $this->translate('Status');?></label>
+                            <?php if($this->isAdminLogged) {?>
+                                <select name="data[status]" id="data[status]">
+                                        <option value="active" <?php if(isset($this->data['status']) &&  $this->data['status'] == 'active' ) {?> selected="selected" <?php } ?>><?php echo $this->translate('Active');?></option>
+                                        <option value="blocked" <?php if(isset($this->data['status']) && $this->data['status'] == 'blocked' ) {?> selected="selected" <?php } ?>><?php echo $this->translate('Blocked');?></option>
+                                        <option value="pending"  <?php if(isset($this->data['status']) && $this->data['status'] == 'pending' ) {?> selected="selected" <?php } ?>><?php echo $this->translate('Pending');?></option>
+                                </select>
+                                <?php if(isset($this->errors['status'])) echo $this->errorMessages($this->errors['status']);?>
+                            <?php } else { ?>
+                            <?php  
+                                if(isset($this->data['status']) &&  $this->data['status'] == 'active' ) echo $this->translate('Active');
+                                if(isset($this->data['status']) &&  $this->data['status'] == 'blocked' ) echo $this->translate('Blocked');
+                                if(isset($this->data['status']) &&  $this->data['status'] == 'pending' ) echo $this->translate('Pending');
+                                ?>
+                            <?php } ?>
+                        </div>
+                        <div>
+                            <label><?php echo $this->translate('Role');?></label>
+                            <?php if($this->isAdminLogged) {?>
+                                <select name="data[role_id]" id="data[role_id]" class="_input">
+                                    <option value="" ><?php echo $this->translate('Select Role'); ?> </option>
+                                    <?php  foreach ($this->roles as $role ) {?>
+                                    <option value="<?php echo $role->get_id() ;?>" <?php echo $this->formSelected($this->data, 'role_id', $role->get_id());?>><?php echo $role->get_name(); ?></option> 
+                                    <?php }?>
+                                </select>
+                                <?php if(isset($this->errors['role_id'])) echo $this->errorMessages($this->errors['role_id']);?>
+                            <?php } else { ?>
+                                <?php  foreach ($this->roles as $role ) {?>
+                                    <?php if($role->get_id() == $this->data['role_id']) echo $role->get_name(); ?>
+                                <?php }?>
+                            <?php } ?>
+                        </div>
+                        <div>
+                            <label><?php echo $this->translate('Language');?></label>
+                            <?php if($this->isAdminLogged) {?>
+                            <select name="data[lang]" id="data[lang]" class="_input">
+                                <option value="" ><?php echo $this->translate('Select Language'); ?> </option>
+                                <?php foreach ($this->languages as $key =>  $val) {?>
+                                <option value="<?php echo $val['code'] ;?>" <?php if( isset($this->data['lang']) && $val['code'] == $this->data['lang']){?> selected="selected" <?php }?>> <?php echo $val['name']; ?> </option> 
+                                <?php }?>
+                            </select>
+                             <?php if(isset($this->errors['lang'])) echo $this->errorMessages($this->errors['lang']);?>
+                            <?php }else{?>
+                                <?php  foreach ($this->languages as $key =>  $val) {?>
+                                    <?php if($val['code'] == $this->data['lang']) echo $val['name']; ?>
+                                <?php }?>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </div>  
+                
+                <?php if(isset($this->data['id']) && $this->data['id'] != '') { ?>  
+                <!-- EXISTING USER -->
+                <div id="password">
+                    <?php if(!$this->isAdminLogged){?>
+                        <div class="btn-block block-in-2">
+                            <div>
+                                <label><?php echo $this->translate('Old Password');?></label>
+                                <input type="password" autocomplete="off" class="_input" name="data[old_password]" id="data[old_password]" value="" maxlength="100" />
+                                <?php if(isset($this->errors['old_password'])) echo $this->errorMessages($this->errors['old_password']);?>
+                            </div>
+                        </div>
+                    <?php } ?>
+                    <div class="btn-block block-in-2">
+                        <div>
+                            <label><?php echo $this->translate('New Password');?></label>
+                            <input type="password" autocomplete="off" class="_input" name="data[new_password]" id="data[new_password]" value="" maxlength="100" />
+                            <?php if(isset($this->errors['new_password'])) echo $this->errorMessages($this->errors['new_password']);?>
+			</div>
+			<div>
+                            <label><?php echo $this->translate('New Password confirmation');?></label>
+                            <input type="password" autocomplete="off" class="_input" name="data[new_pass_confirm]" id="data[new_pass_confirm]" value="" maxlength="100" />
+                            <?php if(isset($this->errors['new_pass_confirm'])) echo $this->errorMessages($this->errors['new_pass_confirm']);?>
+                        </div>
+                    </div>
+                </div>  
+                <?php }else{?>
+                <!-- NEW USER -->
+                <div id="new_password">
+                    <div class="btn-block block-in-2">
+                        <div>
+                            <label><?php echo $this->translate('Password');?></label>
+                            <input type="password" autocomplete="off" class="_input" name="data[password]" id="data[password]" value="" maxlength="100" />
+                            <?php if(isset($this->errors['password'])) echo $this->errorMessages($this->errors['password']);?>
+			</div>
+			<div>
+                            <label><?php echo $this->translate('Password confirmation');?></label>
+                            <input type="password" autocomplete="off" class="_input" name="data[pass_confirm]" id="data[pass_confirm]" value="" maxlength="100" />
+                            <?php if(isset($this->errors['pass_confirm'])) echo $this->errorMessages($this->errors['pass_confirm']);?>
+                        </div>
+                    </div>
+                </div>
+                <?php }?>
+                <div class="btn-block block-in-2">
+                    <button type="submit" class="btn btn-primary submit" value="<?php echo $this->translate('Save');?>" name="submit[save]" ><?php echo $this->translate('Save');?></button>
+                    <button type="submit" class="btn btn-primary submit" value="<?php echo $this->translate('Cancel');?>" name="submit[cancel]" ><?php echo $this->translate('Cancel');?></button>
+                </div> 
+            </form>
+        </div>
+    </div>
+</div>

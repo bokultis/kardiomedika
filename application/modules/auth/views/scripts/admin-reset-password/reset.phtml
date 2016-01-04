@@ -1,0 +1,73 @@
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".reset-login").hide();
+	$(".alert .close").click(function(){
+	    $(this).parent().css({'display': 'none'});
+	});
+        <?php if($this->success){ ?>
+                $(".reset-form").hide();
+                $(".reset-login").show();
+        <?php } ?> 
+    });
+</script>
+<section class="login col2-set">
+    <div class="login-intro col-left">
+	<a href="http://www.horisen.com" target="_blank" title="HORISEN AG - marketing technology" alt="HORISEN AG - marketing technology">
+	    <?php require_once 'logo-animate.phtml';?>
+	</a>
+    </div>
+    <div class="col-right">
+	<div class="login-form reset-form">
+	    <h1>Reset password</h1>
+	    <form id="login" name="login" method="post" action="">    
+                <?php if(isset($this->id) && $this->id != ""){ ?>
+                    <input type="hidden" name="id" id="id" value="<?php echo $this->id; ?>"/>
+                <?php } ?>
+                
+		<div>
+		    <label><?php echo $this->translate("Enter new password") . ": "; ?></label>
+		    <input class="_input" type="password" id="new_password" name="new_password"/>
+		</div>	
+                <div>
+		    <label><?php echo $this->translate("Confirm password") . ": "; ?></label>
+		    <input class="_input" type="password" id="new_password_confirm" name="new_password_confirm"/>
+		</div>	
+		<div class="button-holder">
+		    <input name="submit" type="submit" value="<?php echo $this->translate("Submit"); ?>" class="btn btn-primary">
+		</div>	
+	    </form>            
+	</div>
+        <div class="login-form reset-login" style="">
+            <div>Password is successfully reseted</div>
+            <a href="<?php echo $this->url(array('module' => 'admin', 'controller' => 'index', 'action' => 'login'), null, true); ?>">
+                <button class="btn btn-primary">Log In</button>
+            </a>
+        </div>
+    </div>
+</section>
+<div class="alert-holder alert-reset2-holder">
+    <div>
+	<?php if(isset($this->messages)){ 
+            ?>
+        <div class="alert <?php if($this->success){echo 'alert-success';}else{echo 'alert-error';}?> alert-small">
+	    <a class="close">&times;</a>
+	    <?php echo $this->messages; ?>
+	</div>
+	<?php } ?>
+    </div>
+    
+</div>
+<!--<div class="footer-top-spacer"></div>-->
+<footer class="col3-set">
+    <div class="col-left">
+	<ul class="bumper-links">
+            <li><a href="https://www.horisen.com/en/terms-of-use/agb" target="_blank">Terms</a></li>
+	    <li><a href="https://www.horisen.com/en/terms-of-use/security-privacy"  target="_blank">Privacy</a></li>
+	</ul>
+    </div>
+    <div class="col-right">
+	<div class="copy">
+            <span>&#169; <?php echo date("Y"); ?> <a href="https://www.horisen.com" target="_blank">HORISEN</a></span>
+	</div>
+    </div>
+</footer>

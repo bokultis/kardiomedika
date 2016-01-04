@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+    <?php
+    $baseUrl = $this->serverUrl;
+    $baseUrlLang = $baseUrl . '/' . $this->lang;
+    $emailBaseUrl = $this->imagesUrl;
+    ?>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta property="og:title" content="*|MC:SUBJECT|*" />
+        <title>email</title>    
+        <style type="text/css">
+            v\:* { behavior: url(#default#VML); display:inline-block}
+            a {color:#6ba5de; text-decoration:underline;}
+            a:hover {color:#dd7715;}
+        </style>    
+    </head>
+    <body style="background-color:#f0f0f0; font-family:Arial, Helvetica, sans-serif;">
+        <center>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:30px; margin-bottom:30px;">
+                <tr>
+                    <td>
+                        <table align="center" width="600" border="0" cellspacing="0" cellpadding="0" style="background-color:#ffffff; border: 1px solid #cccccc; border-radius: 20px;">
+                            <tr>
+                                <td>
+                                    <table width="600" align="center" border="0" cellspacing="0" cellpadding="0">
+                                        <!-- Content Start -->
+                                        <tr>
+                                            <td colspan="2">
+                                                <table align="center" width="600" border="0" cellspacing="0" cellpadding="0">
+                                                    <tr>
+                                                        <td width="600" style="font-family:Arial, Helvetica, sans-serif; color:#848484; padding:30px 30px 10px 30px;" class="text-content">
+                                                            <?php echo $this->message; ?>
+                                                        </td>
+                                                    </tr>    
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <!-- Content End -->
+                                        <tr>
+                                            <td colspan="2" valign="bottom" width="600" height="20"></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                        <table align="center" width="600" border="0" cellspacing="0" cellpadding="0" class="impresum">
+                            <tr>
+                                <?php
+                                    $links = array(
+                                        'contact' => array(
+                                            'de'    => '/de/wir-fuer-dich/kontakt',
+                                            'en'    => '/en/we-for-you/contact'
+                                        ),
+                                        'terms' => array(
+                                            'de'    => '/de/rechtliches/agb',
+                                            'en'    => '/en/terms-of-use/agb'
+                                        ),
+                                        'privacy' => array(
+                                            'de'    => '/de/rechtliches/datenschutz',
+                                            'en'    => '/en/terms-of-use/security-privacy'
+                                        )                                        
+                                    )
+                                ?>                                
+                                <td class="impresum" style="padding:10px 0 0 0px; font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#848484;">Copyright &copy; <?php echo date("Y"); ?> HORISEN - All rights reserved</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </center>
+    </body>
+</html>

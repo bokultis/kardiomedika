@@ -1,0 +1,60 @@
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".theme-activate").on('click', function(){
+            var theme = $(this).data('theme');
+            var $that = $(this);
+            $.ajax({
+                url: "<?php echo $this->url(array('controller' => 'admin-theme', 'action' => 'activate')) ?>",
+                type: "POST",
+                data: {theme:theme},
+                success: function(res){
+                    if(res.success){
+                        $.flashMessenger(res.message,{clsName:"ok"});
+                        
+                        $(".theme-activate").each(function(){
+                            $(this).removeClass("activated");
+                        });
+                        $that.addClass('activated');
+                    }
+                }
+            });
+        });  
+    });
+</script>
+<style>
+    .theme-activate.activated {
+        display: none;
+    }
+    
+</style>
+
+<div class="hcms_content_top">
+    <h1>
+        <?php echo $this->translate('Theme Management'); ?> 
+    </h1>
+</div>
+<div class="hcms_content">
+    <div class="themeList row">
+        <?php foreach ($this->themes as $theme) { ?>
+            <div class="themeContainer col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="editThemeBtn">
+                    <img src="<?php echo $theme['thumbnail-url']; ?>" />
+                    <div class="themeInfo">
+                        <span class="themeName"><?php echo $theme['name']; ?></span>
+                        <div class="themeButtons">
+                            <a class="btn btn-small btn-primary" href="<?php echo $this->url(array('controller' => 'admin-theme', 'action' => 'theme-edit', 'theme' => $theme['db_name'])) ?>" title="<?php echo $this->translate("Edit"); ?> ">
+                                <?php echo $this->translate("Edit"); ?>
+                            </a>    
+                            <button class="btn btn-small btn-primary theme-activate <?php if($theme['activated'] == 'active') echo 'activated' ?>" data-theme="<?php echo $theme['db_name']; ?>" title="<?php echo $this->translate("Activate"); ?>">
+                                <?php echo $this->translate("Activate"); ?>
+                            </button> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
+    </div>
+</div>
+
+
+

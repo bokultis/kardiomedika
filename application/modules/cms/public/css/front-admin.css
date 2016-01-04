@@ -1,0 +1,146 @@
+@font-face {
+  font-family: 'FontAwesome';
+  src: url('/fonts/font-awesome/fontawesome-webfont.eot?v=4.2.0');
+  src: url('/fonts/font-awesome/fontawesome-webfont.eot?#iefix&v=4.2.0') format('embedded-opentype'), url('/fonts/font-awesome/fontawesome-webfont.woff?v=4.2.0') format('woff'), url('/fonts/font-awesome/fontawesome-webfont.ttf?v=4.2.0') format('truetype'), url('/fonts/font-awesome/fontawesome-webfont.svg?v=4.2.0#fontawesomeregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+font-family: 'MyriadWebPro';
+src: url('../../admin/fonts/myriad-web-pro.eot');
+src: url('../../admin/fonts/myriad-web-pro.eot?#iefix') format('embedded-opentype'),
+		 url('../../admin/fonts/myriad-web-pro.woff') format('woff'),
+		 url('../../admin/fonts/myriad-web-pro.ttf') format('truetype'),
+		 url('../../admin/fonts/myriad-web-pro.svg#myriad-web-pro') format('svg');
+font-weight: normal;
+font-style: normal;
+}
+
+#front-admin-header {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+font-size: 14px;
+z-index: 99999;
+color: #fff;
+background: rgb(0,147,208);
+border: 1px solid rgba(255, 255, 255, 0.1);
+}
+#front-admin-header > ul {
+overflow: hidden;
+margin: 0;
+height: 100%;
+width: 100%;
+padding: 0;
+}
+#front-admin-header > ul > li {
+float: left;
+list-style: none;
+padding: 0 12px;
+cursor: pointer;
+height: 35px;
+border-left: solid 1px rgba(255, 255, 255, .2);
+}
+#front-admin-header > ul > li > * { line-height: 35px; font-size: 14px; font-family: "MyriadWebPro", "Segoe UI", "Open Sans";}
+#front-admin-header > ul > li:first-child { border: none; }
+#front-admin-header > ul > li img {
+width: 35px;
+position: relative;
+bottom: 3px;
+}
+#front-admin-header img { vertical-align: middle !important; }
+#front-admin-header #fron-admin-logo {
+  display: block;
+  height: 35px;
+  width: 50px;
+  background-image: url('../images/inline-logo.png'); 
+  background-position: center;
+  background-repeat: no-repeat;
+}
+li#front-admin-btn-logout {
+position: absolute;
+right: 0;
+}
+#front-admin-header > ul > li:before {
+    font-size: 16px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 2px;
+}
+#front-admin-header > ul > li:hover {
+background: rgba(0, 0, 0, 0.1);
+}
+#front-admin-header > ul > li > span { margin-left: 5px; }
+
+#front-admin-header .fa {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#front-admin-header .fa-floppy-o:before { content: "\f0c7"; }
+#front-admin-header .fa-times:before { content: "\f00d"; }
+#front-admin-header .fa-floppy-o:before { content: "\f0c7"; }
+
+.mce-edit-focus {
+    outline: 1px dotted #666 !important;
+}
+.mce-fixed { top: 100px !important; }
+
+/*---Modal styles----------------------------------------------------*/
+.modal-header .close {
+    padding: 0;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    -webkit-appearance: none;
+    float: right;
+    font-size: 21px;
+    font-weight: bold;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: 0.2;
+    filter: alpha(opacity=20);
+    position: absolute;
+    right: 20px;
+}
+.modal-header .close:hover,
+.modal-header .close:focus { opacity: 0.7; filter: alpha(opacity=70); }
+.modal-backdrop, .modal-backdrop.fade.in { background-color: #000; opacity: 0.6; filter: alpha(opacity=60); height: 100%; width: 100%; position: fixed; top: 0; left: 0; }
+#fmBox { font-size: 14px; }
+
+@media screen and (max-width: 960px){
+    #image_browser_dialog {
+        position: absolute !important;
+        width: 90% !important;
+        left: 5% !important;
+        margin-left: 0 !important;
+        height: 400px !important;
+        overflow: scroll;
+    }
+}
+@media screen and (max-width: 768px){
+    .save-icon,.exit-icon,.log-out-icon{
+        font-size: 0px;
+    }
+    .save-icon:before,.exit-icon:before,.log-out-icon:before{
+        font-size: 25px;
+        line-height: 35px;
+        margin-right: 0;
+    }
+    #front-admin-header > ul > li > span:before {
+        bottom: -3px;
+    }
+    #front-admin-header > ul > li img{
+        width: 42px;
+        top: 2px;
+    }
+}
+
+

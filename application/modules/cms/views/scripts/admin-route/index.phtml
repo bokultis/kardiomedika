@@ -1,0 +1,107 @@
+<?php
+    $this->headScript()->appendFile('/plugins/hfb/js/jquery.hfbSelect.js');
+    $this->headScript()->appendFile('/plugins/hfb/js/jquery.hfbSearch.js');
+    $this->headScript()->appendFile('/plugins/hfb/js/jquery.hfbList.js');
+    $this->headScript()->appendFile('/js/ajaxDialogForm.js');
+    $this->headScript()->appendFile('/modules/admin/js/list.js');
+    $this->headScript()->appendFile('/modules/cms/js/routeList.js');
+?>
+<script type="text/javascript">
+    var menuItemData = null;
+    var listUrl = '/' + CURR_LANG + '/cms/admin-route/list/?langFilter=<?php echo $this->defaultLang;?>';
+    var module = 'admin-route';
+</script>
+<div class="hcms_content_top">
+    <h1><?php echo $this->translate('Route List'); ?>  </h1>
+</div>
+<div class="hcms_content">
+    <div class="article">
+	<div class="hcms_btn_actions">
+	    <div class="btn-block">
+		<a href="#" class="add btn btn-small btn-primary"><?php echo $this->translate('Add route'); ?></a>
+		<div class="filterContainer">
+		    <?php if($this->singleLang === false){?>
+		    <!--<label><?php echo $this->translate('Language');?>:</label>-->
+		    <select id="langFilter" name="langFilter">
+			<?php echo $this->langOptions($this->languages,$this->defaultLang,true);?>
+		    </select>
+		    <?php }?>
+		</div>
+		<!--
+		<label><?php echo $this->translate('Name');?>:</label>
+		<input type="text" class="_input" name="name" id="name" value="" maxlength="100" style="width:150px;" />
+		<label><?php echo $this->translate('URL');?>:</label>
+		<input type="text" class="_input" name="uri" id="uri" value="" maxlength="100" style="width:150px;" />
+		-->
+		<!--<div class="filterContainer">-->
+		<!--<label><?php echo $this->translate('Destination Module');?>:</label>-->
+		<select id="pathFilter" title="<?php echo $this->translate('Destination Module') ;?>" name="path" style="width:200px;">
+		    <option value="" selected="selected"><?php echo $this->translate('Choose Dest. Module');?></option>
+		    <?php foreach($this->modules as $module) {?>
+		    <?php $data = $module->get_data();
+			if(isset($data['menus'])){?>
+			    <optgroup label="<?php echo $module->get_name();?>">
+				<?php foreach($data['menus'] as $path => $menu) {?>
+				<option data-dialog="<?php echo $menu['dialog_url']; ?>" value="<?php echo $module->get_code()."/".$path ;?>" <?php if($module->get_code()."/".$path == $this->data['path']) { ?> selected="selected" <?php } ?>><?php echo $menu['name'];?> </option>
+				<?php } ?>
+			    </optgroup>
+		    <?php } 
+		    }?>
+		</select>
+		<!--</div>-->
+	       <!-- 
+		<span class="hcms_button"><a href="#"><?php echo $this->translate('Filter');?></a></span> 
+	       -->
+	    </div>
+	</div>
+	<div class="hcms_scroll_table">
+	    <table class="hcms_table adminList" width="100%" >
+		<thead>
+		    <tr>
+			<th><a href="#" class="sort" data-column="name"><?php echo $this->translate('Name');?><b></b></a></th>
+			<th><a href="#" class="sort" data-column="uri"><?php echo $this->translate('URL');?><b></b></a></th>
+			<th><a href="#" class="sort" data-column="path"><?php echo $this->translate('Destination Module');?><b></b></a></th>
+			<th><a href="#" class="sort" data-column="page_title"><?php echo $this->translate('Page Title');?><b></b></a></th>
+			<th><a href="#" class="sort" data-column="lang"><?php echo $this->translate('Language');?><b></b></a></th>
+		    </tr>
+		</thead>
+		<tbody id="listContainer">
+		</tbody>
+	    </table>
+	</div>
+	<div id="pager" class="pager"></div>
+    </div>
+</div>
+
+<script type="text/html" id="records_tpl">
+<% 
+    if (rows.length > 0){
+    var rowClass = 'odd';
+    %>
+    <% for ( var i = 0; i < rows.length; i++ ){
+        rowClass = (i % 2 == 0)? 'even':'odd';
+    %>
+    <tr class="<%=rowClass%>" >
+            <td class="fixed-width">
+                <%=rows[i].name%>
+                <ul  class="hcms_menu_actions">
+                    <li><a href="#" class="edit" data-id="<%=rows[i].id%>"><span><?php echo $this->translate('Edit');?></span></a></li>
+                    <li><a href="#" class="delete" data-id="<%=rows[i].id%>"><span><?php echo $this->translate('Delete');?></span></a></li>
+                </ul>
+            </td>
+            <td >
+                <%=rows[i].uri%>
+            </td>
+            <td >
+                <%=rows[i].path%>
+            </td>
+            <td >
+                <%=rows[i].page_title%>
+            </td>
+            <td >
+                <%=rows[i].lang%>
+            </td>
+        </tr>
+    <% } %>
+<% } %>
+</script>

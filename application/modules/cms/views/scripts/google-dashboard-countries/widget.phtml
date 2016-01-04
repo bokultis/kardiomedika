@@ -1,0 +1,42 @@
+<div id="chart-1-container"></div>
+<script>
+    gapi.analytics.ready(function () {
+
+        gapi.analytics.auth.on('success', function (response) {
+
+            if (response.status.google_logged_in === true) {
+                if (viewId !== '') {
+                    var dataChart1 = new gapi.analytics.googleCharts.DataChart({
+                        query: {
+                            ids: viewId,
+                            metrics: 'ga:sessions',
+                            dimensions: 'ga:country',
+                            'start-date': '30daysAgo',
+                            'end-date': 'yesterday',
+                            'max-results': 6,
+                            sort: '-ga:sessions'
+                        },
+                        chart: {
+                            container: 'chart-1-container',
+                            type: 'GEO',
+                            options: {
+                                width: '100%'
+                            }
+                        }
+                    });
+                    dataChart1.execute();
+                    $(window).resize(function () {
+                        dataChart1.execute();
+                    });
+
+                } else {
+                    $("#chart-1-container").text("<?php echo $this->translate('Please setup analytics.'); ?>");
+                }
+            }
+        });
+
+        gapi.analytics.auth.on('error', function (response) {
+            $("#chart-1-container").text("<?php echo $this->translate('Please login with your Google account.'); ?>");
+        });
+    });
+</script>

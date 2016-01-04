@@ -1,0 +1,15 @@
+<?php
+$this->headScript()->appendFile('/plugins/serverbrowser/bs/jquery.serverbrowser.js');
+//$this->headLink()->appendStylesheet( '/plugins/serverbrowser/style.css');
+//$this->headLink()->appendStylesheet( '/plugins/serverbrowser/serverbrowser_main.css');
+?>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#filemanager").serverbrowser({
+            "fileWebRoot": '<?php echo $this->fileWebRoot; ?>'
+        });
+    });
+</script>
+
+<div id="filemanager" class="file-menager"></div>

@@ -1,0 +1,12 @@
+/* 
+    Created on : Jun 5, 2015, 9:49:57 AM
+    Author     : boris
+*/
+
+.h-cols, .editableRegion, .collapsibleSection{
+    border: 1px #777777 dashed;
+}
+.h-cols > div, .editableRegion > div{     
+    border: 1px red dashed;
+    display: inline-block;
+}

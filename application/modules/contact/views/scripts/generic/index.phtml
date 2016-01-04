@@ -1,0 +1,44 @@
+<?php
+$this->hideDisturber = true;
+$this->slideMainDisable = false;
+$this->headScript()->appendScript('
+$(document).ready(function(){    
+    //feedback form
+    $("#horisenContact").ajaxSubmit({
+        fieldSelector: \'[name="data\\[{field}\\]"],.error-wrapper-{field}\',
+        onSubmit: function(data, errors){
+            if(data.success){
+                //show message
+                var message = data["message"]? data["message"]: "Thank you";
+                //alert(message);
+                $("#formContainer").addClass("flipped");
+            }
+            else{
+                //alert(errors.join("\n"));
+            }
+        }
+    });
+});    
+');
+?>
+<div class="col-md-6">
+    <div id="formContainer" class="formContact">
+        <div class="formSide formFront">
+        <form id="form-<?php echo $this->formId; ?>" class="contactForm" method="post" role="form" action="<?php echo $this->url(array('module'=>'contact','controller'=>'generic','action'=>'index','form_id' => $this->formId),'cms',true);?>" enctype="multipart/form-data">
+        <?php
+            //Zend_Debug::dump($this->errors);
+            echo $this->formFields($this->fields);
+        ?>
+            <div class="form-group col-sm-6 col-xs-12 newsletterSubmitWrapper">
+                <input type="submit" name="submit[save]" id="submit[save]" class="btn btn-default contactBtn" value="<?php echo $this->translate("Send"); ?>">
+            </div>    
+        </form>
+        </div>
+        <div class="formSide formBack">
+            <?php echo $this->translate("Thank you! <br>We'll get in touch with you as soon as possible.");?>
+        </div>
+    </div>
+</div>
+<div class="col-md-6 addressInfo">
+    <h3>Address Info</h3>
+</div>

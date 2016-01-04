@@ -1,0 +1,80 @@
+<?php
+$this->headScript()->appendFile('/js/ajaxFormBS.js');
+$this->headScript()->appendFile('/plugins/hfb/js/jquery.hfbSelect.js');
+$this->headScript()->appendFile('/plugins/hfb/js/jquery.hfbSearch.js');
+$this->headScript()->appendFile('/plugins/hfb/js/jquery.hfbList.js');
+$this->headScript()->appendFile('/modules/admin/js/list.js');
+$this->headScript()->appendFile('/modules/cms/js/categoryList.js');
+$this->headScript()->appendFile('/plugins/imagebrowser/bs/jquery.imagebrowserdialog.js');
+?>
+<script type="text/javascript">
+    var categoryItemData = null;
+    /*$("#openModal").modal();
+    $('#openModal').on('hide.bs.modal', function (e) {
+        $(".error").remove();
+    });*/
+</script>
+<div class="hcms_content_top">
+    <h1><?php echo $this->translate('Category'); ?></h1>
+</div>
+<div class="hcms_content">
+    <div class="hcms_btn_actions content_page">
+        <div class="btn-block">
+            <a href="#" class="add btn btn-small btn-primary" data-toggle="modal" data-target="#openModal"><?php echo $this->translate('Add new'); ?></a>
+            <a href="#" class="addSet btn btn-small btn-primary" data-toggle="modal" data-target="#openModal"><?php echo $this->translate('Add New Set'); ?></a>
+        </div>
+        <div class="btn-block">
+            <select id="categorySetFilter" name="categorySetFilter">
+                <option value=""><?php echo $this->translate('Select Category Set'); ?></option>
+                <?php foreach ($this->categorySets as $set) { ?>
+                    <option value="<?php echo $set['id']; ?>" ><?php echo $this->escape($set['name']); ?></option>
+                <?php } ?>
+            </select>
+            <?php if ($this->singleLang === false) { ?>
+    <!--                <label><?php echo $this->translate('Language'); ?></label>-->
+                <select id="langFilter" name="langFilter">
+                    <option value=""><?php echo $this->translate('Select Language'); ?></option>
+                    <?php foreach ($this->languages as $langCode => $lang) { ?>
+                        <option value="<?php echo $langCode; ?>" <?php if ($langCode == 'en') { ?>selected="selected" <?php } ?>><?php echo $this->escape($lang['name']); ?></option>
+                    <?php } ?>
+                </select>
+            <?php } ?>
+        </div>
+    </div>
+
+
+    <table class="hcms_table adminList" width="100%">
+        <thead>
+            <tr>
+                <th width="20%"><a href="#" class="sort" data-column="name" ><?php echo $this->translate('Name'); ?><b></b></a></th>
+                <th width="80%"><a href="#"  ><?php echo $this->translate('Description'); ?><b></b></a></th>
+            </tr>
+        </thead>
+        <tbody id="listContainer">
+        </tbody>
+    </table>
+    <div id="pager" class="pager"></div>
+</div>
+<script type="text/html" id="records_tpl">
+    <% categoryItemData = rows;
+    if (rows.length > 0){
+    var rowClass = 'odd';
+    %>
+    <% for ( var i = 0; i < rows.length; i++ ){
+    rowClass = (i % 2 == 0)? 'even':'odd';
+    %>
+    <tr class="<%=rowClass%>" >
+        <td  style="padding-left:<%=rows[i].level * 50 + 10%>px" >
+            <%=rows[i].name%>
+            <ul class="hcms_menu_actions">
+                <li><a href="#" class="edit" data-id="<%=rows[i].id%>"><?php echo $this->translate('Edit'); ?></a></li>
+                <li><a href="#" class="delete" data-id="<%=rows[i].id%>"><?php echo $this->translate('Delete'); ?></a></li>
+            </ul>
+        </td>
+        <td  style="padding-left:<%=rows[i].level * 50 + 10%>px" >
+            <%=rows[i].description%>
+        </td>
+    </tr>
+    <% } %>
+    <% } %>
+</script>

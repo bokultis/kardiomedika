@@ -1,0 +1,74 @@
+<form method="post" class="hcms_form" title="<?php if(isset($this->data['id']) && $this->data['id'] != '') {
+    echo $this->translate('Edit Category');
+}else {
+    echo $this->translate('Add new Category');
+      }?>" action="<?php echo $this->url(array('controller' => 'admin-category', 'action' => 'category-edit')) ?>" enctype="application/x-www-form-urlencoded">
+    <h1>
+        <?php
+        if (isset($this->data['id']) && $this->data['id'] != '') {
+            echo $this->translate('Edit Category');
+        } else {
+            echo $this->translate('Add new Category');
+        }
+        ?>
+    </h1>
+    <input type="hidden" id="data[id]" value="<?php echo isset($this->data['id']) ? $this->escape($this->data['id']):"";?>" name="data[id]"/>
+    <input type="hidden" id="data[set_id]" value="<?php echo $this->escape($this->categorySet->get_id());?>" name="data[set_id]"/>
+    <div>
+        <label for="data[name]"><?php echo $this->translate('Name');?>:</label>
+        <input type="text" name="data[name]" id="data[name]" value="<?php echo $this->escape($this->data['name']);?>" maxlength="100" />
+        <?php echo $this->errorMessages($this->errors['name']);?>
+    </div>
+    <div>
+        <label for="data[url_id]"><?php echo $this->translate('URL ID');?>*:</label>
+        <input type="text" name="data[url_id]" id="data[url_id]" value="<?php if(isset ($this->data['url_id'])){echo $this->escape($this->data['url_id']);}?>" maxlength="100" />
+        <?php echo $this->errorMessages($this->errors['url_id']);?>
+    </div>
+    <div>
+        <label for="data[description]"><?php echo $this->translate('Description');?>:</label>
+        <input type="text" name="data[description]" id="data[description]"  value="<?php echo $this->escape($this->data['description']);?>" maxlength="100" />
+        <?php echo $this->errorMessages($this->errors['description']);?>
+    </div>
+     <div>
+        <label for="data[parent_id]"><?php echo $this->translate('Parent');?>:</label>
+        <input type="hidden" id="parent_selected" value="<?php echo $this->escape($this->data['parent_id']);?>"/>
+        <select id="data[parent_id]" name="data[parent_id]">
+            <option value="">select</option>
+        </select>
+        <?php echo $this->errorMessages($this->errors['parent_id']);?>
+    </div>
+    <div style="margin: 10px 0;">
+        <input id="data-data-show_pic" type="checkbox" value="yes" <?php if(isset($this->data['data']['show_pic']) && $this->data['data']['show_pic'] == "yes") {echo "checked='checked'";} ?> name="data[data][show_pic]"> 
+        <label for="data-data-show_pic"> <?php echo $this->translate('Show Picture');?> </label>
+        <!--<input type="hidden" value="no" name="data[data][show_pic]">-->
+        
+    </div>
+    <div class="show_picture">
+        <label for="data[data][picture]"><?php echo $this->translate('Picture');?>:</label><br />
+        <input class="categoryImage" type="text" data-var_id="data[data][picture]" name="data[data][picture]"  id="data[data][picture]" value="<?php if(isset($this->data['data']['picture'])) echo $this->escape($this->data['data']['picture']);?>" maxlength="200" />
+        <?php if(isset($this->errors['data']['picture'])) echo $this->errorMessages($this->errors['data']['picture']);?>
+
+        <div class="input-group-btn">
+            <button class="btn btn-small btn-default browse" type="button" title="<?php echo $this->translate('Browse');?>">...</button>
+            <button class="btn btn-small btn-default clear" type="button" title="<?php echo $this->translate('Clear');?>">&times;</button>
+        </div>
+    </div>
+<!--    <div class="show_picture">
+        <label for="data[data][picture]"><?php echo $this->translate('Picture');?>:</label>
+        <input type="text" name="data[data][picture]" id="data[data][picture]" value="<?php if(isset($this->data['data']['picture']) && $this->data['data']['picture'] != '') { echo $this->escape($this->data['data']['picture']);}?>" maxlength="100" />
+        <?php echo $this->errorMessages($this->errors['data']['picture']);?>
+    </div>-->
+    <fieldset class="coolfieldset">
+        <legend><?php echo $this->translate('Meta');?></legend>
+        <div>
+            <label for="data[meta][keywords]"><?php echo $this->translate('Keywords');?>:</label>
+            <input type="text" name="data[meta][keywords]" id="data[meta][keywords]" value="<?php if(isset ($this->data['meta']['keywords'])){echo $this->escape($this->data['meta']['keywords']);}?>" maxlength="255" />
+            <?php echo $this->errorMessages($this->errors['meta']['keywords']);?>
+        </div>
+        <div>
+            <label for="data[meta][description]"><?php echo $this->translate('Description');?>:</label>
+            <textarea name="data[meta][description]" id="data[meta][description]" cols="30" rows="5" maxlength="500"><?php if(isset ($this->data['meta']['description'])){echo $this->escape($this->data['meta']['description']);}?></textarea>
+            <?php echo $this->errorMessages($this->errors['meta']['description']);?>
+        </div>
+    </fieldset>
+</form>

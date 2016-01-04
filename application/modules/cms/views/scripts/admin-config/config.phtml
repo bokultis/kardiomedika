@@ -1,0 +1,79 @@
+<?php
+    $this->headScript()->appendFile('/js/jquery.easytabs.js');
+?>
+<script type="text/javascript">
+    $(document).ready(function() {
+//        $("#tabs").tabs();
+       $('#tab-side-container').easytabs({
+            animate: false,
+            tabActiveClass: "selected-tab",
+            panelActiveClass: "displayed"
+        }); 
+        
+        $(".submit").click(function(){
+            var data = $(".panel-container").find("form").serialize();
+            var editUrl =  $(".panel-container").find("form").attr('action') +"/tab/" + $(".panel-container").children("div").attr('id');
+            saveConfig(editUrl, data);
+            return false;
+        });
+    });
+    
+    function saveConfig(editUrl, data){
+        $(".error").remove();
+        $.ajax({
+            url: editUrl,
+            type: "POST",
+            data: data, 
+            success: function(res){
+                if(res.success){
+                    $.flashMessenger(res.message,{clsName:"ok"});
+                }else{
+                    var errors = {};
+                    ajaxForm.parseErrors('data',null,res['message'],errors);
+                    for(var field in errors){
+                        var errorUl = '<ul class="error">';
+                        for(var i = 0; i < errors[field].length; i++){
+                            errorUl += '<li>' + errors[field][i] + '</li>';
+                        }
+                        errorUl += '</ul>';
+                        $(ajaxForm.jqId(field)).parent().append(errorUl);
+                    }
+                }
+            }
+        });
+    }
+</script>
+<div class="hcms_content_top">
+    <h1><?php echo $this->translate('Site Map Configuration'); ?> </h1>
+</div>
+<div class="hcms_content" >
+        <div class="panel-container">
+            <div id="Sitemap">
+                <form method="post" class="hcms_form" title="<?php echo $this->translate('Edit Configuration');?>" action="<?php echo $this->url(array('controller' => 'admin-config', 'action' => 'config')) ?>" enctype="application/x-www-form-urlencoded">
+                    <div class="configFormContainer">
+                        <input type="hidden" id="data[id]" value="<?php echo $this->escape($this->data['id']);?>" name="data[id]"/>
+			<label for="data[name]"><?php echo $this->translate('Choose the menu for sitemap');?>:</label>
+                        <div class="btn-block">
+			    <div class="hcms_block">
+				<div class="input-group">
+				    <select id="data[menu]" name="data[menu]">
+				    <option value=""><?php echo $this->translate('All menus');?></option>
+				    <?php foreach ($this->menus as $menu) {?>
+				    <option value="<?php echo $menu['code'];?>" <?php if(isset($this->data['settings']['sitemap']['menu']) &&  $menu['code'] == $this->data['settings']['sitemap']['menu']) {?>selected="selected" <?php } ?>><?php echo $this->escape($menu['name']);?></option>
+				    <?php }?>
+				    </select>
+				    <?php echo $this->errorMessages($this->errors['sitemap']);?>
+				    <div class="input-group-btn">
+					<button class="btn btn-small btn-primary submit" name="submit[save]" value="Save" type="button"><?php echo $this->translate('Save');?></button>
+				    </div>
+				</div>
+			    </div>
+                        </div>
+                    </div> 
+                </form>
+            </div>
+        </div>
+        <div>
+            
+        </div>
+</div>

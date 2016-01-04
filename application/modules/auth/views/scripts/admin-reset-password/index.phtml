@@ -1,0 +1,54 @@
+<script type="text/javascript">
+    $(document).ready(function(){
+	$(".alert .close").click(function(){
+	    $(this).parent().css({'display': 'none'});
+	});
+    });
+</script>
+<section class="login col2-set">
+    <div class="login-intro col-left">
+	<a href="http://www.horisen.com" target="_blank" title="HORISEN AG - marketing technology" alt="HORISEN AG - marketing technology">
+	    <?php require_once 'logo-animate.phtml';?>
+	</a>
+    </div>
+    <div class="col-right">
+	<div class="login-form">
+	    <h1>Reset password</h1>
+	    <form id="login" name="login" method="post" action="">               
+		<div>
+		    <label><?php echo $this->translate("Email or username") . ": "; ?></label>
+		    <input class="_input" type="text" id="auth" name="auth" value="<?php if(isset($this->auth)){echo $this->escape($this->auth);}?>" />
+		</div>		
+		<div class="button-holder">
+		    <input name="submit" type="submit" value="<?php echo $this->translate("Reset"); ?>" class="btn btn-primary">
+		</div>	
+	    </form>
+	</div>
+    </div>
+</section>
+<div class="alert-holder alert-reset-holder">
+    <div>
+	<?php if(isset($this->messages)){ 
+            ?>
+        <div class="alert <?php if($this->success){echo 'alert-success';}else{echo 'alert-error';}?> alert-small">
+	    <a class="close">&times;</a>
+	    <?php echo $this->messages; ?>
+	</div>
+	<?php } ?>
+    </div>
+    
+</div>
+<!--<div class="footer-top-spacer"></div>-->
+<footer class="col3-set">
+    <div class="col-left">
+	<ul class="bumper-links">
+            <li><a href="https://www.horisen.com/en/terms-of-use/agb" target="_blank">Terms</a></li>
+	    <li><a href="https://www.horisen.com/en/terms-of-use/security-privacy"  target="_blank">Privacy</a></li>
+	</ul>
+    </div>
+    <div class="col-right">
+	<div class="copy">
+            <span>&#169; <?php echo date("Y"); ?> <a href="https://www.horisen.com" target="_blank">HORISEN</a></span>
+	</div>
+    </div>
+</footer>

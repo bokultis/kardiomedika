@@ -1,0 +1,15 @@
+<?php
+    if(isset ($this->sitemapSettings) && isset ($this->sitemapSettings['menu']) && $this->sitemapSettings['menu'] != ''){
+        //show one menu
+        if(isset ($this->menuItems[$this->sitemapSettings['menu']])){
+            $menu = $this->menuItems[$this->sitemapSettings['menu']];
+            //echo $this->navigation()->menu()->setUseTranslator(false)->renderMenu($menu,array('ulClass' => 'sitemap', 'indent' => 20));
+
+            echo $this->navigation()
+                      ->sitemap($menu)
+                      ->setUseTranslator(false)
+                      ->setFormatOutput(true);
+        }
+
+    }
+?>

@@ -1,0 +1,28 @@
+<?php 
+$captcha = new HCMS_Captcha_Image($this->field['params']);
+$captchaId =$captcha->generate();
+$captchaHtml = $captcha->render();
+
+$this->headScript()->appendScript("
+$(document).ready(function(){
+    $('#captchaRefresh').click(function(){
+        $.get('/' + CURR_LANG + '/contact/generic/captcha-reload/form_id/" . $this->formId . "',function(data){
+            $('#codeCaptcha').html(data.html);
+            $('#captchaId').val(data.id);
+        });
+        return false;
+    });    
+});    
+");
+?>
+            <div class="form-group col-sm-3 col-xs-5 captcha">
+                <input type="hidden" name="data[captcha]" value="dummy" />
+                <span id="codeCaptcha"><?php echo $captchaHtml; ?></span>
+            </div>
+            <div class="form-group col-sm-1 col-xs-1 refresh">
+                <a href="#" id="captchaRefresh"><i class="fa fa-refresh refreshBtn"></i></a>
+            </div>
+            <div class="form-group col-sm-8 col-xs-6 captchaInput">
+                <input type="text" name="captcha[input]" id="captchaInput" <?php if(isset($this->field['maxlength'])){echo 'maxlength="' . $this->field['maxlength'] . '"';}?> value="" class="form-control <?php echo $this->errorMessages($this->errors, 'error', $this->fieldId, true);?>" <?php if(isset($this->field['placeholder'])){echo 'placeholder="' . $this->translate($this->field['placeholder']) . '"';}?>>
+                <input type="hidden" name="captcha[id]" id="captchaId" value="<?php echo $captchaId; ?>">
+            </div>

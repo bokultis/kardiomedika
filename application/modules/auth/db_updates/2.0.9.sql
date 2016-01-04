@@ -1,0 +1,1 @@
+ALTER TABLE `auth_user` ADD `password_reset` VARCHAR( 10 ) NOT NULL AFTER `password` ;

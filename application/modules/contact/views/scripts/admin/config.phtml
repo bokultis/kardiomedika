@@ -1,0 +1,499 @@
+<?php
+    $this->headScript()->appendFile('/js/jquery.easytabs.js');
+    
+    $this->headScript()->appendFile('/plugins/imagebrowser/jquery.imagebrowserdialog.js');
+    $this->headScript()->appendFile('/plugins/serverbrowser/jquery.filebrowserdialog.js');
+    $this->headScript()->appendFile('/plugins/jquery-multiselect/src/jquery.multiselect.js');
+    $this->headScript()->appendFile('/plugins/tinymce/jquery.tinymce.js');
+    $this->headScript()->appendFile('/plugins/jquery-ui-timepicker-addon/jquery-ui-timepicker-addon.js'); 
+    $this->headScript()->appendFile('/js/tinyCommon.js');
+    
+   // $this->headScript()->appendFile('');
+    $this->headLink()->prependStylesheet('/plugins/jquery-multiselect/jquery.multiselect.css');
+    
+    
+?>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+
+       $(".tabs_list li a").click(function(){
+            var inputHash = $(this).attr("href").replace("#", "");
+            $("#inputHashChangePost").val(inputHash);
+        });
+        var openTab = $("#inputHashChangePost").val();
+        openTab = "#" + openTab;
+        openTab = $(".tabs_list li a[href ='" + openTab + "']").parent();
+        
+        
+        $('#tab-side-container').easytabs({
+            animate: false,
+            defaultTab: openTab,
+            tabActiveClass: "selected-tab",
+            panelActiveClass: "displayed"
+        });
+        //add email (to email) action
+        $("#addNewToEmail").click(function(){
+            //recalculate last key
+            var key = getLastKey() + parseFloat('1');
+            //add new row  to emails
+            $("#receivers").append( "<dd style='clear:both;float:left;'>" +
+                                            "<input  style='width: 208px;' name='data[email][to_emails][" + key + "][name]' value='' /> "+ 
+                                            "<input  style='width: 298px;' name='data[email][to_emails][" + key + "][email]' value='' /> "+
+                                             "<a class='mailRemove' href='#' >x</a> " +
+                                   "</dd>");
+            //set last key
+            setLastKey(key);
+            return false;
+        });
+        
+        
+        function requiredShowHide(){
+            $pom = $(this).children(".devider").length;
+            if ($pom === 2){
+                var checkIn = $(this).children(".devider:eq(0)").children("input:radio:nth(0)").attr('checked');
+                if (checkIn == "checked") {
+                    //$(this).children(".devider:eq(1)").children("input:radio:nth(0)").attr('checked',true);
+                    $(this).children(".devider:eq(1)").css("display","none");
+                } else {
+                    $(this).children(".devider:eq(1)").css("display","inline-block");
+                }
+            } else {
+                var checkIn = $(this).children(".devider:eq(1)").children("input:radio:nth(0)").attr('checked');
+                if (checkIn == "checked") {
+                    //$(this).children(".devider:eq(2)").children("input:radio:nth(0)").attr('checked',true);
+                    $(this).children(".devider:eq(2)").css("display","none");
+                } else {
+                    $(this).children(".devider:eq(2)").css("display","inline-block");
+                }
+            }
+        }
+       $("#form-config div div").each(requiredShowHide);
+       $("#form-config div div").click(requiredShowHide);
+        
+        
+        //remove last (to email) action
+        $("#removeToEmail").click(function(){
+            if($("#receivers dd").last().index() > 2 ){
+                //remove dd which show errors
+                $("#receivers dd").last().remove();
+
+                //recalculate last key
+                var key = getLastKey() - parseFloat('1');
+                //set last key
+                setLastKey(key);
+            }
+            return false;
+        })
+
+        
+        $("#data\\[transport\\]").change(function(){
+            console.log("changed transport protocol!");
+            console.log("value=" + $(this).val());
+            if( $(this).val() == "smtp"){
+                $("#params_wrapper").css("display", "block");
+            }else{
+                $("#params_wrapper").css("display", "none");
+            }
+        })
+        
+        $("input[name='data\\[email\\]\\[confirmation_email\\]']").change(function(){
+            if( $(this).val() == "yes"){
+                $("#confirmation_mail_wrapper").css("display", "block");
+            }else{
+                $("#confirmation_mail_wrapper").css("display", "none");
+            }
+        })
+        
+        $("input[name='data\\[email\\]\\[default_country\\]']").change(function(){
+            if( $(this).val() == "yes"){
+                $("#country_list_mail_wrapper").css("display", "none");
+            }else{
+                $("#country_list_mail_wrapper").css("display", "block");
+            }
+        })
+        
+        //tiny
+        var localTinyOpts = {
+            width:"552",
+            height:"300",
+            theme_advanced_buttons1 : "bold,italic,underline,strikethrough,formatselect,styleselect,bullist,numlist,cut,copy,paste,pasteword, undo,redo,|,link,unlink,|,code",
+            theme_advanced_buttons2 : "",
+            
+            content_css : "/modules/admin/css/configuration_mail.css"
+        };
+        //must render tiny from here due to FF error
+        tiny.init($("#data\\[landing_page_text\\]"), fileWebRoot, "",localTinyOpts);
+        tiny.init($("#data\\[mailtext_respond_contact\\]"), fileWebRoot, "",localTinyOpts);        
+        
+       
+        $("a.mailRemove").on("click", function() {
+            var pom = $("#receivers dd").length;
+            if (pom > 3) {
+                $(this).parent().remove();
+            }
+            return false; 
+        });  
+        
+        $('#dsl_confirmation-config').bind('change', function () {
+          var lang = $(this).val(); // get selected value
+          if (lang) { // require a URL
+              var urlTo = 'http://<?php echo $_SERVER['HTTP_HOST'] ?>/' + lang + '/contact/admin/config/type/contact#confirmation-config';
+              window.location = urlTo; // redirect
+          }
+          return false;
+        });
+        
+        $('#dsl_landing-config').bind('change', function () {
+          var lang = $(this).val(); // get selected value
+          if (lang) { // require a URL
+              var urlTo = 'http://<?php echo $_SERVER['HTTP_HOST'] ?>/' + lang + '/contact/admin/config/type/contact#landing-config';
+              window.location = urlTo; // redirect
+          }
+          return false;
+        });
+        
+        
+        
+        
+        
+        $('#data\\[selected_countries\\]').multiselect({
+           header:false,
+           noneSelectedText: "<?php echo $this->translate('Select favorite Countries.'); ?>",
+           selectedText: '# <?php echo $this->translate('selected'); ?>',
+           height: "320px"
+
+        }); 
+        //---fix for multiselect bug (opens on every tab for contact form config)----
+        var urlHash = document.location.hash;
+        if (urlHash != "#country-config") {
+            $("#data\\[selected_countries\\]").multiselect("close");
+            scrollTo(0,0);
+        } else if (urlHash == "#country-config"){
+            $("#data\\[selected_countries\\]").multiselect("open");
+        } 
+        //---end fix----
+        $(".countryList li:even").each(function(){
+            $(this).addClass("even");
+        });
+    });
+    
+    
+    function getLastKey(){
+        return parseFloat($("#addNewToEmail").attr("data-lastKey"));
+    }
+    
+    function setLastKey(key){
+        $("#addNewToEmail").attr("data-lastKey", key);
+    }
+    
+</script>
+<div class="hcms_content_top">
+    <h1><?php echo $this->translate('Configuration'); ?> </h1>
+    <?php //Zend_Debug::dump($this->errors);?>
+</div>
+<div class="hcms_content" >
+    <form method="post" class="hcms_form" id="hcms_form"  action="<?php echo $this->url(array('controller' => 'admin', 'action' => 'config')); ?>" enctype="application/x-www-form-urlencoded">
+        <input id="inputHashChangePost" type="hidden" name="inputHashChangePost" value="<?php echo $this->inputHashChange; ?>" />
+        <input type="hidden" name="data[type]" value="<?php echo $this->data['type'] ?>" /> 
+        
+        <div id="tab-side-container" class="clearfix">
+            <ul class="tabs_list">
+                <li><a href="#email-config"><?php echo $this->translate('Email configuration');?></a></li>
+                <li><a href="#confirmation-config"><?php echo $this->translate('Confirmation mail');?></a></li>
+                <li><a href="#landing-config"><?php echo $this->translate('Landing page');?></a></li>
+                <li><a href="#form-config"><?php echo $this->translate('Form fields configuration');?></a></li>
+                <li><a href="#country-config"><?php echo $this->translate('Country list configuration');?></a></li>
+            </ul>
+
+            <div class="panel-container">
+                
+                <!-- Section Email in general settings -->
+                <div id="email-config">
+                    
+                    <h2 class="section-header clearfix"><?php echo $this->translate("Sender / Reciever"); ?></h2>
+                   
+                    <div>
+                        <label for="from" class="heading_label" ><?php echo $this->translate('From');?>:</label>
+                        <div id="from" class="setting_header">
+                            <div>
+                                <label for="data[from_name]"><?php echo $this->translate('Name');?>:</label>
+                                <input type="text" value="<?php echo $this->escape($this->data['email']['from_name']);?>" id="data[from_name]" name="data[email][from_name]" />
+                                <?php echo isset($this->errors['from_name']) ? $this->errorMessages($this->errors['from_name']) : "" ;?>
+                            </div>
+                            <div>
+                                <label for="data[from_email]"><?php echo $this->translate('Email');?>:</label>
+                                <input type="text" value="<?php echo $this->escape($this->data['email']['from_email']);?>" id="data[from_email]" name="data[email][from_email]" maxlength="100"/>
+                                 <?php echo isset($this->errors['from_email']) ? $this->errorMessages($this->errors['from_email']) : "" ;?>
+                            </div>
+                            <div>
+                                <label for="data[reply_email]"><?php echo $this->translate('Reply email');?>:</label>
+                                <input type="text" value="<?php echo $this->escape($this->data['email']['reply_email']);?>" id="data[reply_email]" name="data[email][reply_email]" maxlength="100"/>
+                                 <?php echo isset($this->errors['reply_email']) ?  $this->errorMessages($this->errors['reply_email']) : "" ;?>
+                            </div>
+                        </div>
+                    </div>                 
+                    <div>
+                        <label for="to_emails" class="heading_label"><?php echo $this->translate('Mail receivers (Administrators)');?>:</label>
+                        <div id="to_emails" class="setting_header">
+                            <dl id="receivers">
+                                <dd><label><?php echo $this->translate('Name');?></label></dd>
+                                <dd style="margin-left: 180px;"><label><?php echo $this->translate('Email');?></label></dd>
+                               <?php
+                                $lastKey = 0;
+                                if(count($this->data['email']['to_emails']) > 0) {
+                                      foreach ($this->data['email']['to_emails'] as $key => $toEmails) { ?>
+                                              
+                                            <dd style="clear:both;float:left;">
+                                                <input  style="width: 208px;" name="data[email][to_emails][<?php echo $key ;?>][name]" value="<?php echo $this->escape($toEmails['name']) ;?>" />
+                                                <input maxlength="100"  style="width: 298px;" name="data[email][to_emails][<?php echo $key ;?>][email]" value="<?php echo $this->escape($toEmails['email']) ;?>" /> <a class="mailRemove" href='#' >x</a>
+                                                <?php echo isset($this->errors['to_emails']) ? $this->errorMessages($this->errors['to_emails'][$key]) : "" ;?> 
+                                            </dd>
+                                        
+                                <?php   $lastKey = $key;
+                                      }
+                                } else{ ?>
+                                        
+                                            <dd style="clear:both;float:left;">
+                                                <input  style="width: 1208px;" name="data[email][to_emails][0][name]" value="" />
+                                                <input maxlength="100"  style="width: 298px;" name="data[email][to_emails][0][email]" value="" /> <a class="mailRemove" href='#' >x</a>
+                                                <?php echo isset($this->errors['to_emails']) ? $this->errorMessages($this->errors['to_emails'][0]) : "" ;?>
+                                            </dd>
+               
+                                <?php  } ?>
+                            </dl>
+                            <div style="clear:both;float:none; margin-bottom: 30px;" >
+                                <a id="addNewToEmail" style="float:left;" href="#" data-lastKey="<?php echo $lastKey; ?>" ><?php echo $this->translate('Add New');?></a>
+                                <!--<a id="removeToEmail" style="float:right;margin-right:10px;" href="#"><?php echo $this->translate('Remove Last');?></a> -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    <h2 class="section-header"><?php echo $this->translate("Send Settings"); ?> <a href="https://en.wikipedia.org/wiki/Internet_Message_Access_Protocol#E-mail_protocols" target="_blank">(<?php echo $this->translate('help');?>)</a></h2>
+                    
+                    <div>
+                        <label for="transport" class="heading_label"><?php echo $this->translate('Transport');?>:</label>
+                        <div id="transport" class="setting_header">
+                             <label  for="data[transport]"><?php echo $this->translate('Type');?>:</label>
+                             <select id="data[transport]" name="data[email][transport]">
+                                <option value="" selected="selected"><?php echo $this->translate('Select transport type');?></option>
+                                <?php foreach ($this->emailTransportTypeOptions as $type) { if($type == 'smtp'){?>
+                                    <option value="<?php echo $type;?>" <?php if($this->data['email']['transport'] == $type) { ?> selected="selected" <?php }?>><?php echo $type;?></option>
+                                <?php }} ?>
+                             </select>
+                             <?php echo isset($this->errors['transport']) ? $this->errorMessages($this->errors['transport']) : "";?>
+                        </div>
+                    </div>
+                    <div id="params_wrapper" style="padding-top:5px;<?php if($this->data['email']['transport'] != "smtp") echo "display:none;"; ?>">
+                        <label for="params" ><?php echo $this->translate('SMTP params');?>: <a href="http://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol" target="_blank">(<?php echo $this->translate('help');?>)</a></label>
+                        <div id="params" class="setting_header">
+                            <div>
+                                <label for="data[username]"><?php echo $this->translate('Username');?>:</label>
+                                <input type="text"  value="<?php echo $this->escape($this->data['email']['parameters']['username']);?>" id="data[username]" name="data[email][parameters][username]"/>
+                                <?php echo isset($this->errors['parameters']['username']) ? $this->errorMessages($this->errors['parameters']['username']) : "" ;?>
+                            </div>
+                            <div>
+                                <label for="data[password]"><?php echo $this->translate('Password');?>:</label>
+                                <input type="text" value="<?php echo $this->escape($this->data['email']['parameters']['password']);?>" id="data[password]" name="data[email][parameters][password]"/>
+                                 <?php echo isset($this->errors['parameters']['password']) ? $this->errorMessages($this->errors['parameters']['password']) : "";?>
+                            </div>
+                            <div>
+                                <label class="required" for="data[port]"><?php echo $this->translate('Port');?>:</label>
+                                <input class="field_text" type="text"  value="<?php echo $this->escape($this->data['email']['parameters']['port']);?>" id="data[port]" name="data[email][parameters][port]"/>
+                                <?php echo isset($this->errors['parameters']['port']) ? $this->errorMessages($this->errors['parameters']['port']) : "" ;?>
+                            </div>
+                            <div>
+                                <label for="data[auth]"><?php echo $this->translate('Auth');?>:</label>
+                                <input type="text" value="<?php echo $this->escape($this->data['email']['parameters']['auth']);?>" id="data[auth]" name="data[email][parameters][auth]" />
+                                 <?php echo isset($this->errors['parameters']['auth']) ? $this->errorMessages($this->errors['parameters']['auth']) : "" ;?>
+                            </div>
+                            <div>
+                                <label for="data[server]"><?php echo $this->translate('Server');?>:</label>
+                                <input type="text" value="<?php echo $this->escape($this->data['email']['parameters']['server']);?>" id="data[server]" name="data[email][parameters][server]"/>
+                                 <?php echo isset($this->errors['parameters']['server']) ? $this->errorMessages($this->errors['parameters']['server']) : "";?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Section Confirmation settings -->
+                <div id="confirmation-config">
+                    
+                    <h2 class="section-header"><?php echo $this->translate("Configuration mail settings"); ?></h2>
+                    
+                    <div>
+                        <label for="confirmation_email" ><?php echo $this->translate('Confirmation email');?>:</label>
+                        <div id="transport" class="setting_header">
+                            <input type="radio" style="width:25px;" name="data[email][confirmation_email]"  <?php if($this->data['email']['confirmation_email']=="yes" || $this->data['email']['confirmation_email']!="no") echo "checked=\"checked\"";?> value="yes" ><?php echo $this->translate('Yes')?>
+                            <input type="radio" style="width:25px;margin-left:25px;" name="data[email][confirmation_email]"  <?php if($this->data['email']['confirmation_email']=="no") echo "checked=\"checked\"";?> value="no" ><?php echo $this->translate('No')?>
+                             <?php echo isset($this->errors['confirmation_email']) ? $this->errorMessages($this->errors['confirmation_email']) : "";?>
+                        </div>
+                    </div>
+                    <div id="confirmation_mail_wrapper" style="<?php if($this->data['email']['confirmation_email'] != "yes") echo "display:none;"; ?>">
+                    <div>
+                        <label  for="dsl_confirmation-config"><?php echo $this->translate('Customize text for languages');?>:</label>
+                         <select id="dsl_confirmation-config" style="width: 100px;">
+                             <?php echo $this->langOptions($this->languages,CURR_LANG,true);?>
+                         </select>
+                    </div>
+                        
+                    <div>
+                        <label for="subject_contact" ><?php echo $this->translate('Subject');?>:</label>
+                        <div id="subject" class="setting_header">
+
+                            <input type="text"  value="<?php echo $this->escape($this->translate($this->data['email']['subject_contact']));?>" id="data[subject]" name="data[email][subject_contact]"/>
+                            <?php echo isset($this->errors['subject_contact']) ? $this->errorMessages($this->errors['subject_contact']) : "" ;?>
+                        </div> 
+                    </div> 
+                    
+                    <div>
+                        <label for="mailtext_respond_contact" ><?php echo $this->translate('Mailtext');?>:</label>
+                        <div id="transport" class="setting_header">
+                            <textarea id="data[mailtext_respond_contact]" name="data[email][mailtext_respond_contact]"><?php echo $this->escape($this->translate($this->data['email']['mailtext_respond_contact']));?></textarea>
+                            <?php echo isset($this->errors['mailtext_respond_contact']) ? $this->errorMessages($this->errors['mailtext_respond_contact']) : "" ;?>
+                        </div> 
+                    </div>
+                    <div>
+                        <table class="legend_table">
+                            <tr>
+                                <th>
+                                    <?php echo $this->translate("Field"); ?>
+                                </th>
+                                <th>
+                                    <?php echo $this->translate("Placeholder legend"); ?>
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <?php echo $this->translate("Company"); ?>
+                                </td>
+                                <td>
+                                    %company_name%
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <?php echo $this->translate("First Name"); ?>
+                                </td>
+                                <td>
+                                    %first_name%
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <?php echo $this->translate("Last Name"); ?>
+                                </td>
+                                <td>
+                                    %last_name%
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    </div>
+                </div>
+                
+                <!-- Section Landing page settings -->
+                <div id="landing-config">
+                    
+                    <h2 class="section-header"><?php echo $this->translate("Configuration for a landing page"); ?></h2>
+                    
+                    <div>
+                        <label  for="dsl_landing-config"><?php echo $this->translate('Customize text for languages');?>:</label>
+                        <select id="dsl_landing-config" style="width: 100px;">
+                             <?php echo $this->langOptions($this->languages,CURR_LANG,true);?>
+                         </select>
+                    </div>
+                    <div>
+                        <label for="mailtext_respond_contact" ><?php echo $this->translate('Landing page text');?>:</label>
+                        <div id="transport" class="setting_header">
+                            <textarea id="data[landing_page_text]" name="data[email][landing_page_text]"><?php echo $this->escape($this->translate($this->data['email']['landing_page_text']));?></textarea>
+                            <?php echo isset($this->errors['landing_page_text']) ? $this->errorMessages($this->errors['landing_page_text']) : "" ;?>
+                        </div> 
+                    </div>
+                </div>
+                <!-- Section Form fields settings -->
+                <div id="form-config">                    
+                    <h2 class="section-header"><?php echo $this->translate("Configuration for a Form fields"); ?></h2>                                                            
+                    <?php foreach($this->fields as $fieldId => $field){?>
+                    <div>
+                        <h3 class="subsection-header"><?php echo $this->translate($field['name']);?>:</h3>
+                        <div id="<?php echo $fieldId;?>_form_field_count">                            
+                            <?php if(!isset($field['unlimited'])){?>
+                            <input type="number" style="width: 80px;" value="<?php echo $this->formInputValue($this->data['email'], $fieldId . '_form_field_count');?>" id="data[<?php echo $fieldId;?>_form_field_count]" name="data[email][<?php echo $fieldId;?>_form_field_count]" maxlength="3"/>
+                            <span class="devider">
+                                <label for="show_<?php echo $fieldId;?>_form_field_count" style="display: inline;"><?php echo $this->translate('Limited');?>:</label>
+                                <input type="radio" style="width:15px;" name="data[email][show_<?php echo $fieldId;?>_form_field_count]"  <?php echo $this->formSelected($this->data['email'], 'show_' . $fieldId . '_form_field_count', 'yes', 'checked'); ?> value="yes" /><?php echo $this->translate('Yes')?>
+                                <input type="radio" style="width:15px;margin-left:15px;" name="data[email][show_<?php echo $fieldId;?>_form_field_count]"  <?php echo $this->formSelected($this->data['email'], 'show_' . $fieldId . '_form_field_count', 'no', 'checked'); ?> value="no" /><?php echo $this->translate('No')?>
+                            </span>
+                            <?php }?>
+                            <span class="devider">
+                                <label for="show_<?php echo $fieldId;?>_form_field_required" style="display: inline;"><?php echo $this->translate('Required');?>:</label>
+                                <input type="radio" style="width:15px;" name="data[email][show_<?php echo $fieldId;?>_form_field_required]"  <?php echo $this->formSelected($this->data['email'], 'show_' . $fieldId . '_form_field_required', 'yes', 'checked');?> value="yes" /><?php echo $this->translate('Yes')?>
+                                <input type="radio" style="width:15px;margin-left:15px;" name="data[email][show_<?php echo $fieldId;?>_form_field_required]"  <?php echo $this->formSelected($this->data['email'], 'show_' . $fieldId . '_form_field_required', 'no', 'checked');?> value="no" /><?php echo $this->translate('No')?>
+                            </span>
+
+                            <span class="devider">
+                                <label for="show_<?php echo $fieldId;?>_form_field" style="display: inline;"><?php echo $this->translate('Field');?>:</label>
+                                <input type="radio" style="width:15px;" name="data[email][show_<?php echo $fieldId;?>_form_field]"  <?php echo $this->formSelected($this->data['email'], 'show_' . $fieldId . '_form_field_required', 'yes', 'checked');?> value="yes" /><?php echo $this->translate('Show')?>
+                                <input type="radio" style="width:15px;margin-left:15px;" name="data[email][show_<?php echo $fieldId;?>_form_field]"  <?php echo $this->formSelected($this->data['email'], 'show_' . $fieldId . '_form_field_required', 'no', 'checked');?> value="no" /><?php echo $this->translate('Hide')?>
+                            </span>
+                            <?php
+                                echo $this->errorMessages($this->errors, 'error', $fieldId . '_form_field_count');
+                                echo $this->errorMessages($this->errors, 'error', 'show_' . $fieldId . '_form_field_count');
+                                echo $this->errorMessages($this->errors, 'error', 'show_' .$fieldId . '_form_field_required');
+                                echo $this->errorMessages($this->errors, 'error', 'show_' .$fieldId . '_form_field');
+                            ?>
+                        </div>
+                    </div>
+                    <?php }?>                  
+                </div>                
+                <!-- Section Country settings -->
+                <div id="country-config">
+                    
+                    <h2 class="section-header"><?php echo $this->translate("Configuration for a Country list"); ?></h2>
+                        
+                    <div>
+                        <h3 class="subsection-header"><?php echo $this->translate('IP country detection');?>:</h3>
+                        <div id="default_country" class="setting_header">
+                            <input type="radio" style="width:25px;" name="data[email][ip_country_detection]"  <?php echo $this->formSelected($this->data['email'], 'ip_country_detection', 'yes', 'checked'); ?> value="yes" /><?php echo $this->translate('Yes')?>
+                            <input type="radio" style="width:25px;margin-left:25px;" name="data[email][ip_country_detection]"  <?php echo $this->formSelected($this->data['email'], 'ip_country_detection', 'no', 'checked'); ?> value="no" ><?php echo $this->translate('No')?>
+                             <?php echo isset($this->errors['ip_country_detection']) ? $this->errorMessages($this->errors['ip_country_detection']) : "";?>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="subsection-header"><?php echo $this->translate('Countries');?>:</h3>
+                        <div id="default_country">
+                            <input type="radio" style="width:25px;" name="data[email][default_country]"  <?php echo $this->formSelected($this->data['email'], 'default_country', 'yes', 'checked');?> value="yes" /><?php echo $this->translate('Default country list')?>
+                            <input type="radio" style="width:25px;margin-left:25px;" name="data[email][default_country]"  <?php echo $this->formSelected($this->data['email'], 'default_country', 'no', 'checked');?> value="no"/><?php echo $this->translate('User Settings')?>
+                             <?php echo isset($this->errors['default_country']) ? $this->errorMessages($this->errors['default_country']) : "";?>
+                        </div>
+                    </div>
+
+                    <div id="country_list_mail_wrapper" style="<?php if($this->data['email']['default_country'] != "no") echo "display:none;"; ?>">
+                        
+                        <div style="margin: 15px 0 5px 0;">
+                        
+                            <input type="radio" style="width:25px;" name="data[email][default_country_on_top]"  <?php echo $this->formSelected($this->data['email'], 'default_country_on_top', 'yes', 'checked'); ?> value="yes" /><?php echo $this->translate('Show only favorite countries')?>
+                            <input type="radio" style="width:20px;margin-left:25px;" name="data[email][default_country_on_top]"  <?php  echo $this->formSelected($this->data['email'], 'default_country_on_top', 'no', 'checked');?> value="no" ><?php echo $this->translate('Show favorite countries on top')?>
+                             <?php echo isset($this->errors['default_country_on_top']) ? $this->errorMessages($this->errors['default_country_on_top']) : "";?>
+                        
+                        </div>
+                        <div class="selectCountries"><span class="left"><?php echo $this->translate('Countries');?>:</span><span class="right"><?php echo $this->translate('Favorit');?>:</span></div>
+                        <div id="selected_countries" class="setting_header">
+                             <ul class="countryList">
+                                <!-- <option  value="" selected="selected"><?php //echo $this->translate('Select countries');?></option> -->
+                                <?php foreach ($this->countries as $country) { ?>
+                                 <li><span><?php echo $country->get_name(); ?></span> <input type="checkbox" name="data[email][selected_countries][]" value="<?php echo $country->get_code2();?>"  <?php if(isset($this->data['email']['selected_countries']) && in_array($country->get_code2(), $this->data['email']['selected_countries'])) echo "checked=\"checked\"";?>     /></li>
+                                <?php } ?>
+                             </ul>
+                             <?php echo isset($this->errors['selected_countries']) ? $this->errorMessages($this->errors['selected_countries']) : "";?>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+        </div>
+        <div class="clearfix" style="margin-left:230px;">
+            <button class="hcms_button submit" name="submit[save]" value="!Save" type="submit"><?php echo $this->translate('Save');?></button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,13 @@
+<script type="text/javascript">
+    var hostingData = {
+        "quota": <?php echo $this->hostingQuota; ?>,
+        "free": <?php echo $this->hostingFreeSpace; ?>,
+        "used": <?php echo $this->hostingUsed; ?>
+    }
+</script>
+<div id="widgetAdminChart" style="min-width: 200px; height: 280px; margin: 0 auto"></div>
+<p><?php echo sprintf($this->translate('<strong>%s</strong> in use out of total <strong>%s</strong>, free <strong>%s</strong>'),$this->hostingUsedStr,$this->hostingQuotaStr,$this->hostingFreeSpaceStr);?></p>
+<ul>
+    <li><a href="<?php echo $this->url(array('action'=>'filemanager','controller'=>'index','module'=> 'admin')); ?>"><?php echo $this->translate('Manage Files and Directories'); ?></a></li>
+    <li><a href="<?php echo $this->url(array('action'=>'index','controller'=>'index','module'=> 'default')); ?>" target="_blank"><?php echo $this->translate('Visit Front Site'); ?></a></li>
+</ul>

@@ -1,0 +1,176 @@
+@font-face {
+	font-family: 'horisen';
+	src:url('../fonts/horisen.eot');
+	src:url('../fonts/horisen.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/horisen.woff') format('woff'),
+		url('../fonts/horisen.ttf') format('truetype'),
+		url('../fonts/horisen.svg#horisen') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+@font-face {
+    font-family: 'horisen';
+    src: url('../fonts/horisen.svg') format('svg');
+}
+}
+/* Use the following CSS code if you want to use data attributes for inserting your icons */
+[data-icon]:before {
+	font-family: 'horisen';
+	content: attr(data-icon);
+	speak: none;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+}
+
+/* Use the following CSS code if you want to have a class per icon */
+/*
+Instead of a list of all class selectors,
+you can use the generic selector below, but it's slower:
+[class*="icon-"] {
+*/
+.icon-right-end, .icon-left-end, .icon-user, .icon-left-double, .icon-right-double, .icon-up-double, .icon-down-double, .icon-left2, .icon-right2, .icon-up2, .icon-down2, .icon-left1, .icon-right1, .icon-up1, .icon-down1, .icon-left3, .icon-right3, .icon-up3, .icon-down3, .icon-plus-med, .icon-minus-med, .icon-close-med, .icon-plus-big, .icon-minus-big, .icon-close-big, .icon-plus4, .icon-minus4, .icon-cloce4, .icon-search, .icon-collapse, .icon-cog, .icon-check, .icon-bin, .icon-logout, .icon-login, .icon-on-off, .icon-eye-closed, .icon-eye, .icon-home, .icon-plus-small, .icon-minus-small, .icon-close-small, .icon-collapse2, .icon-collapse3 {
+	font-family: 'horisen';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+}
+.icon-right-end:before {
+	content: "\e029";
+}
+.icon-left-end:before {
+	content: "\e028";
+}
+.icon-user:before {
+	content: "\e000";
+}
+.icon-left-double:before {
+	content: "\e001";
+}
+.icon-right-double:before {
+	content: "\e002";
+}
+.icon-up-double:before {
+	content: "\e003";
+}
+.icon-down-double:before {
+	content: "\e004";
+}
+.icon-left2:before {
+	content: "\e005";
+}
+.icon-right2:before {
+	content: "\e006";
+}
+.icon-up2:before {
+	content: "\e007";
+}
+.icon-down2:before {
+	content: "\e008";
+}
+.icon-left1:before {
+	content: "\e009";
+}
+.icon-right1:before {
+	content: "\e00a";
+}
+.icon-up1:before {
+	content: "\e00b";
+}
+.icon-down1:before {
+	content: "\e00c";
+}
+.icon-left3:before {
+	content: "\e00d";
+}
+.icon-right3:before {
+	content: "\e00e";
+}
+.icon-up3:before {
+	content: "\e00f";
+}
+.icon-down3:before {
+	content: "\e010";
+}
+.icon-plus-med:before {
+	content: "\e015";
+}
+.icon-minus-med:before {
+	content: "\e016";
+}
+.icon-close-med:before {
+	content: "\e017";
+}
+.icon-plus-big:before {
+	content: "\e018";
+}
+.icon-minus-big:before {
+	content: "\e019";
+}
+.icon-close-big:before {
+	content: "\e01a";
+}
+.icon-plus4:before {
+	content: "\e01b";
+}
+.icon-minus4:before {
+	content: "\e01c";
+}
+.icon-cloce4:before {
+	content: "\e01d";
+}
+.icon-search:before {
+	content: "\e01e";
+}
+.icon-collapse:before {
+	content: "\e01f";
+}
+.icon-cog:before {
+	content: "\e020";
+}
+.icon-check:before {
+	content: "\e021";
+}
+.icon-bin:before {
+	content: "\e022";
+}
+.icon-logout:before {
+	content: "\e023";
+}
+.icon-login:before {
+	content: "\e024";
+}
+.icon-on-off:before {
+	content: "\e025";
+}
+.icon-eye-closed:before {
+	content: "\e026";
+}
+.icon-eye:before {
+	content: "\e027";
+}
+.icon-home:before {
+	content: "\e011";
+}
+.icon-plus-small:before {
+	content: "\e012";
+}
+.icon-minus-small:before {
+	content: "\e013";
+}
+.icon-close-small:before {
+	content: "\e014";
+}
+.icon-collapse2:before {
+	content: "\e02a";
+}
+.icon-collapse3:before {
+	content: "\e02b";
+}

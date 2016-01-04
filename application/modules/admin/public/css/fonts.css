@@ -1,0 +1,58 @@
+@font-face {
+font-family: 'MyriadWebPro';
+src: url('../fonts/myriad-web-pro.eot');
+src: url('../fonts/myriad-web-pro.eot?#iefix') format('embedded-opentype'),
+		 url('../fonts/myriad-web-pro.woff') format('woff'),
+		 url('../fonts/myriad-web-pro.ttf') format('truetype'),
+		 url('../fonts/myriad-web-pro.svg#myriad-web-pro') format('svg');
+font-weight: normal;
+font-style: normal;
+}
+/*font-family: 'MyriadWebPro';
+src: url('../fonts/myriad-web-pro.eot');
+src: url('../fonts/myriad-web-pro.eot?#iefix') format('embedded-opentype'),
+		 url('../fonts/myriad-web-pro.woff') format('woff'),
+		 url('../fonts/myriad-web-pro.ttf') format('truetype'),
+		 url('../fonts/myriad-web-pro.svg#myriad-web-pro') format('svg');
+font-weight: normal;
+font-style: normal;
+}*/
+@font-face {
+    font-family: 'MyriadProSBdSCn';
+    src: url('../fonts/myriadpro-semiboldsemicn-webfont.eot');
+    src: url('../fonts/myriadpro-semiboldsemicn-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/myriadpro-semiboldsemicn-webfont.woff') format('woff'),
+         url('../fonts/myriadpro-semiboldsemicn-webfont.ttf') format('truetype'),
+         url('../fonts/myriadpro-semiboldsemicn-webfont.svg#MyriadProSBdSCn') format('svg');
+    font-weight: normal;
+    font-style: normal;}
+
+/*@font-face {
+    font-family: 'MyriadWebProCondensed';
+    src: url('../fonts/myriadwebpro-condensed-webfont.eot');
+    src: url('../fonts/myriadwebpro-condensed-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/myriadwebpro-condensed-webfont.woff') format('woff'),
+         url('../fonts/myriadwebpro-condensed-webfont.ttf') format('truetype'),
+         url('../fonts/myriadwebpro-condensed-webfont.svg#MyriadWebProCondensed') format('svg');
+    font-weight: normal;
+    font-style: normal;}*/
+
+/*@font-face {
+    font-family: 'MyriadProCondensed';
+    src: url('../fonts/myriadpro-cond-webfont.eot');
+    src: url('../fonts/myriadpro-cond-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/myriadpro-cond-webfont.woff') format('woff'),
+         url('../fonts/myriadpro-cond-webfont.ttf') format('truetype'),
+         url('../fonts/myriadpro-cond-webfont.svg#MyriadProCondensed') format('svg');
+    font-weight: normal;
+    font-style: normal;}*/
+
+/*@font-face {
+    font-family: 'MyriadProSemiCondensed';
+    src: url('../fonts/myriadpro-semicn-webfont.eot');
+    src: url('../fonts/myriadpro-semicn-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/myriadpro-semicn-webfont.woff') format('woff'),
+         url('../fonts/myriadpro-semicn-webfont.ttf') format('truetype'),
+         url('../fonts/myriadpro-semicn-webfont.svg#MyriadProSemiCondensed') format('svg');
+    font-weight: normal;
+    font-style: normal;}*/

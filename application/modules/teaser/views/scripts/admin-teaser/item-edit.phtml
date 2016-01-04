@@ -1,0 +1,161 @@
+<?php
+  $box = Teaser_Model_TeaserMapper::getInstance()->getBox($this->data['box_code']);
+  $boxElements = isset($box['elements']) && is_array($box['elements']) ? $box['elements']: array();
+  $customItemElements = isset($box['custom_item_elements']) && is_array($box['custom_item_elements']) ? $box['custom_item_elements']: array();
+?>
+<script type="text/javascript">
+    var itemData = <?php echo json_encode($this->data);?>;
+</script>
+
+<form method="post" class="hcms_form" title="<?php if(isset($this->data['id']) && $this->data['id'] != '') {
+    echo $this->translate('Edit Item');
+}else {
+    echo $this->translate('Add new Item');
+      }?>" action="<?php echo $this->url(array('controller' => 'admin-teaser', 'action' => 'item-edit')) ?>" enctype="application/x-www-form-urlencoded">
+    <input type="hidden" id="data[id]" value="<?php echo $this->formInputValue($this->data,'id');?>" name="data[id]"/>
+    <input type="hidden" id="data[box_code]" value="<?php echo $this->formInputValue($this->data,'box_code');?>" name="data[box_code]"/>
+    
+    <div id="data">
+        <div class="leftSide">
+            <div>
+		<label><?php echo $this->translate('Title');?></label>
+                <input type="text" class="_input" name="data[title]" id="data[title]" value="<?php echo $this->formInputValue($this->data,'title');?>" maxlength="255" />
+                <?php echo $this->errorMessages($this->errors['title']);?>
+            </div>
+            <?php if(isset($box['item_templates']) && is_array($box['item_templates']) && count($box['item_templates'])){ ?>
+            <div>
+		<label><?php echo $this->translate('Custom template');?></label>
+                <select id="data[item_template]" name="data[item_template]">
+                    <option value=""><?php echo $this->translate('Default');?></option>
+                    <?php  foreach ($box['item_templates'] as $itemTemplate =>  $itemTemplateName) {?>
+                        <option value="<?php echo $this->escape($itemTemplate) ;?>" <?php echo $this->formSelected($this->data, 'item_template', $itemTemplate);?>><?php echo $this->escape($itemTemplateName); ?></option>
+                    <?php }?>
+                </select>
+            </div>
+            <?php } ?>            
+            
+            <?php if(in_array('subtitle', $boxElements)){ ?>
+            <div>
+		<label><?php echo $this->translate('Subtitle');?></label>
+                <input type="text" class="_input" name="data[content][subtitle]" id="data[content][subtitle]" value="<?php if(isset($this->data['content'])){ echo $this->formInputValue($this->data['content'],'subtitle'); };?>" maxlength="255" />
+                <?php echo $this->errorMessages($this->errors['content']['subtitle']);?>
+            </div>
+            <?php } ?>
+            
+            <?php if(in_array('link', $boxElements)){ ?>
+            <div>
+		<label><?php echo $this->translate('Link');?></label>
+                <input type="text" class="_input" name="data[content][link]" id="data[content][link]" value="<?php if(isset($this->data['content'])){ echo $this->formInputValue($this->data['content'],'link'); };?>" maxlength="255" />
+                <?php echo $this->errorMessages($this->errors['content']['link']);?>
+            </div>
+            
+            <div>
+		<label><?php echo $this->translate('Link Target');?></label>
+                <select class="_input" name="data[content][link_target]" id="data[content][link_target]">
+                    <option value="_self" <?php if(isset($this->data['content'])){ echo $this->formSelected($this->data['content'], 'link_target', '_self'); };?>><?php echo $this->translate('Same Window');?></option>
+                    <option value="_blank" <?php if(isset($this->data['content'])){ echo $this->formSelected($this->data['content'], 'link_target', '_blank'); };?>><?php echo $this->translate('New Window');?></option>
+                </select>
+                <?php echo $this->errorMessages($this->errors['content']['link_target']);?>
+            </div>            
+            <?php } ?>
+            
+            <?php if(in_array('text', $boxElements)){ ?>
+            <div>
+		<label><?php echo $this->translate('Text');?></label>
+                <textarea name="data[content][text]" cols="80" rows="5" id="data[content][text]"><?php if(isset($this->data['content'])){ echo $this->formInputValue($this->data['content'],'text'); };?></textarea>
+                <?php echo $this->errorMessages($this->errors['content']['text']);?>
+            </div>
+            <?php } ?>
+            
+<?php
+if(is_array($customItemElements) && count($customItemElements)){
+    foreach ($customItemElements as $elementId => $elementArr) { ?>
+            <label><?php echo $this->translate($elementArr['label']);?></label>
+            <div>
+<?php
+                 switch ($elementArr['type']) {
+                     case 'textarea':
+?>
+                <textarea name="data[content][<?php echo $elementId; ?>]" id="data[content][<?php echo $elementId; ?>]" rows="5" cols="80"><?php if(isset($this->data['content'])){ echo $this->formInputValue($this->data['content'],$elementId); };?></textarea>
+<?php                         
+                         break;
+                     case 'checkbox':                         
+?>
+                <input type="checkbox" class="_input" name="data[content][<?php echo $elementId; ?>]" id="data[content][<?php echo $elementId; ?>]" value="yes" <?php if(isset($this->data['content'])){ echo $this->formSelected($this->data['content'], $elementId, 'yes', 'checked'); };?> />
+<?php
+                        break;
+                     default:
+?>
+                <input type="text" class="_input" name="data[content][<?php echo $elementId; ?>]" id="data[content][<?php echo $elementId; ?>]" value="<?php if(isset($this->data['content'])){ echo $this->formInputValue($this->data['content'],$elementId); };?>" maxlength="255" />
+<?php
+                         break;
+                 }
+?>                
+                <?php echo $this->errorMessages($this->errors['content'][$elementId]);?>
+            </div>
+<?php     
+    }    
+} ?>
+            <div class="hcms_checkbox">
+                <input type="hidden" value="no" name="data[fallback]" />
+                <input type="checkbox" value="yes" name="data[fallback]" id="data[fallback]" <?php echo $this->formSelected($this->data, 'fallback', 'yes', 'checked');?> />
+                <label for="data[fallback]"><?php echo $this->translate('Is fallback');?></label>
+                <?php echo $this->errorMessages($this->errors, 'error', 'fallback');?>
+            </div>
+            <div class="scheduler">
+                <div class="btn-group" title="<?php echo $this->translate('Start Date');?>">
+		    <label><?php echo $this->translate('Start Date');?></label>
+		    <div class="date-group">
+			<input type="text" class="_input" name="data[start_dt]" id="data[start_dt]" value="<?php echo $this->formInputValue($this->data,'start_dt');?>" maxlength="100" />
+                    </div>
+		    <?php echo $this->errorMessages($this->errors['start_dt']);?>
+		    
+                </div>
+                <div class="btn-group" title="<?php echo $this->translate('End Date');?>">
+		    <label><?php echo $this->translate('End Date');?></label>
+		    <div class="date-group">
+			<input type="text" class="_input" name="data[end_dt]" id="data[end_dt]" value="<?php echo $this->formInputValue($this->data,'end_dt');?>" maxlength="100" />
+                    </div>
+		    <?php echo $this->errorMessages($this->errors['end_dt']);?>
+                </div>
+            </div>   
+            <div class="clearfix"></div>
+            <div class="btn-group belongsTo">
+		<label><?php echo $this->translate('Belongs to');?></label>
+                <?php
+                /* @var $teaser Teaser_Model_Teaser */
+                foreach ($this->availableTeasers as $teaser) { ?>
+		<div class="hcms_checkbox">
+		    <input type="checkbox" class="_input" value="<?php echo $teaser->get_id();?>" name="data[teaser_ids][]" id="data[teaser_ids]" <?php if($teaser->get_id() == $this->defaultTeaserId || in_array($teaser->get_id(), $this->data['teaser_ids'])){echo 'checked="checked"';};?> />
+		    <label><?php echo $this->escape($teaser->get_name());?></label>
+                </div>
+                <?php }
+                echo $this->errorMessages($this->errors['teaser_ids']);?>
+            </div>            
+        </div>
+        <?php if(in_array('images', $boxElements)){ ?>
+        <div class="rightSide">
+            <h2><?php echo $this->translate('Images');?></h2>            
+            <div>
+                <label><?php echo $this->translate('Upload ZIP package');?></label>
+                <input type="hidden" id="imagePackage" value="" />
+		
+                <label><?php echo $this->translate('or pick a folder');?></label>
+                <input type="hidden" id="imageFolder" value="" />
+            </div>            
+
+            <div id="images"></div>
+
+            <label><?php echo $this->translate('Image ALT text');?></label>
+            <div>
+                <input type="text" class="_input" name="data[content][image_alt]" id="data[content][image_alt]" value="<?php if(isset($this->data['content'])){ echo $this->formInputValue($this->data['content'],'image_alt'); };?>" maxlength="255" />
+                <?php echo $this->errorMessages($this->errors['content']['image_alt']);?>
+            </div>              
+        </div>
+        <?php }?>
+    </div>
+    <div>
+        <button type="submit" class="hcms_button submit" value="<?php echo $this->translate('Save');?>" name="submit[save]" ><?php echo $this->translate('Save');?></button>
+        <button type="submit" class="hcms_button submit" value="<?php echo $this->translate('Cancel');?>" name="submit[cancel]" ><?php echo $this->translate('Cancel');?></button>
+    </div>
+</form>

@@ -1,0 +1,294 @@
+<?php
+$this->headScript()->appendFile('/plugins/imagebrowser/bs/jquery.imagebrowserdialog.js');
+$this->headScript()->appendFile('/plugins/jscolor/jscolor.js');
+$this->headScript()->appendFile('/modules/admin/js/config.js');
+$this->headLink()->appendStylesheet('/plugins/jscolor/jscolor.css');
+?>
+
+<script type="text/javascript">
+    $(function () {
+        $('html').click(function (e) {
+            $('.popoverGAconfig').popover('hide');
+        });
+
+        $('.popoverGAconfig').popover({
+            toggleSideBar: true,
+            tranistion: true,
+            html: true,
+            trigger: 'manual'
+        }).click(function (e) {
+            $(this).popover('toggle');
+            e.stopPropagation();
+            return false;
+
+        });
+    });
+
+
+
+
+</script>
+<script>
+    (function (w, d, s, g, js, fjs) {
+        g = w.gapi || (w.gapi = {});
+        g.analytics = {q: [], ready: function (cb) {
+                this.q.push(cb)
+            }};
+        js = d.createElement(s);
+        fjs = d.getElementsByTagName(s)[0];
+        js.src = 'https://apis.google.com/js/platform.js';
+        fjs.parentNode.insertBefore(js, fjs);
+        js.onload = function () {
+            g.load('analytics')
+        };
+    }(window, document, 'script'));
+</script>
+
+<div class="hcms_content_top">
+    <h1><?php echo $this->translate('Google Services'); ?> </h1>
+</div>
+<div class="hcms_content GAContainer" >
+    <div class="res-tabs">
+        <ul class="tab-list">
+            <li class="styled-apps"><?php echo $this->translate('General'); ?></li>
+            <li class="styled-apps"><?php echo $this->translate('Dashboard Settings'); ?></li>
+        </ul>
+        <div class="articles">
+            <div>
+                <div id="Ga">
+                    <div class="infoContainer">
+                        <h2><?php echo $this->translate('Google Client ID '); ?></h2>
+                        <p><?php echo $this->translate("Google Analytics helps user to analyze visitor traffic and gives a complete picture of user's audience and their needs. This is integrated Analytics Dashboard available from CMS. And its configurations. "); ?> </p>
+                    </div>
+                    <form method="post" class="hcms_form configForm " title="<?php echo $this->translate('Edit GA Dashboard Configuration'); ?>" action="<?php echo $this->url(array('controller' => 'google-analytics', 'action' => 'edit')) ?>" enctype="application/x-www-form-urlencoded">
+                        <input type="hidden" id="data[id]" value="<?php echo $this->escape($this->data['id']); ?>" name="data[id]"/>
+                        <div class="content-holder">
+                            <div class="content">
+                                <div class="configFormContainer">
+                                    <label for="data[ga_active]"><?php echo $this->translate('Status'); ?>:</label>
+                                    <select  id="data[ga_active]" name="data[ga_active]">
+                                        <option <?php if (isset($this->data['settings']['tags']['ga']['active']) && $this->data['settings']['tags']['ga']['active'] == true) { ?>selected="selected" <?php } ?> value="true"><?php echo $this->translate('Active'); ?></option>
+                                        <option <?php if (isset($this->data['settings']['tags']['ga']['active']) && $this->data['settings']['tags']['ga']['active'] == false) { ?>selected="selected"<?php } ?> value="false"><?php echo $this->translate('Inactive'); ?> </option>
+                                    </select>
+                                    <a href="#" class="popoverGAconfig" data-toggle="popover" data-placement="bottom" title="" data-content="<?php echo $this->translate("Toggles ON and OFF statistics tracking of user's web site. Set 'Allow' to track, or 'Disallow' to stop tracking. "); ?>"><i class="fa fa-info-circle"></i></a>
+                                    <?php echo $this->errorMessages($this->errors['ga_active']); ?>
+                                </div>
+
+                                <div id="GA-hide">
+                                    <div class="configFormContainer">
+                                        <label for="data[tracking_id]"><?php echo $this->translate('Tracking Id'); ?>:</label>
+                                        <input type="text" size="30"  value="<?php echo (isset($this->data['settings']['tags']['ga']['tracking_id'])) ? $this->escape($this->data['settings']['tags']['ga']['tracking_id']) : ""; ?>" id="data[tracking_id]" name="data[tracking_id]" maxlength="60"/>
+                                        <a href="#" class="popoverGAconfig" data-toggle="popover" data-placement="bottom" title="" data-content="<?php echo $this->translate("Tracking ID tells Google Analytics which account and property to send data to."); ?>"><i class="fa fa-info-circle"></i></a>
+                                        <?php echo $this->errorMessages($this->errors['tracking_id']); ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div>
+                <div id="GaView">
+                    <div class="infoContainer">
+                        <h2><?php echo $this->translate('Google analytics View '); ?></h2>
+                        <p><?php echo $this->translate('Set view to be displayed on the google dashboard'); ?></p>
+                    </div>
+                    <form method="post" class="hcms_form configForm " title="<?php echo $this->translate('Edit Widget'); ?>" action="<?php echo $this->url(array('controller' => 'google-analytics', 'action' => 'edit')) ?>" enctype="application/x-www-form-urlencoded">
+
+                        <?php //echo (isset($this->data['settings']['tags']['ga']['view_id'])) ? $this->escape($this->data['settings']['tags']['ga']['view_id']) : ""; ?>
+                        <section id="auth-button"></section>
+                        <p id="gaIds"><?php echo $this->translate('Your View Id is'); ?>: </br><span></span> </p>
+                        <button id="changeViewId" class="btn btn-primary" type="button" ><?php echo $this->translate('Change View Id'); ?></button>
+                        <input type="hidden"  value="<?php echo (isset($this->data['settings']['tags']['ga']['view_id'])) ? $this->escape($this->data['settings']['tags']['ga']['view_id']) : ""; ?>" id="data[view_id]" name="data[view_id]"/>
+
+                        <section id="view-selector"></section>
+                        
+                    </form>    
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div>
+        <button class="btn btn-primary submit" name="submit[save]" value="Save" type="button"><?php echo $this->translate('Save'); ?></button>
+    </div>
+</div>
+<script type="text/javascript">
+    var colist1 = $(".collapslist").collapsList({
+        expand: function (e, ui) {
+            //alert('On expand: ' + ui.context_obj);
+        },
+        collapse: function (e, ui) {
+            //alert('On collapse: ' + ui.id);
+        },
+        showMore: function (e, ui) {
+            //alert('On show more: ' + ui.id);
+        },
+        context_obj: 'Context OBJ'
+
+    });
+
+    $(".collapslist .heading").click(function () {
+        $(this).find(".title i").toggleClass("icon-plus-small icon-minus-small");
+    });
+
+    $(document).ready(function () {
+
+        //when inacive is selected hide properties
+
+        var hide = $("#data\\[active\\]").val();
+        if (hide == "false") {
+            $("#hideSetingsSearch").addClass("hide");
+        }
+        $("#data\\[active\\]").on("change", function () {
+            var status = $(this).val();
+            if (status == "false") {
+                $("#hideSetingsSearch").addClass("hide");
+            } else if (status == "true") {
+                $("#hideSetingsSearch").removeClass("hide");
+            }
+        });
+
+        var hide = $("#data\\[ga_active\\]").val();
+        if (hide == "false") {
+            $("#GA-hide").addClass("hide");
+        }
+        $("#data\\[ga_active\\]").on("change", function () {
+            var status = $(this).val();
+            if (status == "false") {
+                $("#GA-hide").addClass("hide");
+            } else if (status == "true") {
+                $("#GA-hide").removeClass("hide");
+            }
+        });
+
+
+        var hide = $("#data\\[wmt_active\\]").val();
+        if (hide == "false") {
+            $("#webMasterHide").addClass("hide");
+        }
+        $("#data\\[wmt_active\\]").on("change", function () {
+            var status = $(this).val();
+            if (status == "false") {
+                $("#webMasterHide").addClass("hide");
+            } else if (status == "true") {
+                $("#webMasterHide").removeClass("hide");
+            }
+        });
+
+        var hide = $("#data\\[gtm_active\\]").val();
+        if (hide == "false") {
+            $("#tagManagerIdHide").addClass("hide");
+        }
+        $("#data\\[gtm_active\\]").on("change", function () {
+            var status = $(this).val();
+            if (status == "false") {
+                $("#tagManagerIdHide").addClass("hide");
+            } else if (status == "true") {
+                $("#tagManagerIdHide").removeClass("hide");
+            }
+        });
+    });
+    $(function () {
+        /*res-tables*/
+        var rt = ".res-tabs";
+        // initialize NaviBar (test version)
+        $(rt).restabs({
+            context_obj: this,
+            responsiveMode: true,
+            tabPlus: true,
+            resizeTimeOut: 600,
+            showRemove: true
+        });
+        // add end tab    
+
+        /* Live color changer on preview part of google search */
+
+        $('.gsc-content input').each(function () {
+            var element = '.gpicker-cell .' + $(this).attr('class').split(" ")[1] + '';
+            var inputValue = 'input.' + $(this).attr('class').split(" ")[1] + '';
+            $(element).css("color", $(inputValue).val());
+        });
+
+        $('.gsc-content select').each(function () {
+            var element = '.gpicker-cell .' + $(this).attr('class') + '';
+            var option = 'select.' + $(this).attr('class') + '';
+            var optionVal = $(option).find(":selected").val();
+            $(element).css("fontSize", optionVal);
+        });
+
+        $('.gsc-content input').on('change', function () {
+            var element = '.gpicker-cell .' + $(this).attr('class').split(" ")[1] + '';
+            var inputValue = 'input.' + $(this).attr('class').split(" ")[1] + '';
+            console.log(element);
+            $(element).css("color", $(inputValue).val());
+        });
+
+        $('.gsc-content select').on('change', function () {
+            var element = '.gpicker-cell .' + $(this).attr('class') + '';
+            var option = 'select.' + $(this).attr('class') + '';
+            var optionVal = $(option).find(":selected").val();
+            $(element).css("fontSize", optionVal);
+        });
+
+    });
+
+    gapi.analytics.ready(function () {
+
+        var savedIds = '<?php echo (isset($this->data['settings']['tags']['ga']['view_id'])) ? $this->escape($this->data['settings']['tags']['ga']['view_id']) : ""; ?>';
+
+        gapi.analytics.auth.authorize({
+            container: 'auth-button',
+            clientid: '<?php echo $this->clientId; ?>',
+        });
+
+        var viewSelector = new gapi.analytics.ViewSelector({
+            container: 'view-selector'
+        });        
+        gapi.analytics.auth.on('success', function (response) {
+            if (savedIds !== "") {
+                $("#gaIds span").html(savedIds);
+                $("#changeViewId").on("click", function () {
+                    viewSelector.execute();
+                });
+            } else if (savedIds == "") {
+                $("#changeViewId, #gaIds").hide();
+                viewSelector.execute();
+                
+            }
+        });
+        viewSelector.on('change', function (ids) {
+            var newIds = {
+                query: {
+                    ids: ids
+                }
+            };
+            $("#data\\[view_id\\]").attr('value', newIds.query.ids);
+            $("#gaIds span").html(newIds.query.ids);
+        });
+
+
+
+
+
+//        gapi.analytics.auth.on('success', function (response) {
+//            viewSelector.execute();
+//        });
+//
+//        viewSelector.on('change', function (ids) {
+//            //console.log(ids);
+//            var newIds = {
+//                query: {
+//                    ids: ids
+//                }
+//            };
+//
+//            $("#data\\[view_id\\]").attr('value', newIds.query.ids);
+//            //console.log($("#data\\[view_id\\]"));
+//            //console.log(newIds.query.ids);
+//        });
+
+    });
+
+</script>

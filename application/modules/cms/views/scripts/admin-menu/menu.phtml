@@ -1,0 +1,110 @@
+<?php
+    $this->headScript()->appendFile('/js/aim.js');
+    $this->headScript()->appendFile('/plugins/hfb/js/jquery.hfbSelect.js');
+    $this->headScript()->appendFile('/plugins/hfb/js/jquery.hfbSearch.js');
+    $this->headScript()->appendFile('/plugins/hfb/js/jquery.hfbList.js');
+    $this->headScript()->appendFile('/plugins/tableDnD/jquery.tablednd.js');
+    $this->headScript()->appendFile('/js/ajaxDialogForm.js');
+    $this->headScript()->appendFile('/modules/admin/js/list.js');
+    $this->headScript()->appendFile('/modules/cms/js/list.js');
+    $this->headScript()->appendFile('/modules/cms/js/menu.js');
+    $this->headLink()->appendStylesheet('/modules/cms/css/admin-menu.css');
+?>
+<script type="text/javascript">
+    var menuItemData = null;
+    var listUrl = '/' + CURR_LANG + '/cms/admin-menu/menu-list/?langFilter=<?php echo $this->defaultLang;?>';
+</script>
+<div class="hcms_content_top">
+    <h1><?php echo $this->translate('Menus Items'); ?>  </h1>
+</div>
+<div class="hcms_content">
+    <div class="hcms_btn_actions content_page">
+        <div class="btn-block">
+            <a href="#" class="add btn btn-small btn-primary"><i class="icon-plus-med"></i><?php echo $this->translate('Add new Item'); ?></a>
+            <a href="#" class="btn btn-small btn-primary" data-toggle="modal" data-target="#inputNewMenu"><i class="icon-plus-med"></i><?php echo $this->translate('Add new Menu');?></a>
+            <a href="#" class="btn btn-small btn-primary" data-toggle="modal" data-target="#importDialog"><i class="icon-plus-med"></i><?php echo $this->translate('Import sitemap');?></a>
+        </div>
+        <div class="btn-block">
+            <div class="modal fade" id="importDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title"><?php echo $this->translate('Import Sitemap'); ?></h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="alert alert-warning" role="alert"><?php echo $this->translate('All existing menu items and pages will be deleted!'); ?></div>
+                            <form method="post"  id="importForm" action="<?php echo $this->url(array('controller' => 'admin-menu', 'action' => 'import')) ?>" enctype="multipart/form-data">
+                                <input type="file" name="xls" id="xls" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="importBtn" class="btn btn-primary"><?php echo $this->translate('Import'); ?></button>
+                            <button type="button" id="cancelImport" class="btn btn-default" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><?php echo $this->translate('Cancel'); ?></span></button> 
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <div class="modal fade" id="inputNewMenu" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel"><?php echo $this->translate('New Menu'); ?></h4>
+                        </div>
+                        <div class="modal-body">
+                            <form method="post"  id="menuForm" action="<?php echo $this->url(array('controller' => 'admin-menu', 'action' => 'edit-main-menu')) ?>" enctype="application/x-www-form-urlencoded">
+                                <?php echo $this->translate('Code'); ?>:<input name="data[code]" id="data[code]" type="text" value="" />
+                                <?php echo $this->translate('Name'); ?>:<input name="data[name]" id="data[name]" type="text" value="" />
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="saveMenu" class="btn btn-primary"><?php echo $this->translate('Save'); ?></button>
+                            <button type="button" id="cancelMenu" class="btn btn-default" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><?php echo $this->translate('Cancel'); ?></span></button> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <?php if($this->singleLang === false){?>
+            <select id="langFilter" name="langFilter">
+                <?php echo $this->langOptions($this->languages,$this->defaultLang,true);?>
+            </select>
+            <?php }?>
+            <select id="menuFilter" name="menuFilter">
+                <?php foreach ($this->menus as $menu) {?>
+                <option value="<?php echo $menu['code'];?>" <?php if($menu['code'] == 'main') {?>selected="selected" <?php } ?>><?php echo $this->escape($menu['name']);?></option>
+                <?php }?>
+            </select>
+            <!-- <span class="hcms_button"><a href="#">Filter</a></span> -->
+        </div>
+    </div>
+
+    <div id="menuTree" class="treeview">
+        
+    </div>
+    <div id="noMenuInfo" style="display:none;">
+        <?php echo $this->translate('Please create menu items.');?>
+    </div>    
+</div>
+<script type="text/html" id="items_tpl">
+<ul>
+<% for ( var i in rows){ %>
+    <li data-id="<%=rows[i].id%>" class="hidden-<%=rows[i].hidden%>">
+<% if(!$.isEmptyObject(rows[i].items)) { %>
+        <input type="checkbox" id="cb-<%=rows[i].id%>">
+        <label for="cb-<%=rows[i].id%>"><span><%=rows[i].name%></span></label>
+<% } else { %>
+        <span><%=rows[i].name%></span>
+<% } %>
+        <% print(renderItems(rows[i].items)); %>
+        <ul  class="hcms_menu_actions">
+            <li><a href="#" class="edit" data-id="<%=rows[i].id%>"><?php echo $this->translate('Edit');?></a></li>
+            <li><a href="#" class="add" data-id="<%=rows[i].id%>" data-><?php echo $this->translate('Add SubMenu Item');?></a></li>
+            <li><a href="<%=rows[i].url%>" target="_blank" class="view" data-id="<%=rows[i].id%>"><?php echo $this->translate('View');?></a></li>
+            <li><a href="<%=rows[i].url%>" target="_blank" class="delete" data-id="<%=rows[i].id%>"><?php echo $this->translate('Delete');?></a></li>
+        </ul>        
+    </li>
+<% } %>
+</ul>
+</script>

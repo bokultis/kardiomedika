@@ -1,0 +1,237 @@
+<?php
+$this->doctype('XHTML1_TRANSITIONAL');
+echo $this->doctype();
+?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title><?php echo $this->translate("Administration"); ?></title>
+        <base href="<?php echo $this->serverUrl() . $this->fileWebRoot; ?>" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <?php
+        $favicon = '/modules/admin/images/favicon.ico';
+        $this->headLink(array('rel' => 'icon', 'href' => $favicon, 'type' => 'image/x-icon'), 'PREPEND')
+                ->headLink(array('rel' => 'shortcut icon', 'href' => $favicon, 'type' => 'image/x-icon'), 'PREPEND'); //fb ico
+                
+	$this->headLink()->prependStylesheet('/modules/admin/css/admin.css');
+        
+        $this->headLink()->prependStylesheet('/css/font-awesome.css');
+	
+        $this->headLink()->prependStylesheet('/plugins/jquery-confirm/jquery.confirm.css');
+        $this->headLink()->prependStylesheet('/plugins/flashmessenger/flashmessenger.css');
+
+        $this->headLink()->prependStylesheet('/modules/admin/css/collapslist.css');
+        $this->headLink()->prependStylesheet('/modules/admin/css/bootstrap-btns.css');
+        
+        $this->headLink()->prependStylesheet('/modules/admin/css/horisen-ui-icons.css');
+        $this->headLink()->prependStylesheet('/modules/admin/css/file-menager.css');
+        $this->headLink()->prependStylesheet('/modules/admin/css/horisen-font.css');
+        $this->headLink()->prependStylesheet('/modules/admin/css/fonts.css');
+        $this->headLink()->prependStylesheet('/modules/admin/css/horisen-ui-2.2.1.css');
+        $this->headLink()->prependStylesheet('/modules/admin/css/horisen-app.css');
+        $this->headLink()->prependStylesheet('/modules/admin/css/jquery-ui-1.10.3.widgets.css');
+        $this->headLink()->prependStylesheet('/modules/admin/css/jquery-ui-1.10.3.custom.css');
+
+	$this->headLink()->prependStylesheet( '/plugins/bootstrap-modal/css/bootstrap-modal.css');
+	$this->headLink()->prependStylesheet( '/plugins/bootstrap-popover-tooltip/bs-popover.css');
+        $this->headLink()->prependStylesheet( '/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css');
+	$this->headLink()->prependStylesheet('/modules/admin/css/bootstrap-modal.css');
+	$this->headLink()->prependStylesheet('/modules/admin/css/bootstrap-grid.css');
+        
+        $this->headScript()->prependFile('/plugins/prompt/jquery.promptBS.js');
+        $this->headScript()->prependFile('/js/ajaxLoader.js');
+        $this->headScript()->prependFile('/js/php.js');
+        $this->headScript()->prependFile('/js/init.js');
+        $this->headScript()->prependFile('/js/json2.js');
+        
+        $this->headScript()->prependFile('/modules/admin/js/collapslist.js');
+        $this->headScript()->prependFile('/modules/admin/js/horisen-ui-2.2.0.js');
+        $this->headScript()->prependFile('/plugins/bootstrap-modal/js/bootstrap-modal.js');
+        $this->headScript()->prependFile('/plugins/bootstrap-popover-tooltip/bs-popover.js');
+        $this->headScript()->prependFile('/plugins/bootstrap-modal/js/bootstrap-modalmanager.js');        
+        $this->headScript()->prependFile('/plugins/jqueryui/jquery-1.11.2-ui.min.js');
+        $this->headScript()->prependFile('/plugins/flashmessenger/jquery.flashmessenger.js');
+        $this->headScript()->prependFile('/plugins/jquery-confirm/jquery.confirm.js');  
+        $this->headScript()->prependFile('/js/jquery.browser.js');
+        $this->headScript()->prependFile('/plugins/jQuery/jquery-1.11.1.min.js');
+
+
+        
+        echo $this->headLink();
+        echo $this->headScript();
+        echo $this->headStyle();
+        ?>
+        <script type="text/javascript">
+            var fileWebRoot = '<?php echo $this->fileWebRoot; ?>';
+            $(function() {
+                // NaviBar
+                var naviId = "#navibar";
+
+                $(naviId).navibar({
+                    toggleSideBar: true,
+                    tranistion: true
+                });
+            });
+	    
+	    $(document).ready(function(){
+		$(".alert .close").click(function(){
+		    $(this).parent().css({'display': 'none'});
+		});
+		
+                var options = {
+                    toggleSideBar: true,
+                    tranistion: true,
+		    html: true
+                };
+		$('#enableFrontEdit').on('touchend', function(){
+		    $(this).popover('show');
+		    setTimeout(function(){$('#enableFrontEdit').popover('hide');}, 2500);
+		});
+                $('.robotsTxt.on').on('touchend', function(){
+		    $(this).popover('show');
+		    setTimeout(function(){$('#enableFrontEdit').popover('hide');}, 2500);
+		});
+                
+                
+                
+                
+                
+	    });
+            
+            
+            $(function () {
+                $('html').click(function(e) {
+                    $('#enableFrontEdit').popover('hide');
+                });
+                
+                $('#enableFrontEdit').popover({
+                    toggleSideBar: true,
+                    tranistion: true,
+		    html: true,
+                    trigger: 'manual'
+                }).click(function(e) {
+                    $(this).popover('toggle');
+                    e.stopPropagation();
+                    return false;
+                });
+                
+                
+                $('html').click(function(e) {
+                    $('.robotsTxt.on').popover('hide');
+                });
+                $('.robotsTxt.on').popover({
+                    toggleSideBar: true,
+                    tranistion: true,
+		    html: true,
+                    trigger: 'manual'
+                }).click(function(e) {
+                    $(this).popover('toggle');
+                    e.stopPropagation();
+                    return false;
+                });
+                $('.robotsTxt.on').popover('show');
+                
+            });
+            
+            
+            
+            
+            
+            
+        </script>
+    </head>
+    <body class="transit">
+        <div id="flashMessenger" style="display: none">
+            <?php echo $this->flashMessenger(); ?>
+        </div>
+        <nav class="top-bar">
+            <em href="#" class="menu-toggle">
+                <span><a href="/<?php echo CURR_LANG;?>/admin"><i class="icon-home"></i>Start</a></span>
+            </em>
+            <ul class="headline">
+                <li>
+                    <span>Admin Panel</span>
+                </li>
+                <li>
+                    <span>
+                        <?php
+                            if (isset($this->versionInfo['version'])) {
+                                echo 'Version ' . $this->versionInfo['version'];
+                            }
+                            if (isset($this->versionInfo['built_number'])) {
+                                if (preg_match('/\d+/', $this->versionInfo['built_number'], $match)) {
+                                    echo ' (built ' . $match[0] . ')';
+                                }
+                            }
+                        ?>
+                    </span>
+                </li>
+                <li>
+                    <a href="/" target="_blank">
+                        <?php if (isset($this->application)) {
+                            echo $this->application->get_name();
+                        } ?>
+                    </a>
+                </li>
+<?php if(isset($_REQUEST['beta']) && $_REQUEST['beta'] == '1'){ ?>
+                
+<?php } ?>    
+                <li id="frontEdit">
+		     <a href="#" id="enableFrontEdit" data-toggle="popover" data-placement="bottom" title="" data-content="<?php echo $this->translate("Please visit <a href='/' target='_blank'>public</a> part of the website to start inline editing."); ?>"  data-status="<?php echo ($this->frontAdmin()->isEnabled())? '1' : '0';?>" data-enable_text="<?php echo $this->translate('Enable inline editing'); ?>" data-disable_text="<?php echo $this->translate('Disable inline editing'); ?>"><?php echo $this->translate('Enable inline editing'); ?></a>
+		</li>                 
+            </ul>
+            <ul class="userTools">
+                <?php 
+                if(isset($this->application->get_settings()['tags']['robots'])){
+                    $robotsSettings = $this->application->get_settings()['tags']['robots'];               
+                }
+                 $robotsIconSwitch = isset($robotsSettings['active']) && $robotsSettings['active'] === true ?  'on':'off';
+                ?>
+                <li>
+                    <a href="#" class="robotsTxt <?php echo $robotsIconSwitch; ?>" data-toggle="popover" data-content="<?php echo $this->translate("Your website is not visible to search engines! </br> Please click <a href='/" . CURR_LANG . "/admin/google-service/edit' target='_blank'>here</a> to make it visible."); ?>" data-placement="bottom"></a>
+                </li>
+                <li class="settings">
+                    <a href="/<?php echo CURR_LANG;?>/admin/application/edit">
+                        <i class="icon-cog"></i>
+                        <span><?php echo $this->translate('Settings');?></span>
+                    </a>
+                </li>
+                <li class="user"> 
+                    <?php if (is_object($this->admin)) {     
+                        ?>
+                        <a href="<?php echo $this->url(array('module' => 'auth', 'controller' => 'admin-user', 'action' => 'user-edit', 'id' => $this->admin->get_id())); ?>">
+                            <i class="icon-user"></i>
+                            <span><?php echo $this->escape($this->admin->get_username()); ?></span>
+                        </a>                    
+
+                    <?php } ?>
+                </li>
+                <li class="login">
+		    <a href="<?php echo $this->url(array('module' => 'admin', 'controller' => 'index', 'action' => 'logout')); ?>">
+			<i class="icon-logout"></i>
+			<span class="dash -logout"><?php echo $this->translate("Logout"); ?></span>
+		    </a>
+		</li>
+                
+            </ul>
+        </nav>
+        <div id="wrapper">
+            <div id="navibar" class="navibar collapsible">
+                <!--<div class="hcms_logo">&nbsp;</div>-->
+                <?php echo $this->navigation()->fbmenu()->renderMenu(null, array('ulClass' => 'menu', 'indent' => 10)); ?>
+            </div>
+            <section class="content transit">
+                <?php echo $this->layout()->content ?>  
+            </section>
+        </div>
+	<footer>
+	    
+	    <?php
+		$adminNotifications  = $this->adminNotifications($this->admin);
+		if(count($adminNotifications)){ ?>
+            <div class="alert alert-error alert-small"><a class="close">&times;</a><?php echo $this->escape(implode("\n", array_values($adminNotifications)));?></div>
+	    <?php } ?>
+	    
+	</footer>
+    </body>
+</html>

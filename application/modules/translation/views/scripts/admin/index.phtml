@@ -1,0 +1,243 @@
+<?php
+    $this->headScript()->appendFile('/plugins/hfb/js/jquery.hfbSelect.js');
+    $this->headScript()->appendFile('/plugins/hfb/js/jquery.hfbSearch.js');
+    $this->headScript()->appendFile('/plugins/hfb/js/jquery.hfbList.js');
+    $this->headLink()->prependStylesheet( '/plugins/chosen/chosen.min.css');
+    $this->headScript()->appendFile('/js/ajaxFormBS.js');
+    $this->headScript()->appendFile('/modules/auth/js/list.js');
+    $this->headScript()->appendFile('/plugins/chosen/chosen.jquery.min.js');
+?>
+
+<script typee="text/javascript">
+    function getEditUrl(id, editable){
+        editable = editable || false;
+        return sprintf('/%s/translation/admin/edit/id/%s/editable/%s',CURR_LANG,id,editable);
+    }
+    
+    function editDialog(id, editable){
+        editable = editable || false;
+
+        if(id == null){
+            ajaxFormBS.dialog(getEditUrl(id),{   
+                saveCaption: 'Save',
+                width: 'auto',
+                height: 'auto',
+                onClose: function(success){
+                    if(success){
+                        updateList();
+                    }
+                },
+                
+            });
+        }else{
+           var url = sprintf('/%s/translation/admin/edit', CURR_LANG);
+            ajaxFormBS.dialog(url,{
+                method: 'get',
+                saveCaption: 'Save',
+                width: 'auto',
+                height: 'auto',
+                data: {id:id, editable:editable},
+                onClose: function(success){
+                    if(success){
+                        updateList();
+                    }
+                }
+            });
+        }
+    }
+    
+    
+        
+    initList('/' + CURR_LANG + '/translation/admin/list/',{lang:CURR_LANG, rows:10, page:1, sidx:'t.key', sord:'asc', _search:false},function(me,data){
+        
+        $("#listContainer").find("a.edit").click(function(){
+            editDialog($(this).data('id'), true);
+            return false;
+        });
+        $("#listContainer").find("a.delete").click(function(){
+            var url = sprintf('/%s/translation/admin/delete/id', CURR_LANG);
+            
+            $.ajax({
+                url: url,
+                method: 'post',
+                data: {id:$(this).data('id')},
+                success: function(success){
+                    if(success.success){
+                        $.flashMessenger(success.message,{clsName:"ok"});
+                        updateList();
+                    }
+                }
+            });
+            return false;
+        });
+    });
+    
+    $(document).ready(function(){
+        $("#add").click(function(){
+            editDialog(null);
+            return false;
+        });
+        $(".edit").click(function(){
+            editDialog($(this).data('id'), true);
+            return false;
+        });
+        $("#filter").click(function(){
+            var params = $("#listContainer").data('params');
+            params['_search'] = $('#name').val();
+           $("#listContainer").hfbList({
+                'params': params
+            });
+            return false;
+        });
+       
+        $('#importXLS').modal({
+            show: false
+        });
+        $("#submitImport").on("click", function(){
+            var importFileName = $("#importInput").val();
+            if (importFileName == '') {
+                alert("Please select file");
+            } else {
+                $('#uploadXlsForm').submit();
+            } 
+        });
+        
+        
+        $("#export").click(function(){
+            var url = sprintf('/%s/translation/admin/export-to-excel/grid_params', CURR_LANG);
+            ajaxFormBS.dialog(url, {
+                method: "get",
+                modal:true,
+                height: 210,
+                width:400,
+                saveCaption: 'Export',
+                data: {rows:40, page:1, sidx:'t.key', sord:'asc', _search:false},   
+                onClose: function(success, data){
+                    if(success){
+                        var downloadExcelUrl = '/'+CURR_LANG  + "/translation/admin/save-excel/data/"+'?'+$.param(data);
+                        var basic_url = window.location.href.substring(0, window.location.href.indexOf('/'+CURR_LANG+'/'));
+                        downloadExcelUrl = basic_url + "/" + downloadExcelUrl;
+                        window.location.assign(downloadExcelUrl);
+                    }
+                }
+            });
+            return false;
+        });
+    });
+</script>
+<?php $options = json_decode($this->option, true); ?>
+<div class="hcms_content_top">
+    <h1><?php echo $this->translate('Translation'); ?></h1>
+</div>
+
+<div class="hcms_content">
+    <div class="articles"> 
+	<div class="hcms_btn_actions translate">
+	    <div class="btn-block"> 
+		<a href="#" class="btn btn-small btn-primary" id="add"><i class="icon-plus-med"></i><?php echo $this->translate('Add new'); ?></a>
+                <a href="#" class="btn btn-small btn-primary" id="export"><?php echo $this->translate('Export to excel'); ?></a>
+                <button type='button' data-toggle="modal" data-target="#importXLS" class="btn btn-small btn-primary" id="import"><?php echo $this->translate('Import from excel'); ?></button> 
+	    </div>
+            <div class="btn-block">
+                <input type="text" class="_input translateSearch" name="name" id="name" value="" maxlength="100" placeholder="<?php echo $this->translate('Name'); ?>"/>
+                <a href="#" id="filter" class="btn btn-small btn-primary">Filter</a>
+            </div>	
+	</div>
+	<table class="hcms_table adminList" width="100%">
+	    <thead>
+		<tr>
+                    <?php for($i = 1; $i<sizeof($options['colNames']); $i++){
+                        if($i == 1){
+                        ?>
+                        <th><a href="#" class="sort" data-column="<?php echo $options['colNames'][$i]; ?>"><?php echo $this->translate($options['colNames'][$i]);?><b></b></a></th>
+                    <?php }else{ ?>
+                        <th><?php echo $this->translate($options['colNames'][$i]);?></th>
+                    <?php    
+                        }
+                    } ?>
+		</tr>
+	    </thead>
+	    <tbody id="listContainer">
+	    </tbody>
+	</table>
+	<div id="pager" class="pager"></div>
+    </div>
+</div>
+
+
+<div id='importXLS' class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">
+                    <?php
+                        echo $this->translate("Import from excel");
+                    ?>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form method="post"  class="FormGrid" id="uploadXlsForm"
+                      action="<?php echo $this->url(array('controller' => 'admin', 'action' => 'import-from-excel')) ?>"
+                      enctype="multipart/form-data">
+                    <!--<a href="modules/translation/template/template.xls" ><?php echo $this->translate('XLS file template'); ?></a>-->
+                    <input id='importInput' type="file" name="xls" id="xls" />
+                    <div class="ui-dialog-buttonset">
+                        <!--<button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" onclick="$('#uploadXlsForm').submit();"><span class="ui-button-text"><?php echo $this->translate('Import'); ?></span></button>-->
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id='submitImport' type="button" class="btn btn-primary btn-small"><?php echo $this->translate('Import'); ?></button>
+                <button type="button" class="btn btn-default btn-small" data-dismiss="modal"><?php echo $this->translate('Close'); ?></button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/html" id="records_tpl">
+<% if (rows.length > 0){
+    var rowClass = 'odd';
+    %>
+    <% for ( var i = 0; i < rows.length; i++ ){
+        rowClass = (i % 2 == 0)? 'even':'odd';
+    %>
+        <tr class="<%=rowClass%>">
+            <td class="fixed-width">
+                 <%=rows[i]['cell'][1]%>
+                <ul class="hcms_menu_actions">
+                    <li><a href="#" class="edit" data-id="<%=rows[i]['id']%>"><span><?php echo $this->translate('Edit');?></span></a></li>
+                    <li><a href="#" class="delete" data-id="<%=rows[i]['id']%>"><span><?php echo $this->translate('Delete');?></span></a></li>
+                </ul>
+            </td>
+            <td class="fixed-width">
+                 <%=rows[i]['cell'][2]%>
+                
+            </td>
+            <% for(var j=3; j < rows[i]['cell'].length; j++){ %>
+            <td class="fixed-width">
+                 <%=rows[i]['cell'][j]%>
+                
+            </td>
+            <% } %>
+        </tr>
+    <% } %>
+<% } %>
+</script>
+

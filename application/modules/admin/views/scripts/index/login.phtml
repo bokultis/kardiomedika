@@ -1,0 +1,46 @@
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#username").focus();
+	$(".alert .close").click(function(){
+	    $(this).parent().css({'display': 'none'});
+	});
+    });
+</script>
+
+<section class="login col2-set">
+    <div class="col-right">
+	<div class="login-form">
+	    <h1>Administration</h1>
+	    <form id="login" name="login" method="post" action="">               
+		<div>
+		    <label><?php echo $this->translate("Email or username") . ": "; ?></label>
+		    <input class="_input" type="text" id="auth" name="auth" value="<?php if(isset($this->auth)){echo $this->escape($this->auth);}?>" />
+		</div>
+		<div>
+		    <label><?php echo $this->translate("Password"). ": "; ?></label>
+		    <input class="_input" type="password" id="passowrd" name="password" value="<?php if(isset($this->password)){echo $this->escape($this->password);}?>" />
+		</div>
+                <div>
+                    <a href="<?php echo $this->url(array('module' => 'auth', 'controller' => 'admin-reset-password', 'action' => 'index')); ?>">Reset password</a>
+                </div>
+		<div class="button-holder">
+		    <input name="submit" type="submit" value="<?php echo $this->translate("Login"); ?>" class="btn btn-primary">
+		</div>	
+	    </form>
+	</div>
+    </div>
+</section>
+<div class="alert-holder">
+    <div>
+	<?php if(isset($this->messages)){ ?>
+	<div class="alert alert-error alert-small">
+	    <a class="close">&times;</a>
+	    <?php echo $this->messages; ?>
+	</div>
+	<?php } ?>
+    </div>
+</div>
+<!--<div class="footer-top-spacer"></div>-->
+<footer class="col3-set">
+
+</footer>

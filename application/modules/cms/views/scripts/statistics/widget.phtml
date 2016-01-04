@@ -1,0 +1,23 @@
+<script type="text/javascript">
+    var statsData = <?php echo json_encode($this->statistics);?>;
+</script>
+<?php if(!isset ($this->statistics)){
+    echo $this->translate("Please configure email, password and account id for Google Analytics Account");
+}else{
+?>
+    <h2><?php echo $this->translate("Visits") . ' ' . $this->fromDate->get("dd.MM") . ' - ' . $this->toDate->get("dd.MM");?></h2>
+    <div id="widgetStatsChart" style="min-width: 200px; height: 200px; margin: 0 auto"></div>
+    <?php foreach ($this->metricsDesc as $metricsCode => $metricsMeta) {
+    ?>
+    <div style="margin-bottom: 5px">
+        <span class="sparkLine"><?php echo implode(',', $this->metricsValues[$metricsCode]['array'])?></span>
+        <span style="color: #000; font-weight: bold"><?php echo $this->metricsValues[$metricsCode]['text'] . " " . $this->translate($metricsMeta['name']); ?></span>
+    </div>
+    <?php
+    }
+    ?>
+
+    <a href="https://www.google.com/analytics" target="_blank"><?php echo $this->translate("Details on Google Analytics");?></a>
+<?php
+}
+?>

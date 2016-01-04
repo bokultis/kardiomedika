@@ -1,0 +1,26 @@
+<h1><?php echo $this->escape($this->category->get_name());?></h1>
+<?php
+    //Zend_Debug::dump($this->paging);
+    //Zend_Debug::dump($this->pages);
+    if(count($this->pages) > 0){
+?>
+<ul>
+<?php
+/* @var $page Cms_Model_Page */
+foreach ($this->pages as $page) {
+?>
+    <li>
+        <h2><?php echo $this->escape($page->get_title());?></h2>
+        <p><?php echo nl2br($this->escape($page->get_teaser()));?></p>
+        <a href="<?php echo $this->url(array('module'=>'cms','controller'=>'page','action'=>'index','url_id'=>$this->urlIdPrefix . $page->get_url_id()),'cms',true);?>"><?php echo $this->translate('Read more');?></a>
+    </li>
+<?php
+}
+?>
+</ul>
+<?php
+    echo $this->paginationControl($this->paginator,'Sliding','paginator.phtml',array('route'=>$this->route,'listingParams'=>$this->listingParams));
+}
+else{
+    echo $this->translate('No pages found');
+}

@@ -1,0 +1,124 @@
+<script type="text/javascript">
+    $(document).ready(function(){
+         $("#data\\[path\\]").change(function(){
+            openDialog();
+            return false;
+        });
+        $("#pageName").click(function(){
+            openDialog();
+            return false;
+        });
+        $("#pageDelete").click(function(){
+            $("#data\\[page_id\\]").val("");
+            $("#pageName").text("");
+            return false;
+        });
+        $("#pageSelect").click(function(){
+            openDialog();
+            return false;
+        });
+        $("#pageId").find('div').hover(
+            function(){
+                if( $("#data\\[page_id\\]").val() != ''){
+                    
+                }
+                $(this).find('ul.page_actions').show();
+            },
+            function(){
+                $(this).find('ul.page_actions').hide();
+            }
+        );
+     });
+     
+     
+     function openDialog(){
+        var selected = $("#data\\[path\\]").find('option:selected');
+        var dialogUrl = selected.data('dialog'); 
+        if(dialogUrl != '' ){
+            $('#pageId').show();
+            ajaxDialogForm.dialog('/' + CURR_LANG + '/' +dialogUrl + '/page_id/'+$("#data\\[page_id\\]").val() + '/langFilter/' + '<?php echo $this->langFilter ;?>',{
+                onContent: function(dialog){
+
+                },
+                onClose: function(success, data){
+                    if(success){
+                        if(data.data){
+                           data = data.data;
+                           $("#data\\[page_id\\]").val(data['page_id']); 
+                           $("#pageName").text(data[data.page_id]['title']); 
+                        }else{
+                            updateList();
+                        }
+                    }
+                },
+                width: 'auto',
+                height: 'auto',
+                dialogId :'pageDialog',
+                saveCaption:'<?php echo $this->translate('Select'); ?>'
+            });
+        }else{
+            $("#data\\[page_id\\]").val("");
+            $("#pageName").text("");
+            $('#pageId').hide();
+        }
+    }
+ </script>
+<div id="pageDialog" title="Dialog Title" style="display: none;"></div>
+<div class="hcms_btn_actions edit route_edit">
+    <form method="post" class="hcms_form" title="<?php if(isset($this->data['id']) && $this->data['id'] != '') {
+	 printf($this->translate('Edit \'%s\' Route'), $this->escape($this->data['name'])); 
+    }else {
+	echo $this->translate('Add new Route');
+	  }?>" action="<?php echo $this->url(array('controller' => 'admin-route', 'action' => 'edit')) ?>" enctype="application/x-www-form-urlencoded">
+	<input type="hidden" id="data[id]" value="<?php echo (isset($this->data['id']))?$this->escape($this->data['id']):'';?>" name="data[id]"/>
+	<input type="hidden" name="data[dialog_url]" id="data[dialog_url]"  value="" />
+	<input type="hidden" name="data[lang]" id="data[lang]"  value="<?php echo $this->escape($this->data['lang']);?>" />
+	<div class="btn-block">
+	    <label for="data[name]" title="<?php echo $this->translate('Menu Item Name') ;?>"><?php echo $this->translate('Name');?>:</label>
+	    <input type="text" title="<?php echo $this->translate('Menu Item Name') ;?>" name="data[name]" title="<?php echo $this->translate('Menu Item Name') ;?>" id="data[name]" value="<?php echo (isset($this->data['name']))? $this->escape($this->data['name']):'';?>" maxlength="100"  />
+	    <?php echo $this->errorMessages($this->errors['name']);?>
+	</div>
+	<div class="btn-block"> 
+	    <label for="route[uri]" title="<?php echo $this->translate('URL part after language identificator') ;?>"><?php echo $this->translate('URL');?>:</label>
+	    <input type="text" title="<?php echo $this->translate('URL part after language identificator') ;?>" name="data[uri]" id="data[uri]" value="<?php echo (isset($this->data['uri']))?$this->escape($this->data['uri']):'';?>" maxlength="200"  />
+	</div>
+	<div class="btn-block">
+	    <label for="data[path]" title="<?php echo $this->translate('Destination Module') ;?>"><?php echo $this->translate('Destination Module');?>:</label>
+	    <select id="data[path]" title="<?php echo $this->translate('Destination Module') ;?>" name="data[path]" >
+		<?php foreach($this->modules as $module) {?>
+		<?php $data = $module->get_data();
+		    if(isset($data['menus'])){?>
+			<optgroup label="<?php echo $module->get_name();?>">
+			    <?php foreach($data['menus'] as $path => $menu) {?>
+			    <option data-dialog="<?php echo $menu['dialog_url']; ?>" value="<?php echo $module->get_code()."/".$path ;?>" <?php if($module->get_code()."/".$path == $this->data['path']) { ?> selected="selected" <?php } ?>><?php echo $menu['name'];?> </option>
+			    <?php } ?>
+			</optgroup>
+		<?php } 
+		}?>
+
+	    </select>
+	    <?php echo $this->errorMessages($this->errors['path']);?>
+	</div>
+	<div id="pageId" <?php if(isset($this->data['page_id']) && isset($this->data['id']) && $this->data['page_id'] == "" &&  $this->data['id'] != ""){?> style="display: none;"<?php } ?> class="btn-block">
+	    <label for="data[page_id]" title="<?php echo $this->translate('Page') ;?>"><?php echo $this->translate('Page');?>:</label>
+	    <div class="input-block">
+		<a href="#" id="pageName" title="<?php echo $this->translate('Change Page');?>" ><?php echo (isset($this->page_title))?$this->escape($this->page_title) : "";?></a>
+		<ul class="page_actions">
+		    <li><a href="#" id="pageDelete" class="delete" title="<?php echo $this->translate('Remove Page') ;?>"><?php echo $this->translate('Remove');?></a></li>
+		    <li><a href="#" id="pageSelect" title="<?php echo $this->translate('Select Page') ;?>"><?php echo $this->translate('Select');?></a></li>
+		</ul>
+	    </div>
+	    <div>
+		<input type="hidden" name="data[page_id]"  id="data[page_id]" value="<?php echo (isset($this->data['page_id']))?$this->escape($this->data['page_id']):'';?>" />
+		<?php echo $this->errorMessages($this->errors['page_id']);?>
+	    </div>
+	</div>
+	<div class="btn-block">
+	    <label title="<?php echo $this->translate('Additional parameters to be appended to URL in the form of &quot;name/value&quot;') ;?>" for="data[params]"><?php echo $this->translate('Custom Params');?>:</label>
+	    <input type="text" title="<?php echo $this->translate('Additional parameters to be appended to URL in the form of &quot;name/value&quot;') ;?>" name="data[params]" id="data[params]" value="<?php echo (isset($this->data['params']))?$this->escape($this->data['params']):'';?>" maxlength="100"  />
+	    <?php echo $this->errorMessages($this->errors['params']);?>
+	</div>
+	<input type="submit" value="<?php echo $this->translate('Save');?>" name="submit[save]" />
+	<input type="submit" value="<?php echo $this->translate('Cancel');?>" name="submit[cancel]" />
+    </form>
+</div>

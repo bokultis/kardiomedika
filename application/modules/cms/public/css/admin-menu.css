@@ -1,0 +1,166 @@
+.treeview {
+width: 100%;
+overflow: visible;
+height: auto;
+padding: 20px;
+}
+.treeview input{
+    display: none;
+}
+.treeview input ~ ul {
+    display: none; 
+}
+.treeview input:checked ~ ul {
+    display: block;
+}
+.treeview input ~ label {
+    cursor: pointer;
+    font-size: 1.1em;
+    position: relative;
+    margin: 0;
+}
+.treeview input ~ label:before {
+    top: 3px;
+    left: 21px;
+}
+.treeview input:checked ~ label:before {
+}
+.treeview > ul > li {
+margin-bottom: 30px;
+position: relative;
+}
+.treeview > ul > li ul {
+margin-top: 25px;
+}
+.treeview > ul > li ul li {
+padding-bottom: 30px;
+position: relative;
+line-height: 1;
+}
+.treeview > ul > li ul.hcms_menu_actions {
+    position: absolute;
+    top: 30px;
+    margin-left: 0px;
+    display: none;
+}
+.treeview > ul > li > span {
+font-size: 18px;
+color: rgb(255,73,0);
+font-weight: bold;
+/* margin-left: 30px; */
+}
+.treeview > ul > li > ul.hcms_menu_actions {
+top: 15px;
+}
+.treeview > ul > li > ul + ul.hcms_menu_actions {
+top: 15px;
+}
+.treeview > ul > li > span {
+cursor: pointer;
+}
+.treeview ul li label:hover ~ ul.hcms_menu_actions, .treeview ul li span:hover ~ ul.hcms_menu_actions {
+    display: block;
+}
+ul.hcms_menu_actions{
+    margin-top: 0px !important;
+    padding-top: 5px; 
+}
+ul.hcms_menu_actions:hover, .treeview > ul > li ul.hcms_menu_actions:hover {
+    display: block;
+}
+.treeview > ul > li > .hcms_menu_actions > li {
+padding-bottom: 0;
+line-height: 1;
+}
+.treeview > ul > li ul li span {
+padding-bottom: 0px;
+cursor: pointer;
+font-size: 16px;
+margin-left: 3px;
+font-weight: normal;
+}
+.treeview > ul > li ul li label:before {
+color: rgb(255,73,0);
+background-color: initial;
+}
+.treeview > ul > li ul li input[type="checkbox"]:checked + label::before {
+color: rgb(255,73,0);
+background-color: initial;
+}
+ul.hcms_menu_actions li {
+padding-bottom: 0 !important;
+}
+
+.treeview > ul ul > li ul.hcms_menu_actions {
+top: 15px;
+margin-left: 4px;
+}
+.treeview input ~ label > span {
+margin-left: 3px;
+color: rgb(255,73,0);
+font-size: 18px;
+font-weight: bold;
+}
+input[type="checkbox"] + label::before {
+font-family: 'horisen';
+content: "\e012";
+border: none;
+color: #FFF;
+margin-right: 5px;
+background: rgb(255,73,0);
+line-height: 1.2;
+}
+input[type="checkbox"]:checked + label::before {
+background: none;
+content: "\e013";
+border: none;
+color: #FFF;
+margin-right: 10px;
+background: none repeat scroll 0 0 rgb(255,73,0);
+}
+
+.treeview > ul > li.hidden-yes * {
+    color: #BDBDBD;
+}
+@media screen and (max-width:1024px){
+    .treeview > ul > li {
+        margin-bottom: 0;  
+    
+        padding-bottom: 60px;
+}
+    .treeview > ul > li > ul.hcms_menu_actions {
+        top: 20px;
+    
+}
+    .treeview > ul > li > ul + ul.hcms_menu_actions {
+        top: 25px;
+    }
+    .treeview > ul > li ul {
+        margin-top: 70px;
+    }
+    .treeview > ul > li ul li {
+        margin-bottom: 40px;
+    }
+    .treeview > ul ul > li ul.hcms_menu_actions {
+        top: 20px;
+    }
+}
+@media screen and (max-width: 480px){
+    ul.hcms_menu_actions li a {
+        font-size: 0;
+    }
+    .treeview > ul > li {
+        margin-bottom: 0;
+    
+        padding-bottom: 35px;
+}
+    .treeview > ul > li ul {
+    
+        margin-top: 45px;
+}
+    .treeview > ul > li ul li {
+        margin-bottom: 0;
+    
+        padding-bottom: 40px;
+}
+}

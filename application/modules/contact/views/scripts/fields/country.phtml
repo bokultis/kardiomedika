@@ -1,0 +1,17 @@
+<?php
+$countryHelper = $this->country($this->field['params']);
+$countryHelper->setDefault();
+$countries = $countryHelper->getList();
+$classes = isset($this->field['css_class'])? $this->field['css_class']: 'form-group col-sm-6 col-xs-12';
+?>
+    <div id="field-<?php echo $this->fieldId; ?>" class="<?php echo $classes;?>">
+        <label for="data[<?php echo $this->fieldId; ?>]"><?php echo $this->translate($this->field['name']);?> <?php if(isset($this->field['required']) && $this->field['required']){echo '*';}?></label>
+        <select name="data[<?php echo $this->fieldId; ?>]" id="data[<?php echo $this->fieldId; ?>]"  class="form-control <?php echo $this->errorMessages($this->errors, 'error', $this->fieldId, true);?>">
+<?php
+    if(isset($this->field['placeholder'])){
+        echo '            <option value="">' . $this->translate($this->field['placeholder']) . '</option>';
+    }
+?>            
+            <?php foreach ($countries as $country) { ?><option <?php if($country->get_code2() == ''){ echo 'disabled'; } ?> value="<?php echo $country->get_code2(); ?>" <?php echo $this->formSelected($this->data, $this->fieldId, $country->get_code2());?>><?php echo $this->escape($country->get_name());?></option> <?php } ?>
+        </select>        
+    </div>

@@ -1,0 +1,34 @@
+<h1>
+    <?php echo $this->translate('Export to excel'); ?>
+</h1>
+
+<script type="text/javascript">
+    $(function(){
+        var $callback = $("#callback");
+        $('.chosen-select').chosen({
+            width: "200px"
+        });
+    });
+    $('.clickme').on('click', function() {
+        alert($("#export").serializeArray().toSource());
+    });
+</script>
+<form method="post"  class="FormGrid" id="export"
+    title="<?php echo $this->translate('Export to excel'); ?>"
+    action="<?php echo $this->url(array('controller' => 'admin', 'action' => 'export-to-excel')) ?>"
+    enctype="application/x-www-form-urlencoded" style="height: 200px;">
+    <input type="hidden" name="data[grid_params]" id="data[grid_params]" value='<?php echo $this->grid_params ;?>' />
+    <label class="required" for="data"><?php echo $this->translate('Select language to export'); ?>:</label>
+    <select data-placeholder="Choose a language..." class="chosen-select" id="data[language_id]" name="data[language_id][]" multiple>
+               <?php foreach ($this->translateLanguages as $translateLanguage) {?>
+                <option value="<?php echo $translateLanguage['id'];?>" ><?php echo $this->escape($translateLanguage['name']);?></option>
+                <?php }?>
+    </select>
+    <dl class="hz_form">
+        <dt class="label">
+        </dt>
+        <dd class="err_color">
+           <?php echo $this->errorMessages($this->errors['language_id']);?>
+        </dd>
+   </dl>   
+</form>
