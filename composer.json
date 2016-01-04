@@ -1,18 +1,42 @@
-{
-    "name": "horisen/cms-skeleton",
-    "description": "Horisen CMS Skeleton app",
-    "require": {
 
+{
+    "name": "horisen/cms",
+    "description": "Horisen Genesis CMS",
+    "type": "library",
+    "keywords": [
+        "cms",
+        "zf1"
+    ],
+    "license": "none",
+    "require": {
+        "php": ">=5.2.11",
+        "zendframework/zendframework1": ">=1.12",
+        "phpoffice/phpexcel": "1.8.0"
     },
-    "minimum-stability": "dev",
-    "repositories": [{
-        
-    }],
     "autoload": {
         "psr-0": {
-            "Hcms\\": "src/"
+	    "Hcms\\": "src/",
+            "Zend_": "library/",
+            "HCMS_": "library/",
+            "HCLI_": "library/",
+            "Application_Model_": "application/modules/default/models/"
         },
         "classmap": ["application/modules/default/models/"]
+    },
+    "include-path": [
+        "library/"
+    ],
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*",
+        "phpunit/dbunit": "1.3.*"
+    },
+    "archive": {
+        "exclude": ["/demos", "/documentation", "/tests", "/docs"]
     },
     "scripts": {
         "pre-install-cmd": "Hcms\\Installer::preInstall",
@@ -25,3 +49,4 @@
         "dbup-exec": "php scripts/run.php -c cli -a dbupd -e development -s no"
     }
 }
+
